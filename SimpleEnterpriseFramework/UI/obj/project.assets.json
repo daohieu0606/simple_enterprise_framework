@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "IoC/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/IoC.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IoC.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "IoC/1.0.0": {
+      "type": "project",
+      "path": "../IoC/IoC.csproj",
+      "msbuildProject": "../IoC/IoC.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "IoC >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\hieudao\\.nuget\\packages\\": {},
@@ -41,7 +60,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\hieudao\\Documents\\project\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj": {
+              "projectPath": "C:\\Users\\hieudao\\Documents\\project\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

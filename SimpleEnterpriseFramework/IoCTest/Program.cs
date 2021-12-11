@@ -1,4 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Xml;
+using IoC;
 
 namespace IoCTest
 {
@@ -6,7 +11,7 @@ namespace IoCTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Container.Instance.Init();
         }
     }
 }

@@ -6,10 +6,10 @@
 
   <ItemGroup>
     <None Remove="IoC\" />
-    <None Remove="Model\" />
+    <None Remove="DI\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="IoC\" />
-    <Folder Include="Model\" />
+    <Folder Include="DI\" />
   </ItemGroup>
 </Project>

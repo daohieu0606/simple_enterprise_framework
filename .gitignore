@@ -10,3 +10,7 @@ SimpleEnterpriseFramework/ClientDemo/obj/
 SimpleEnterpriseFramework/IoC/obj/
 SimpleEnterpriseFramework/IoCTest/obj/
 SimpleEnterpriseFramework/UI/obj/
+SimpleEnterpriseFramework/.vs/SimpleEnterpriseFramework/xs/
+SimpleEnterpriseFramework/Core/obj/
+SimpleEnterpriseFramework/IoC/bin/
+SimpleEnterpriseFramework/IoCTest/bin/

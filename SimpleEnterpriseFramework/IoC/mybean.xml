@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<beans>
-    <bean id="person"
-          class="ioc.Person"
-          name="Hieu"
-          age="21"/>
-</beans>

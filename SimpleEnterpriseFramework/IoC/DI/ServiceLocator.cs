@@ -34,5 +34,10 @@ namespace IoC.DI
         {
             return _cache.Get<T>();
         }
+
+        public void Remove<T>() where T: class
+        {
+            _cache.Remove<T>();
+        }
     }
 }

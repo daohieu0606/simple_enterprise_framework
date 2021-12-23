@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Core.Database
@@ -41,11 +43,43 @@ namespace Core.Database
             }
         }
 
+        //TODO: Hieu Dao implement later
+        public Task<int> ExecuteNoQueryAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
+        public void ExecuteNoSql(string command)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
+        public void ExecuteSql(string commmand)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
+        public Task<DataTable> ExecuteSqlAsync(string quey)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
         public IList<string> GetAllTableNames()
         {
             throw new NotImplementedException();
         }
 
+        //TODO: Hieu Dao implement later
+        public bool IsOpened()
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: lock this function
         public bool OpenConnection()
         {
             try

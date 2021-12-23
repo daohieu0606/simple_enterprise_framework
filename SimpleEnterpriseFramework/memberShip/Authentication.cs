@@ -9,13 +9,13 @@ namespace MemberShip
        
         public string Hash(string value)
         {
-            string hashValue = "";
-            return hashValue;
+            return BCrypt.Net.BCrypt.HashPassword(value);
         }
 
-        public User validate(string username, string password)
+        public bool validate(string username, string password)
         {
-            return new User();
+            User user = HandleUser.findUserByUsername(username);
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 
     }

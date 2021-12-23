@@ -6,37 +6,40 @@ namespace MemberShip
 {
     class HandleUser
     {
-        public bool AddNewUser(User user)
+        public static bool AddNewUser(User user)
         {
             return true;
         }
-        public bool RemoveUser(User user)
+        public static bool RemoveUser(User user)
         {
             return true;
         }
-        public bool UpdateUser(User user)
+        public static bool UpdateUser(User user)
         {
             return true;
         }
-        public User getUser(string username)
+        public static User getUser(string username)
         {
             return new User();
         }
-
-        public User findOneUserByField(string field, string value)
+        public static User findUserByUsername(string username)
         {
             return new User();
         }
-        public User[] findUserByRole(Role role)
+        public static User findOneUserByField(string field, string value)
+        {
+            return new User();
+        }
+        public static User[] findUserByRole(Role role)
         {
             return null;
         }
 
-        public bool ChangePassword(User user, string newPassword)
+        public static bool ChangePassword(User user, string newPassword)
         {
             return true;
         }
-        public void resetPassword(User user)
+        public static void resetPassword(User user)
         {
 
         }

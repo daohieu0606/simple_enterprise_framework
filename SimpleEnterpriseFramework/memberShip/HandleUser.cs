@@ -31,5 +31,14 @@ namespace MemberShip
         {
             return null;
         }
+
+        public bool ChangePassword(User user, string newPassword)
+        {
+            return true;
+        }
+        public void resetPassword(User user)
+        {
+
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 using Npgsql;
 
 namespace Core.Database
@@ -28,6 +30,11 @@ namespace Core.Database
 
         public bool CloseConnection()
         {
+            if(_con == null || _con.State == ConnectionState.Closed)
+            {
+                return true;
+            }
+
             try
             {
                 _con.Close();
@@ -37,6 +44,37 @@ namespace Core.Database
             catch(Exception e)
             {
                 return false;
+            }
+        }
+
+        public async Task<int> ExecuteNoQueryAsync(string query)
+        {
+            try
+            {
+                using (var cmd = new NpgsqlCommand(query, _con))
+                {
+                    var result = await cmd.ExecuteNonQueryAsync();
+
+                    return result;
+                }
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<DataTable> ExecuteSqlAsync(string query)
+        {
+            using (var cmd = new NpgsqlCommand(query, _con))
+            {
+                var reader = await cmd.ExecuteReaderAsync();
+
+                DataTable dt = new DataTable();
+
+                dt.Load(reader);
+
+                return dt;
             }
         }
 
@@ -67,8 +105,19 @@ namespace Core.Database
             }
         }
 
+        public bool IsOpened()
+        {
+            return _con != null && _con.State == ConnectionState.Open;
+        }
+
+        //TODO: lock this function
         public bool OpenConnection()
         {
+            if(_con != null && _con.State == ConnectionState.Open)
+            {
+                return true;
+            }
+
             var cs = string.Format(
                 "Host={0};Username={1};Password={2};Database={3}",
                 _host,

@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Core.Database
 {
@@ -29,6 +31,9 @@ namespace Core.Database
 
         public bool CloseConnection()
         {
+            if (_con == null || _con.State == ConnectionState.Closed)
+                return true;
+
             try
             {
                 _con.Close();
@@ -40,6 +45,36 @@ namespace Core.Database
                 //MessageBox.Show(ex.Message);
                 return false;
             }
+        }
+
+        public async Task<int> ExecuteNoQueryAsync(string query)
+        {
+            try
+            {
+                using (_con)
+                {
+                    MySqlCommand command = new MySqlCommand(query, _con);
+                    var result = await command.ExecuteNonQueryAsync();
+
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<DataTable> ExecuteSqlAsync(string commmand)
+        {
+            MySqlCommand cmd = new MySqlCommand(commmand, _con);
+            DataTable dt = new DataTable();
+
+            var reader = await cmd.ExecuteReaderAsync();
+
+            dt.Load(reader);
+
+            return dt;
         }
 
         public IList<string> GetAllTableNames()
@@ -69,15 +104,25 @@ namespace Core.Database
             }
         }
 
+        public bool IsOpened()
+        {
+            return _con != null && _con.State == System.Data.ConnectionState.Open;
+        }
+
+        //TODO: look this function
         public bool OpenConnection()
         {
+            if(_con != null && _con.State == System.Data.ConnectionState.Open)
+            {
+                return true;
+            }
+            
             //init
             string connectionString;
             connectionString = "SERVER=" + _host + ";" + "DATABASE=" +
             _dbName + ";" + "UID=" + _username + ";" + "PASSWORD=" + _password + ";";
 
             _con = new MySqlConnection(connectionString);
-
             //connect
             try
             {

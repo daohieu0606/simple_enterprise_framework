@@ -10,7 +10,7 @@ namespace MemberShip
         {
             return true;
         }
-        public static bool RemoveUser(User user)
+        public static bool RemoveUser(string username)
         {
             return true;
         }
@@ -18,11 +18,8 @@ namespace MemberShip
         {
             return true;
         }
-        public static User getUser(string username)
-        {
-            return new User();
-        }
-        public static User findUserByUsername(string username)
+ 
+        public static User findUserById(string id)
         {
             return new User();
         }
@@ -39,9 +36,13 @@ namespace MemberShip
         {
             return true;
         }
-        public static void resetPassword(User user)
+        public static bool resetPassword(string id, string initPassword)
         {
-
+            return true;
+        }
+        public static bool isExistUser(string username)
+        {
+            return true;
         }
     }
 }

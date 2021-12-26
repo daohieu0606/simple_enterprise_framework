@@ -6,6 +6,7 @@ namespace MemberShip
 {
     class User
     {
+        private string id;
         private string username;
         private string password;
         private string email;
@@ -18,5 +19,15 @@ namespace MemberShip
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string Address { get => address; set => address = value; }
         internal Role[] Roles { get => roles; set => roles = value; }
+        public string Id { get => id; set => id = value; }
+
+        public void save()
+        {
+
+        }
+        public static User getInstance(string username, string password, string email = "", string phongNumber, string address, string role)
+        {
+            return new User();
+        }
     }
 }

@@ -7,12 +7,12 @@ namespace MemberShip
     class Authentication
     {
        
-        public string Hash(string value)
+        public static string Hash(string value)
         {
             return BCrypt.Net.BCrypt.HashPassword(value);
         }
 
-        public bool validate(string username, string password)
+        public static bool validate(string username, string password)
         {
             User user = HandleUser.findUserByUsername(username);
             return BCrypt.Net.BCrypt.Verify(password, user.Password);

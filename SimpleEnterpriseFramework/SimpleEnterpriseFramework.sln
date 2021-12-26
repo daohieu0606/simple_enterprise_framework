@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDemo", "ClientDemo\Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{957FC3CF-C921-472F-AE19-2E737F5052A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "memberShip", "memberShip\memberShip.csproj", "{54E8FEE5-8E62-482D-A45A-D35055C19F45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemberShip", "memberShip\MemberShip.csproj", "{54E8FEE5-8E62-482D-A45A-D35055C19F45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,38 +6,53 @@ namespace MemberShip
 {
     class Authorization
     {
-        public bool AddRoleToUser(Role role, User user)
+        public static bool AddRoleToUser(Role role, string id)
         {
             return true;
         }
-        public bool AddRolesToUser(Role[] role, User user)
+        public static bool AddRolesToUser(Role[] role,  string id)
         {
             return true;
         }
-        public bool AddRoleToUsers(Role role, User[] user)
+        public static bool AddRoleToUsers(Role role, string[] id)
         {
             return true;
         }
-        public bool AddRolesToUsers(Role[] role, User[] user)
+        public static bool AddRolesToUsers(Role[] role, string[] id)
         {
             return true;
         }
-        public bool RemoveRoleFromUser(Role role, User user)
+        public static bool RemoveRoleFromUser(Role role,  string id)
         {
             return true;
         }
-        public Role[] getAllRole()
+        public static Role[] getAllRoles()
         {
             return null;
         }
-        public User[] GetUsersInRole(Role role)
+        public static User[] GetUsersInRole(Role role)
         {
             return null;
         }
 
-        public bool isUserInRole(Role role)
+        public static bool isUserInRole(Role role)
         {
             return true;
         }
+
+        public static Role createRole(Role role)
+        {
+            return new Role();
+        }
+        public static bool removeRole(string id)
+        {
+            return true;
+        }
+        public static bool updateRole( Role newRole)
+        {
+            return true;
+        }
+
+
     }
 }

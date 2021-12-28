@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Core.Query;
 using Npgsql;
 
 namespace Core.Database
@@ -64,10 +65,13 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> ExecuteSqlAsync(string query)
+        public async Task<DataTable> ExecuteQueryAsync(string query)
         {
             using (var cmd = new NpgsqlCommand(query, _con))
             {
+                cmd.Connection = _con;
+                Console.WriteLine(cmd);
+                Console.WriteLine(" - {0}",_con);
                 var reader = await cmd.ExecuteReaderAsync();
 
                 DataTable dt = new DataTable();
@@ -119,7 +123,7 @@ namespace Core.Database
             }
 
             var cs = string.Format(
-                "Host={0};Username={1};Password={2};Database={3}",
+                "Server={0};Port=5432;Username={1};Password={2};Database={3}",
                 _host,
                 _username,
                 _password,
@@ -133,6 +137,57 @@ namespace Core.Database
                 return true;
             }
             catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreatePostgres(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreatePostgres(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreatePostgres(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
             {
                 return false;
             }

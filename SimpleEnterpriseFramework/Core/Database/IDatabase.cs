@@ -15,8 +15,14 @@ namespace Core.Database
 
         IList<string> GetAllTableNames();
 
-        public Task<int> ExecuteNoQueryAsync(string query);
+        public Task<int> ExecuteNoQueryAsync(string query); //Thêm xóa sửa
 
-        public Task<DataTable> ExecuteSqlAsync(string query);
+        public Task<DataTable> ExecuteQueryAsync(string query); // Lấy dữ liệu
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow);
+
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null);
+
+        public bool Update(string tableName, DataRow row, DataRow newRow = null);
     }
 }

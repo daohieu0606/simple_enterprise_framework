@@ -62,7 +62,7 @@ namespace Core.Database
         }
 
         //TODO: Hieu Dao implement later
-        public Task<DataTable> ExecuteSqlAsync(string quey)
+        public Task<DataTable> ExecuteQueryAsync(string quey)
         {
             throw new NotImplementedException();
         }
@@ -100,6 +100,20 @@ namespace Core.Database
             {
                 return false;
             }
+        }
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            return false;
         }
     }
 }

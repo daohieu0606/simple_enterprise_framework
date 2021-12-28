@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Core.Query;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -65,7 +66,7 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> ExecuteSqlAsync(string commmand)
+        public async Task<DataTable> ExecuteQueryAsync(string commmand)
         {
             MySqlCommand cmd = new MySqlCommand(commmand, _con);
             DataTable dt = new DataTable();
@@ -150,6 +151,57 @@ namespace Core.Database
                         //MessageBox.Show("Invalid username/password, please try again");
                         break;
                 }
+                return false;
+            }
+        }
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            { 
+                return false;
+            }
+        }
+
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            {
                 return false;
             }
         }

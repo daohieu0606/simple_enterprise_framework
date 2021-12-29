@@ -28,12 +28,10 @@ namespace Core.Query
 
             for (int i = 0; i < cols.Count; i++)
             {
-                Console.WriteLine("param" + i + " la " + newRow[cols[i].ColumnName]);
                 command.Parameters.AddWithValue("@param" + i, newRow[cols[i].ColumnName]);
             }
             for (int i = cols.Count; i < cols.Count * 2; i++)
             {
-                Console.WriteLine("param" + i + " la " + row[cols[i - cols.Count].ColumnName]);
                 command.Parameters.AddWithValue("@param" + i, row[cols[i - cols.Count].ColumnName]);
             }
             return command;

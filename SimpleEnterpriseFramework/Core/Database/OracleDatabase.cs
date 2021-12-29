@@ -102,48 +102,31 @@ namespace Core.Database
             }
         }
 
-        public Task<DataTable> GetTable(string tableName)
+        //TODO: Hieu Nguyen implement later
+        public DataTable GetTable(string tableName)
         {
-            try
-            {
-                OpenConnection();
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0}", tableName));
-                CloseConnection();
-                return result;
-
-            }
-            catch (Exception e)
-            {
-                CloseConnection();
-                return null;
-            }
+            return null;
         }
 
-        public Task<DataTable> GetOneRow(string tableName, string props, string val)
+        //TODO: Hieu Nguyen implement later
+        public DataRow GetOneRow(string tableName, string props, string val)
         {
-            try
-            {
-                OpenConnection();
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0} where {1} = {2}", tableName, props, val));
-                CloseConnection();
-                return result;
-
-            }
-            catch (Exception e)
-            {
-                CloseConnection();
-                return null;
-            }
+            return null;
         }
+
+        //TODO: Hieu Nguyen implement later
         public bool Insert(string tableName, DataRow row, DataRow newRow = null)
         {
             return false;
         }
+
+        //TODO: Hieu Nguyen implement later
         public bool Delete(string tableName, DataRow row, DataRow newRow = null)
         {
             return false;
         }
 
+        //TODO: Hieu Nguyen implement later
         public bool Update(string tableName, DataRow row, DataRow newRow)
         {
             return false;

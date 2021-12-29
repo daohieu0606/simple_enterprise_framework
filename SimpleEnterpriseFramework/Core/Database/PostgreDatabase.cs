@@ -118,16 +118,23 @@ namespace Core.Database
                 IList<string> result = new List<string>();
                 using (_con)
                 {
-                    var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+                    //var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
 
-                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
-                    using (NpgsqlDataReader reader = command.ExecuteReader())
+                    //NpgsqlCommand command = new NpgsqlCommand(query, _con);
+                    //using (NpgsqlDataReader reader = command.ExecuteReader())
+                    //{
+                    //    while (reader.Read())
+                    //    {
+                    //        result.Add(reader.GetString(0));
+                    //    }
+                    //}
+                    var cmd = new NpgsqlCommand("show tables", _con);
+                    NpgsqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        while (reader.Read())
-                        {
-                            result.Add(reader.GetString(0));
-                        }
+                        result.Add(rdr[0].ToString());
                     }
+                    rdr.Close();
                 }
                 return result;
             }
@@ -137,11 +144,17 @@ namespace Core.Database
             }
         }
 
-        public Task<DataTable> GetTable(string tableName)
+        public DataTable GetTable(string tableName)
         {
             try
             {
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0}", tableName));
+                var query = "select * from " + tableName;
+                DataTable result = new DataTable();
+                var cmd = new NpgsqlCommand(query, _con);
+                NpgsqlDataReader rdr = cmd.ExecuteReader();
+                result.Load(rdr);
+                rdr.Close();
+
                 return result;
 
             } catch (Exception e)
@@ -150,12 +163,18 @@ namespace Core.Database
             }
         }
 
-        public Task<DataTable> GetOneRow(string tableName, string props, string val)
+        public DataRow GetOneRow(string tableName, string props, string val)
         {
             try
             {
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0} where {1} = {2}", tableName, props, val));
-                return result;
+                var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
+                DataTable result = new DataTable();
+                var cmd = new NpgsqlCommand(query, _con);
+                NpgsqlDataReader rdr = cmd.ExecuteReader();
+                result.Load(rdr);
+                rdr.Close();
+
+                return result?.Rows[0];
 
             }
             catch (Exception e)

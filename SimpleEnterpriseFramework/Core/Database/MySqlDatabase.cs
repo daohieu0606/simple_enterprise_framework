@@ -80,22 +80,16 @@ namespace Core.Database
 
         public IList<string> GetAllTableNames()
         {
+            IList<string> result = new List<string>();
             try
             {
-                IList<string> result = new List<string>();
-                using (_con)
+                var cmd = new MySqlCommand("show tables", _con);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
                 {
-                    string query = string.Format("show tables from {0}", _dbName);
-
-                    MySqlCommand command = new MySqlCommand(query, _con);
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(reader.GetString(0));
-                        }
-                    }
+                    result.Add(rdr[0].ToString());
                 }
+                rdr.Close();
 
                 return result;
             }
@@ -155,11 +149,17 @@ namespace Core.Database
             }
         }
 
-        public Task<DataTable> GetTable(string tableName)
+        public DataTable GetTable(string tableName)
         {
             try
             {
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0}", tableName));
+                var query = "select * from " + tableName;
+                DataTable result = new DataTable();
+                var cmd = new MySqlCommand(query, _con);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                result.Load(rdr);
+                rdr.Close();
+
                 return result;
 
             }
@@ -169,12 +169,18 @@ namespace Core.Database
             }
         }
 
-        public Task<DataTable> GetOneRow(string tableName, string props, string val)
+        public DataRow GetOneRow(string tableName, string props, string val)
         {
             try
             {
-                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0} where {1} = {2}", tableName, props, val));
-                return result;
+                var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
+                DataTable result = new DataTable();
+                var cmd = new MySqlCommand(query, _con);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                result.Load(rdr);
+                rdr.Close();
+
+                return result?.Rows[0];
 
             }
             catch (Exception e)

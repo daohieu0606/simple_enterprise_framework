@@ -26,14 +26,28 @@ namespace IoCTest
 
             db.OpenConnection();
 
-            //var iu = await db.GetOneRow("accounts", "user_id", "14");
-            //Console.WriteLine("row: {0}",iu);
-
-            //var list = db.GetAllTableNames();
-            //Console.WriteLine(db.GetAllTableNames()?.Count);
+            var list = db.GetAllTableNames();
+            Console.WriteLine(list?.Count);
 
 
-            var result = await db.GetTable("accounts");
+            var result = db.GetTable("accounts");
+
+            var oks = db.GetOneRow("accounts", "user_id", "10");
+
+            string rowStr = null;
+            foreach (DataColumn col in result.Columns)
+            {
+
+                rowStr += string.Format(
+                    "{0}: {1}, ",
+                    col.ColumnName,
+                    oks[col.ColumnName]
+                );
+            }
+            Console.WriteLine("sdd: {0}", rowStr);
+
+
+
 
             Console.WriteLine(result.Columns[0].MaxLength);
 
@@ -42,17 +56,17 @@ namespace IoCTest
             {
                 foreach (DataRow row in result.Rows)
                 {
-                    string rowStr = null;
+                    string rowStr1 = null;
                     foreach (DataColumn col in row.Table.Columns)
                     {
 
-                        rowStr += string.Format(
+                        rowStr1 += string.Format(
                             "{0}: {1}, ",
                             col.ColumnName,
                             row[col.ColumnName]
                         );
                     }
-                    Console.WriteLine(rowStr);
+                    Console.WriteLine(rowStr1);
                 }
 
             }

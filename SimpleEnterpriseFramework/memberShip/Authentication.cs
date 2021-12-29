@@ -14,7 +14,7 @@ namespace MemberShip
 
         public static bool validate(string username, string password)
         {
-            User user = HandleUser.findUserByUsername(username);
+            User user = HandleUser.findOneUserByField("username",username);
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 

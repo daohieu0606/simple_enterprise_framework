@@ -6,9 +6,9 @@ namespace MemberShip
 {
     class HandleUser
     {
-        public static bool AddNewUser(User user)
+        public static User AddNewUser(User user)
         {
-            return true;
+            return new User();
         }
         public static bool RemoveUser(string username)
         {

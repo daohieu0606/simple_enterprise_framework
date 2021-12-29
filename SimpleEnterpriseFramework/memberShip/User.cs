@@ -20,14 +20,28 @@ namespace MemberShip
         public string Address { get => address; set => address = value; }
         internal Role[] Roles { get => roles; set => roles = value; }
         public string Id { get => id; set => id = value; }
-
-        public void save()
+        
+        public void addRole(Role role)
         {
+            Role[] temp = new Role[roles.Length+1];
+
+            for(int index = 0; index < roles.Length; index++)
+            {
+                temp[index] = Role.getInstance(roles[index].RoleName);
+            }
+            roles = temp;
 
         }
         public static User getInstance(string username, string password, string email = "", string phongNumber, string address, string role)
         {
-            return new User();
+            User user = new User();
+            user.address = address;
+            user.username = username;
+            user.phoneNumber = phongNumber;
+            user.email = email;
+            Role _role = Role.getInstance(role);
+            user.addRole(_role);
+            return user;
         }
     }
 }

@@ -40,9 +40,17 @@ namespace MemberShip
             return true;
         }
 
+        public static Role findRoleByName(string roleName)
+        {
+            return Role.getInstance(roleName);
+        }
+
         public static Role createRole(Role role)
         {
-            return new Role();
+            //create role in DB
+            //...
+            Role _role = findRoleByName(role.RoleName);
+            return _role;
         }
         public static bool removeRole(string id)
         {

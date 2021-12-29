@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace MemberShip
 {
-    class Role
+    public class Role
     {
         private string id;
         private string roleName;
-
-        private Role()
+        public static string nameTable = "role";
+        public Role()
         {
             this.RoleName = "";
         }
@@ -22,6 +23,26 @@ namespace MemberShip
             role.roleName = name;
             role.id = id;
             return role;
+        }
+
+        public static Role getInstance(DataRow dr)
+        {
+            Role role = new Role();
+            role.roleName = dr.Field<string>("rolename");
+            role.id = dr.Field<String>("role_id");
+            return role;
+        }
+        public DataTable makeRoleDataTable()
+        {
+            DataTable table = new DataTable();
+            table = TableHelper.addColumn(table, "role_id", "System.string");
+            table = TableHelper.addColumn(table, "rolename", "System.string");
+            return table; 
+        }
+        public DataRow toDataRow()
+        {
+            DataTable dt = makeRoleDataTable();
+            return dt.NewRow();
         }
     }
 }

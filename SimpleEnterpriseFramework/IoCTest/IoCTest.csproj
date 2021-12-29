@@ -11,5 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\IoC\IoC.csproj" />
+    <ProjectReference Include="..\memberShip\MemberShip.csproj" />
   </ItemGroup>
 </Project>

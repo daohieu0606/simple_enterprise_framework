@@ -6,7 +6,7 @@ namespace MemberShip
 {
     class MemberShip
     {
-        public static bool AddNewUser(User user)
+        public static User AddNewUser(User user)
         {
             return HandleUser.AddNewUser(user);
         }
@@ -71,12 +71,17 @@ namespace MemberShip
         }
         public static User[] GetUsersInRole(Role role)
         {
-            return Authorization.GetUsersInRole(role);
+            return HandleUser.GetUsersInRole(role);
+        }
+        public static Role[] GetRolesOfUser(User user)
+        {
+            return Authorization.GetRolesOfUser(user);
         }
 
-        public static bool isUserInRole(Role role)
+
+        public static bool isUserInRole(User user,Role role)
         {
-            return Authorization.isUserInRole(role);
+            return Authorization.isUserInRole(user, role);
         }
 
         public static Role createRole(Role role)

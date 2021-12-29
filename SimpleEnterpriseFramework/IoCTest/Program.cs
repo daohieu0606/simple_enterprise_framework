@@ -3,7 +3,7 @@ using System.Data;
 using Core.Database;
 using Core.Utils;
 using IoC.DI;
-
+using MemberShip;
 namespace IoCTest
 {
     class Program
@@ -20,15 +20,14 @@ namespace IoCTest
                 host: "localhost",
                 dbName: "crm",
                 username: "postgres",
-                password: "postgres");
+                password: "Hai06042000");
 
             var db = ServiceLocator.Instance.Get<IDatabase>();
-
             db.OpenConnection();
 
-            var list = db.GetAllTableNames();
-            Console.WriteLine(list?.Count);
-
+            //var list = db.GetAllTableNames();
+            //Console.WriteLine(list?.Count);
+            MemberShip.Role role = new MemberShip.Role();
 
             var result = db.GetTable("accounts");
 
@@ -45,9 +44,6 @@ namespace IoCTest
                 );
             }
             Console.WriteLine("sdd: {0}", rowStr);
-
-
-
 
             Console.WriteLine(result.Columns[0].MaxLength);
 

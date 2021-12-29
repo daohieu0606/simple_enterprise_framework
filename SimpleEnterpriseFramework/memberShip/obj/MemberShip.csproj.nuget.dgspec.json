@@ -4,6 +4,78 @@
     "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\MemberShip.csproj": {}
   },
   "projects": {
+    "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\VanHai350\\.nuget\\packages\\",
+        "outputPath": "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\VanHai350\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.27, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Oracle.ManagedDataAccess.Core": {
+              "target": "Package",
+              "version": "[3.21.41, )"
+            },
+            "System.Data.SQLite": {
+              "target": "Package",
+              "version": "[1.0.115.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\MemberShip.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -27,7 +99,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
+                "projectPath": "E:\\E_Document\\Design pattern\\DATH\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

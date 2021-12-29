@@ -19,10 +19,14 @@ namespace Core.Database
 
         public Task<DataTable> ExecuteQueryAsync(string query); // Lấy dữ liệu
 
-        public bool Insert(string tableName, DataRow row, DataRow newRow);
+        public Task<DataTable> GetTable(string tableName); // Lấy 1 bảng
+
+        public Task<DataTable> GetOneRow(string tableName, string props, string val); //Lấy 1 dòng
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null);
 
         public bool Delete(string tableName, DataRow row, DataRow newRow = null);
 
-        public bool Update(string tableName, DataRow row, DataRow newRow = null);
+        public bool Update(string tableName, DataRow row, DataRow newRow);
     }
 }

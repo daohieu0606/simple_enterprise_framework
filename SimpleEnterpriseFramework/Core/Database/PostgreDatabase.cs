@@ -29,25 +29,6 @@ namespace Core.Database
             _password = password;
         }
 
-        public bool CloseConnection()
-        {
-            if(_con == null || _con.State == ConnectionState.Closed)
-            {
-                return true;
-            }
-
-            try
-            {
-                _con.Close();
-                _con.Dispose();
-                return true;
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
-        }
-
         public async Task<int> ExecuteNoQueryAsync(string query)
         {
             try
@@ -69,9 +50,6 @@ namespace Core.Database
         {
             using (var cmd = new NpgsqlCommand(query, _con))
             {
-                cmd.Connection = _con;
-                Console.WriteLine(cmd);
-                Console.WriteLine(" - {0}",_con);
                 var reader = await cmd.ExecuteReaderAsync();
 
                 DataTable dt = new DataTable();
@@ -82,39 +60,11 @@ namespace Core.Database
             }
         }
 
-        public IList<string> GetAllTableNames()
-        {
-            try
-            {
-                IList<string> result = new List<string>();
-                using (_con)
-                {
-                    var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
-
-                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
-                    using (NpgsqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            result.Add(reader.GetString(0));
-                        }
-                    }
-                }
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
         public bool IsOpened()
         {
             return _con != null && _con.State == ConnectionState.Open;
         }
 
-        //TODO: lock this function
         public bool OpenConnection()
         {
             if(_con != null && _con.State == ConnectionState.Open)
@@ -142,15 +92,85 @@ namespace Core.Database
             }
         }
 
+        public bool CloseConnection()
+        {
+            if (_con == null || _con.State == ConnectionState.Closed)
+            {
+                return true;
+            }
+
+            try
+            {
+                _con.Close();
+                _con.Dispose();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public IList<string> GetAllTableNames()
+        {
+            try
+            {
+                IList<string> result = new List<string>();
+                using (_con)
+                {
+                    var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+
+                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetString(0));
+                        }
+                    }
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public Task<DataTable> GetTable(string tableName)
+        {
+            try
+            {
+                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0}", tableName));
+                return result;
+
+            } catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public Task<DataTable> GetOneRow(string tableName, string props, string val)
+        {
+            try
+            {
+                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0} where {1} = {2}", tableName, props, val));
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public bool Insert(string tableName, DataRow row, DataRow newRow = null)
         {
             NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreatePostgres(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 return true;
             }
             catch
@@ -162,7 +182,6 @@ namespace Core.Database
         public bool Delete(string tableName, DataRow row, DataRow newRow = null)
         {
             NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreatePostgres(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {

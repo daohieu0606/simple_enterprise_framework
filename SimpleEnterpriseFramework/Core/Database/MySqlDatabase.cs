@@ -155,6 +155,34 @@ namespace Core.Database
             }
         }
 
+        public Task<DataTable> GetTable(string tableName)
+        {
+            try
+            {
+                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0}", tableName));
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public Task<DataTable> GetOneRow(string tableName, string props, string val)
+        {
+            try
+            {
+                Task<DataTable> result = ExecuteQueryAsync(string.Format("select * from {0} where {1} = {2}", tableName, props, val));
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public bool Insert(string tableName, DataRow row, DataRow newRow = null)
         {
             MySqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreateMySql(tableName, row, newRow).GetQuery();
@@ -163,11 +191,10 @@ namespace Core.Database
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 return true;
             }
             catch
-            { 
+            {
                 return false;
             }
         }
@@ -198,6 +225,7 @@ namespace Core.Database
             {
                 int check = cmd.ExecuteNonQuery();
                 Console.WriteLine(check);
+                CloseConnection();
                 return true;
             }
             catch

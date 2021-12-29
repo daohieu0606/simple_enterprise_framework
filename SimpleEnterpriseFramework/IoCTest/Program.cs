@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data;
 using Core.Database;
-using Core.Query;
 using Core.Utils;
 using IoC.DI;
-using Npgsql;
 
 namespace IoCTest
 {
@@ -19,34 +17,26 @@ namespace IoCTest
         {
             CurrentFrameworkState.Instance.ChangeDataBase(
                 DatabaseType.Postgres,
-                //host: "ec2-54-159-244-207.compute-1.amazonaws.com",
-                //dbName: "d6mjh0tj6jfstd",
-                //username: "tijrpiymnlgqgk",
-                //password: "8dc32830b108cd26e89bc6f0596fedb2dc5577526b5e7740ce998270201b44ce");
-               
                 host: "localhost",
-                dbName: "postgres",
+                dbName: "crm",
                 username: "postgres",
                 password: "postgres");
 
-            var currentDb = CurrentFrameworkState.Instance.DatabaseType;
-            Console.WriteLine(currentDb);
-
             var db = ServiceLocator.Instance.Get<IDatabase>();
 
-                var isConnectSuccess = db.OpenConnection();
+            db.OpenConnection();
 
-                var list = db.GetAllTableNames();
-                Console.WriteLine(db.GetAllTableNames()?.Count);
+            //var iu = await db.GetOneRow("accounts", "user_id", "14");
+            //Console.WriteLine("row: {0}",iu);
 
-
-                var result = await db.ExecuteQueryAsync("select * from deal");
-            
-
-            //Console.WriteLine(result.Columns[0].MaxLength);
+            //var list = db.GetAllTableNames();
+            //Console.WriteLine(db.GetAllTableNames()?.Count);
 
 
-           
+            var result = await db.GetTable("accounts");
+
+            Console.WriteLine(result.Columns[0].MaxLength);
+
 
             if (result?.Rows?.Count > 0)
             {
@@ -63,21 +53,21 @@ namespace IoCTest
                         );
                     }
                     Console.WriteLine(rowStr);
-
-                    //DataRow newRow = result.NewRow();
-                    //newRow["name"] = "Okei";
-                    //foreach (DataColumn col in row.Table.Columns)
-                    //{
-                    //    Console.WriteLine("- {0} ", newRow[col]);
-                    //}
-                       
                 }
 
             }
 
-            //string updateStatement = string.Format("update {0} set gpa = {1} where id = {2}", "student", 8.5, 2);
+            bool ke = db.Delete("accounts", result.Rows[0]);
+            Console.WriteLine(ke);
 
-            //int effectedRowCount = await db.ExecuteNoQueryAsync(updateStatement);
+
+
+            DataRow newRow = result.Rows[0];
+            newRow["user_id"] = 10;
+            newRow["username"] = "lji";
+            newRow["email"] = "hkoi@gmail.com";
+            bool okey = db.Insert("accounts", newRow);
+            Console.WriteLine(okey);
 
             db.CloseConnection();
         }

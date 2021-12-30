@@ -68,6 +68,7 @@ namespace Core.Database
 
         public async Task<DataTable> ExecuteQueryAsync(string commmand)
         {
+            OpenConnection();
             MySqlCommand cmd = new MySqlCommand(commmand, _con);
             DataTable dt = new DataTable();
 
@@ -75,25 +76,35 @@ namespace Core.Database
 
             dt.Load(reader);
 
+            reader.Close();
+
             return dt;
         }
 
-        public async Task<IList<string>> GetAllTableNames()
+        public IList<string> GetAllTableNames()
         {
-            IList<string> result = new List<string>();
             try
             {
-                var cmd = new MySqlCommand("show tables", _con);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                IList<string> result = new List<string>();
+                using (_con)
                 {
-                    result.Add(rdr[0].ToString());
+                    string query = string.Format("show tables from {0}", _dbName);
+
+                    MySqlCommand command = new MySqlCommand(query, _con);
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetString(0));
+                        }
+
+                        reader.Close();
+                    }
                 }
-                rdr.Close();
 
                 return result;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -175,6 +186,23 @@ namespace Core.Database
                 var result = await ExecuteQueryAsync(query);
 
                 return result?.Rows[0];
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = {4}", tableName1, tableName2, key1, key2, valueOfKey);
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
 
             }
             catch (Exception e)

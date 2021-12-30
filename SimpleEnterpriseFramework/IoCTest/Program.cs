@@ -26,7 +26,7 @@ namespace IoCTest
 
             db.OpenConnection();
 
-            var list = await db.GetAllTableNames();
+            var list = db.GetAllTableNames();
             Console.WriteLine(list?.Count);
 
             //var result = await db.ExecuteQueryAsync("select * from account");
@@ -50,11 +50,6 @@ namespace IoCTest
             Console.WriteLine("sdd: {0}", rowStr);
 
 
-
-
-            //Console.WriteLine(result.Columns[0].MaxLength);
-
-
             if (result?.Rows?.Count > 0)
             {
                 foreach (DataRow row in result.Rows)
@@ -74,17 +69,19 @@ namespace IoCTest
 
             }
 
-            //bool ke = db.Delete("accounts", result.Rows[0]);
-            //Console.WriteLine(ke);
+            bool ke = db.Delete("accounts", result.Rows[0]);
+            Console.WriteLine(ke);
 
 
 
-            //DataRow newRow = result.Rows[0];
-            //newRow["user_id"] = 10;
-            //newRow["username"] = "lji";
-            //newRow["email"] = "hkoi@gmail.com";
-            //bool okey = db.Insert("accounts", newRow);
-            //Console.WriteLine(okey);
+            DataRow newRow = result.Rows[0];
+            newRow["user_id"] = 10;
+            newRow["username"] = "lji";
+            newRow["email"] = "hkoi@gmail.com";
+            bool okey = db.Insert("accounts", newRow);
+            Console.WriteLine(okey);
+
+            //db.Update("accounts", result.Rows[0], newRow);
 
             db.CloseConnection();
         }

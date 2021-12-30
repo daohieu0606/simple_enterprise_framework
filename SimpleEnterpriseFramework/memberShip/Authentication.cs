@@ -6,10 +6,14 @@ namespace MemberShip
 {
     class Authentication
     {
-       
+        private static int salt = 12;
         public static string Hash(string value)
         {
-            return BCrypt.Net.BCrypt.HashPassword(value);
+            if(value == null)
+            {
+                return "";
+            }
+            return BCrypt.Net.BCrypt.HashPassword(value, salt);
         }
 
         public static bool validate(string username, string password)

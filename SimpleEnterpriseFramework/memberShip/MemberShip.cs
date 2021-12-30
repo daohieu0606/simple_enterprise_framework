@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MemberShip
 {
-    class MemberShip
+    public class MemberShip
     {
         public static User AddNewUser(User user)
         {

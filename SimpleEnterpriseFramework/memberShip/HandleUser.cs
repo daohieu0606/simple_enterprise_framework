@@ -11,11 +11,20 @@ namespace MemberShip
     {
         private static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
         public static User AddNewUser(User user)
-        {
-            DataRow dt = user.parseToDataRow();
-            User returnUser = null;
+        
+        {    User returnUser = null;
+            returnUser = findOneUserByField("username", user.Username);
+            if(returnUser != null)
+            {
+                throw new Exception("User is already exists!");
+            }
+            User cloneUser = User.copy(user);
+            cloneUser.Password = Authentication.Hash(cloneUser.Password);
+            cloneUser.Id = StringHelper.GenerateRandomString();
+            DataRow dt = cloneUser.parseToDataRow();
+           
             bool isSuccess = db.Insert(User.nameTable, dt);
-
+            Console.WriteLine(isSuccess);
             if (isSuccess)
             {
                 returnUser = findOneUserByField("username", user.Username);

@@ -14,7 +14,7 @@ namespace MemberShip
         private string phoneNumber;
         private string address;
         private Role[] roles;
-        public static string nameTable;
+        public static string nameTable = "accounts";
         public string Password { get => password; set => password = value; }
         public string Username { get => username; set => username = value; }
         public string Email { get => email; set => email = value; }
@@ -25,12 +25,19 @@ namespace MemberShip
 
         public void addRole(Role role)
         {
-            Role[] temp = new Role[roles.Length+1];
+            int length = 1;
+            if(roles != null)
+            {
+                length = roles.Length+1;
+            }
+            
+            Role[] temp = new Role[length];
 
-            for(int index = 0; index < roles.Length; index++)
+            for(int index = 0; index < length-1; index++)
             {
                 temp[index] = Role.getInstance(roles[index].RoleName);
             }
+            temp[length -1] = role;
             roles = temp;
 
         }
@@ -39,6 +46,7 @@ namespace MemberShip
             User user = new User();
             user.address = address;
             user.username = username;
+            user.password = password;
             user.phoneNumber = phongNumber;
             user.email = email;
             Role _role = Role.getInstance(role);
@@ -48,12 +56,12 @@ namespace MemberShip
         public DataTable makeUserDataTable()
         {
             DataTable table = new DataTable();
-            table = TableHelper.addColumn(table, "user_id", "System.string");
-            table = TableHelper.addColumn(table, "email", "System.string");
-            table = TableHelper.addColumn(table, "username", "System.string");
-            table = TableHelper.addColumn(table, "password", "System.string");
-            table = TableHelper.addColumn(table, "phonenumber", "System.string");
-            table = TableHelper.addColumn(table, "address", "System.string");
+            table = TableHelper.addColumn(table, "user_id", typeof(string).ToString());
+            table = TableHelper.addColumn(table, "username", typeof(String).ToString());
+            table = TableHelper.addColumn(table, "password", typeof(String).ToString());
+            table = TableHelper.addColumn(table, "email", typeof(String).ToString());
+            table = TableHelper.addColumn(table, "phonenumber", typeof(String).ToString());
+            table = TableHelper.addColumn(table, "address", typeof(String).ToString());
             return table;
         }
         public DataRow parseToDataRow()
@@ -71,8 +79,10 @@ namespace MemberShip
         }
         public static User getInstance(DataRow dt)
         {
+            
             User user = new User();
-            user.id = dt.Field<string>("user_id");
+            if (dt == null) return user; ;
+            user.Id = dt.Field<string>("user_id");
             user.username = dt.Field<string>("username");
             user.password = dt.Field<string>("password");
             user.email = dt.Field<string>("email");

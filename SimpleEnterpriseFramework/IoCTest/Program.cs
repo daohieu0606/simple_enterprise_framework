@@ -33,6 +33,8 @@ namespace IoCTest
 
             var isConnectSuccess = db.OpenConnection();
 
+            var tableNames = db.GetAllTableNames();
+
             var result = await db.ExecuteSqlAsync("select * from student");
 
             if (result?.Rows?.Count > 0)

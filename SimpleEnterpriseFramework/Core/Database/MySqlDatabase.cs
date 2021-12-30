@@ -67,12 +67,15 @@ namespace Core.Database
 
         public async Task<DataTable> ExecuteSqlAsync(string commmand)
         {
+            OpenConnection();
             MySqlCommand cmd = new MySqlCommand(commmand, _con);
             DataTable dt = new DataTable();
 
             var reader = await cmd.ExecuteReaderAsync();
 
             dt.Load(reader);
+
+            reader.Close();
 
             return dt;
         }
@@ -93,6 +96,8 @@ namespace Core.Database
                         {
                             result.Add(reader.GetString(0));
                         }
+
+                        reader.Close();
                     }
                 }
 

@@ -32,5 +32,11 @@ namespace IoC.DI
                 return default(T);
             }
         }
+
+        public void Remove<T>() where T : class
+        {
+            if(_container.ContainsKey(typeof(T)))
+                _container.Remove(typeof(T));
+        }
     }
 }

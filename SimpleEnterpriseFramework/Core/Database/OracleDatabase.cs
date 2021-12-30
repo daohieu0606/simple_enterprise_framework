@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 
 namespace Core.Database
@@ -41,11 +43,31 @@ namespace Core.Database
             }
         }
 
+        //TODO: Hieu Dao implement later
+        public Task<int> ExecuteNoQueryAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
+        public Task<DataTable> ExecuteQueryAsync(string quey)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Hieu Dao implement later
         public IList<string> GetAllTableNames()
         {
             throw new NotImplementedException();
         }
 
+        //TODO: Hieu Dao implement later
+        public bool IsOpened()
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: lock this function
         public bool OpenConnection()
         {
             try
@@ -66,6 +88,41 @@ namespace Core.Database
             {
                 return false;
             }
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public Task<DataTable> GetTable(string tableName)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            return null;
+        }
+
+        public Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            return false;
         }
     }
 }

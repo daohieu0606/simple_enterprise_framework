@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
+using Core.Query;
 using Npgsql;
 
 namespace Core.Database
 {
-    public class PostgreDatabase: IDatabase
+    public class PostgreDatabase : IDatabase
     {
         private NpgsqlConnection _con;
 
@@ -26,17 +29,44 @@ namespace Core.Database
             _password = password;
         }
 
-        public bool CloseConnection()
+        public async Task<int> ExecuteNoQueryAsync(string query)
         {
             try
             {
-                _con.Close();
-                _con.Dispose();
-                return true;
+                using (_con)
+                {
+                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
+                    var result = await command.ExecuteNonQueryAsync();
+
+                    return result;
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return false;
+                return -1;
+            }
+        }
+
+        public async Task<DataTable> ExecuteQueryAsync(string commmand)
+        {
+            OpenConnection();
+            using (var cmd = new NpgsqlCommand(commmand, _con))
+            {
+                var reader = cmd.ExecuteReader();
+
+                DataTable dt = new DataTable();
+
+                dt.Load(reader);
+                reader.Close();
+
+                //DataTable result = new DataTable();
+                //var cmd = new NpgsqlCommand(query, _con);
+                //NpgsqlDataReader rdr = cmd.ExecuteReader();
+                //result.Load(rdr);
+                //rdr.Close();
+
+
+                return dt;
             }
         }
 
@@ -47,7 +77,7 @@ namespace Core.Database
                 IList<string> result = new List<string>();
                 using (_con)
                 {
-                    var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+                    string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
 
                     NpgsqlCommand command = new NpgsqlCommand(query, _con);
                     using (NpgsqlDataReader reader = command.ExecuteReader())
@@ -56,6 +86,8 @@ namespace Core.Database
                         {
                             result.Add(reader.GetString(0));
                         }
+
+                        reader.Close();
                     }
                 }
 
@@ -67,10 +99,20 @@ namespace Core.Database
             }
         }
 
+        public bool IsOpened()
+        {
+            return _con != null && _con.State == ConnectionState.Open;
+        }
+
         public bool OpenConnection()
         {
+            if (_con != null && _con.State == ConnectionState.Open)
+            {
+                return true;
+            }
+
             var cs = string.Format(
-                "Host={0};Username={1};Password={2};Database={3}",
+                "Server={0};Port=5432;Username={1};Password={2};Database={3}",
                 _host,
                 _username,
                 _password,
@@ -84,6 +126,129 @@ namespace Core.Database
                 return true;
             }
             catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool CloseConnection()
+        {
+            if (_con == null || _con.State == ConnectionState.Closed)
+            {
+                return true;
+            }
+
+            try
+            {
+                _con.Close();
+                _con.Dispose();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
+        {
+            try
+            {
+                var query = "select * from " + tableName;
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val);
+                //DataTable result = new DataTable();
+                //var cmd = new NpgsqlCommand(query, _con);
+                //NpgsqlDataReader rdr = cmd.ExecuteReader();
+                //result.Load(rdr);
+                //rdr.Close();
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result?.Rows[0];
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = {4}", tableName1, tableName2, key1, key2, valueOfKey);
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreatePostgres(tableName, row, newRow).GetQuery();
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreatePostgres(tableName, row, newRow).GetQuery();
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreatePostgres(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch
             {
                 return false;
             }

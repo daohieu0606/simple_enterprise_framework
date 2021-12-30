@@ -7,7 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\pngwing.com %282%29.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.4.0-ci32-ci32" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IoC\IoC.csproj" />
+    <ProjectReference Include="..\Membership\Membership.csproj" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Resource Include="Views\pngwing.com (2).png" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,41 @@
+﻿<Window x:Class="UI.Views.CreateForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Views"
+        mc:Ignorable="d"
+        Title="CreateForm" Height="650" Width="650"
+        ResizeMode="CanMinimize">
+    <Grid Margin="10">
+        <Label Name="LabelCreate" Content="Create" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="UTM Impact" FontSize="48" FontWeight="Bold"/>
+
+        <ListBox Name="CreateList" HorizontalContentAlignment="Stretch" Margin="0,62,0,140">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+
+                        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Content="{Binding Title}"/>
+                        <TextBox  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="250,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="16"/>
+                        <CheckBox IsChecked="{Binding IsNullable}" Margin="500,0,0,0" IsHitTestVisible="false">
+                            <WrapPanel>
+                                <TextBlock>
+					                 Nullable
+                                </TextBlock>
+                            </WrapPanel>
+                        </CheckBox>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Name="ButtonCreate" Content="Create" HorizontalAlignment="Left" Margin="263,551,0,0" VerticalAlignment="Top"
+                FontSize="18" Background="#FF84CC66" BorderThickness="0" Click="Button_Click"/>
+    </Grid>
+
+</Window>

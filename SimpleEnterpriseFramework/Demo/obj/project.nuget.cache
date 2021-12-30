@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "TjCyCHiSyqufd0qRXG4x4Vp4rY1N9ckOLryHwxpQsKAarULCu7oUHvXhOuWCdI4sUZoaqZ3e5FIfkB1RzFuQEA==",
+  "success": true,
+  "projectFilePath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\materialdesigncolors\\2.0.5-ci32-ci32\\materialdesigncolors.2.0.5-ci32-ci32.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\materialdesignthemes\\4.4.0-ci32-ci32\\materialdesignthemes.4.4.0-ci32-ci32.nupkg.sha512"
+  ],
+  "logs": []
+}

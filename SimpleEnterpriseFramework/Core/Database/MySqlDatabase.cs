@@ -78,7 +78,7 @@ namespace Core.Database
             return dt;
         }
 
-        public IList<string> GetAllTableNames()
+        public async Task<IList<string>> GetAllTableNames()
         {
             IList<string> result = new List<string>();
             try
@@ -149,16 +149,13 @@ namespace Core.Database
             }
         }
 
-        public DataTable GetTable(string tableName)
+        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
         {
             try
             {
                 var query = "select * from " + tableName;
-                DataTable result = new DataTable();
-                var cmd = new MySqlCommand(query, _con);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                result.Load(rdr);
-                rdr.Close();
+
+                var result = await ExecuteQueryAsync(query);
 
                 return result;
 
@@ -169,16 +166,13 @@ namespace Core.Database
             }
         }
 
-        public DataRow GetOneRow(string tableName, string props, string val)
+        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
         {
             try
             {
                 var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
-                DataTable result = new DataTable();
-                var cmd = new MySqlCommand(query, _con);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                result.Load(rdr);
-                rdr.Close();
+
+                var result = await ExecuteQueryAsync(query);
 
                 return result?.Rows[0];
 
@@ -238,6 +232,16 @@ namespace Core.Database
             {
                 return false;
             }
+        }
+
+        Task<DataTable> IDatabase.GetTable(string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<DataRow> IDatabase.GetOneRow(string tableName, string props, string val)
+        {
+            throw new NotImplementedException();
         }
     }
 }

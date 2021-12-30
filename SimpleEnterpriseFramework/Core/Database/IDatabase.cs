@@ -13,15 +13,15 @@ namespace Core.Database
 
         public bool IsOpened();
 
-        IList<string> GetAllTableNames();
+        public Task<IList<string>> GetAllTableNames();
 
         public Task<int> ExecuteNoQueryAsync(string query); //Thêm xóa sửa
 
         public Task<DataTable> ExecuteQueryAsync(string query); // Lấy dữ liệu
 
-        public DataTable GetTable(string tableName); // Lấy 1 bảng
+        public Task<DataTable> GetTable(string tableName); // Lấy 1 bảng
 
-        public DataRow GetOneRow(string tableName, string props, string val); //Lấy 1 dòng
+        public Task<DataRow> GetOneRow(string tableName, string props, string val); //Lấy 1 dòng
 
         public bool Insert(string tableName, DataRow row, DataRow newRow = null);
 

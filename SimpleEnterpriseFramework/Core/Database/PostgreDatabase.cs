@@ -7,7 +7,7 @@ using Npgsql;
 
 namespace Core.Database
 {
-    public class PostgreDatabase: IDatabase
+    public class PostgreDatabase : IDatabase
     {
         private NpgsqlConnection _con;
 
@@ -40,7 +40,7 @@ namespace Core.Database
                     return result;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return -1;
             }
@@ -55,6 +55,7 @@ namespace Core.Database
                 DataTable dt = new DataTable();
 
                 dt.Load(reader);
+                reader.Close();
 
                 return dt;
             }
@@ -67,7 +68,7 @@ namespace Core.Database
 
         public bool OpenConnection()
         {
-            if(_con != null && _con.State == ConnectionState.Open)
+            if (_con != null && _con.State == ConnectionState.Open)
             {
                 return true;
             }
@@ -111,30 +112,21 @@ namespace Core.Database
             }
         }
 
-        public IList<string> GetAllTableNames()
+        public async Task<IList<string>> GetAllTableNames()
         {
             try
             {
                 IList<string> result = new List<string>();
-                using (_con)
-                {
-                    //var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+                var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
 
-                    //NpgsqlCommand command = new NpgsqlCommand(query, _con);
-                    //using (NpgsqlDataReader reader = command.ExecuteReader())
-                    //{
-                    //    while (reader.Read())
-                    //    {
-                    //        result.Add(reader.GetString(0));
-                    //    }
-                    //}
-                    var cmd = new NpgsqlCommand("show tables", _con);
-                    NpgsqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                using (var command = new NpgsqlCommand(query, _con))
+                {
+                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (reader.Read())
                     {
-                        result.Add(rdr[0].ToString());
+                        result.Add(reader.GetString(0));
                     }
-                    rdr.Close();
+                    reader.Close();
                 }
                 return result;
             }
@@ -144,35 +136,40 @@ namespace Core.Database
             }
         }
 
-        public DataTable GetTable(string tableName)
+        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
         {
             try
             {
                 var query = "select * from " + tableName;
-                DataTable result = new DataTable();
-                var cmd = new NpgsqlCommand(query, _con);
-                NpgsqlDataReader rdr = cmd.ExecuteReader();
-                result.Load(rdr);
-                rdr.Close();
+                //DataTable result = new DataTable();
+                //var cmd = new NpgsqlCommand(query, _con);
+                //NpgsqlDataReader rdr = cmd.ExecuteReader();
+                //result.Load(rdr);
+                //rdr.Close();
+
+                var result = await ExecuteQueryAsync(query);
 
                 return result;
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return null;
             }
         }
 
-        public DataRow GetOneRow(string tableName, string props, string val)
+        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
         {
             try
             {
                 var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
-                DataTable result = new DataTable();
-                var cmd = new NpgsqlCommand(query, _con);
-                NpgsqlDataReader rdr = cmd.ExecuteReader();
-                result.Load(rdr);
-                rdr.Close();
+                //DataTable result = new DataTable();
+                //var cmd = new NpgsqlCommand(query, _con);
+                //NpgsqlDataReader rdr = cmd.ExecuteReader();
+                //result.Load(rdr);
+                //rdr.Close();
+
+                var result = await ExecuteQueryAsync(query);
 
                 return result?.Rows[0];
 

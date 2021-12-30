@@ -26,13 +26,16 @@ namespace IoCTest
 
             db.OpenConnection();
 
-            var list = db.GetAllTableNames();
+            var list = await db.GetAllTableNames();
             Console.WriteLine(list?.Count);
 
+            //var result = await db.ExecuteQueryAsync("select * from account");
 
-            var result = db.GetTable("accounts");
 
-            var oks = db.GetOneRow("accounts", "user_id", "10");
+            DataTable result = await db.GetTable("accounts");
+            Console.WriteLine(result.Columns.Count);
+
+            DataRow oks = await db.GetOneRow("accounts", "user_id", "10");
 
             string rowStr = null;
             foreach (DataColumn col in result.Columns)
@@ -49,7 +52,7 @@ namespace IoCTest
 
 
 
-            Console.WriteLine(result.Columns[0].MaxLength);
+            //Console.WriteLine(result.Columns[0].MaxLength);
 
 
             if (result?.Rows?.Count > 0)
@@ -57,31 +60,31 @@ namespace IoCTest
                 foreach (DataRow row in result.Rows)
                 {
                     string rowStr1 = null;
-                    foreach (DataColumn col in row.Table.Columns)
+                   foreach (DataColumn col in row.Table.Columns)
                     {
 
-                        rowStr1 += string.Format(
+                       rowStr1 += string.Format(
                             "{0}: {1}, ",
                             col.ColumnName,
-                            row[col.ColumnName]
-                        );
+                           row[col.ColumnName]
+                     );
                     }
                     Console.WriteLine(rowStr1);
                 }
 
             }
 
-            bool ke = db.Delete("accounts", result.Rows[0]);
-            Console.WriteLine(ke);
+            //bool ke = db.Delete("accounts", result.Rows[0]);
+            //Console.WriteLine(ke);
 
 
 
-            DataRow newRow = result.Rows[0];
-            newRow["user_id"] = 10;
-            newRow["username"] = "lji";
-            newRow["email"] = "hkoi@gmail.com";
-            bool okey = db.Insert("accounts", newRow);
-            Console.WriteLine(okey);
+            //DataRow newRow = result.Rows[0];
+            //newRow["user_id"] = 10;
+            //newRow["username"] = "lji";
+            //newRow["email"] = "hkoi@gmail.com";
+            //bool okey = db.Insert("accounts", newRow);
+            //Console.WriteLine(okey);
 
             db.CloseConnection();
         }

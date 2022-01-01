@@ -181,7 +181,7 @@ namespace Core.Database
         {
             try
             {
-                var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
+                var query = string.Format("select * from {0} where {1} = '{2}'", tableName, props, val); ;
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -198,7 +198,7 @@ namespace Core.Database
         {
             try
             {
-                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = {4}", tableName1, tableName2, key1, key2, valueOfKey);
+                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = '{4}'", tableName1, tableName2, key1, key2, valueOfKey);
 
                 var result = await ExecuteQueryAsync(query);
 

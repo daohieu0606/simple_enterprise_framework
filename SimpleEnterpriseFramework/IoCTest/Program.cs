@@ -30,22 +30,22 @@ namespace IoCTest
 
             var result = db.GetTable("accounts");
 
-            var oks = db.GetOneRow("accounts", "user_id", "EDDRRUF");
-            User user = User.getInstance("username", "111", "email", "phone", "address", "role");
+            //var oks = db.GetOneRow("accounts", "user_id", "EDDRRUF");
+            //User user = User.getInstance("username", "111", "email", "phone", "address", "role");
 
-            //User test = await MemberShip.MemberShip.AddNewUserAsync(user);
-            bool isRight = await MemberShip.MemberShip.validateAsync(user.Username, user.Password);
+            ////User test = await MemberShip.MemberShip.AddNewUserAsync(user);
+            //bool isRight = await MemberShip.MemberShip.validateAsync(user.Username, user.Password);
            // Console.WriteLine(isRight);
-            DataRow dr  = await db.GetOneRow(User.nameTable, "username", "username");
-          
-            if(dr != null)
+            DataRow dr  = await db.GetOneRow(User.nameTable, "user_id", "EDDRRUF");
+            await MemberShip.MemberShip.createRoleAsync(Role.getInstance("test role"));
+            role = await MemberShip.MemberShip.findRoleByNameAsync("test role");
+
+            if(role != null)
             {
-                user = User.getInstance(dr);  
-                user.Username = "change username";
-            isRight = await MemberShip.MemberShip.UpdateUserAsync(user);
-            Console.WriteLine("is change success?: ", isRight);
+                await MemberShip.MemberShip.removeRoleAsync(role.Id);
             }
          
+            
 
 
 

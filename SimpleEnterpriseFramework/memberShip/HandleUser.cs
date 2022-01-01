@@ -55,7 +55,7 @@ namespace MemberShip
         }
         public static async Task<bool> UpdateUserAsync(User user)
         {
-            User oldUser = await findOneUserByFieldAsync("user_id", user.Username);
+            User oldUser = await findOneUserByFieldAsync("user_id", user.Id);
 
             if (oldUser == null)
             {
@@ -79,8 +79,13 @@ namespace MemberShip
         }
         public static async Task<User> findOneUserByFieldAsync(string field, string value)
         {
+            User user = null;
             DataRow dt = await db.GetOneRow(User.nameTable, field, value);
-            return User.getInstance(dt);
+            if(dt != null)
+            {
+                user = User.getInstance(dt);
+            }
+            return user;
         }
         public static User[] findUserByRole(Role role)
         {

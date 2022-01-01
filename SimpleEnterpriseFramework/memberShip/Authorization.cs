@@ -1,4 +1,5 @@
 ﻿using Core.Database;
+using HelperLibrary;
 using IoC.DI;
 using System;
 using System.Collections.Generic;
@@ -182,16 +183,19 @@ namespace MemberShip
         {
             try
             {
-                bool isSuccess = db.Insert(Role.nameTable, role.toDataRow());
+                Role cloneRole = Role.getInstance(role);
+                cloneRole.Id = StringHelper.GenerateRandomString();
+                bool isSuccess = db.Insert(Role.nameTable, cloneRole.toDataRow());
                 if (!isSuccess)
                 {
                     return null;
                 }
-                Role _role = await findRoleByNameAsync(role.RoleName);
-                return _role;
+                
+                return cloneRole;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 throw ex;
             }
 

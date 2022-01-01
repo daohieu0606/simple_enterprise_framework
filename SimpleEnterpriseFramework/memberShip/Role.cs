@@ -25,6 +25,13 @@ namespace MemberShip
             role.id = id;
             return role;
         }
+        public static Role getInstance(Role _role)
+        {
+            Role role = new Role();
+            role.roleName = _role.roleName;
+            role.id = _role.Id;
+            return role;
+        }
 
         public static Role getInstance(DataRow dr)
         {
@@ -36,14 +43,17 @@ namespace MemberShip
         public DataTable makeRoleDataTable()
         {
             DataTable table = new DataTable();
-            table = TableHelper.addColumn(table, "role_id", "System.string");
-            table = TableHelper.addColumn(table, "rolename", "System.string");
+            table = TableHelper.addColumn(table, "role_id", typeof(string).ToString());
+            table = TableHelper.addColumn(table, "rolename", typeof(string).ToString());
             return table;
         }
         public DataRow toDataRow()
         {
             DataTable dt = makeRoleDataTable();
-            return dt.NewRow();
+            DataRow dr = dt.NewRow();
+            dr["role_id"] = this.id;
+            dr["rolename"] = this.roleName;
+            return dr;
         }
     }
 }

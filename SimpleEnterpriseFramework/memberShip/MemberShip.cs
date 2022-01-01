@@ -84,7 +84,28 @@ namespace MemberShip
         {
             return Authorization.isUserInRole(user, role);
         }
-
+        public static async Task<Role> findRoleByNameAsync(string roleName)
+        {
+            try
+            {
+                return await Authorization.findRoleByNameAsync(roleName);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Role> findRoleFieldAsync(string field, string value)
+        {
+            try
+            {
+                return await Authorization.findRoleFieldAsync(field, value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static async Task<Role> createRoleAsync(Role role)
         {
             return await Authorization.createRole(role);

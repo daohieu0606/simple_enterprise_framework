@@ -55,7 +55,7 @@ namespace MemberShip
         }
         public static async Task<bool> UpdateUserAsync(User user)
         {
-            User oldUser = await findOneUserByFieldAsync("user_id", user.Id);
+            User oldUser = await findOneUserByFieldAsync("user_id", user.Username);
 
             if (oldUser == null)
             {

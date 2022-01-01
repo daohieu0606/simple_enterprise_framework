@@ -20,6 +20,10 @@ namespace MemberShip
         public static async Task<bool> validateAsync(string username, string password)
         {
             User user = await HandleUser.findOneUserByFieldAsync("username", username);
+            if(user == null)
+            {
+                return false;
+            }
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 

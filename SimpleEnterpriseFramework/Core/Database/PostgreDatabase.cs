@@ -172,6 +172,7 @@ namespace Core.Database
             try
             {
                 var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val);
+                Console.WriteLine(query);
                 //DataTable result = new DataTable();
                 //var cmd = new NpgsqlCommand(query, _con);
                 //NpgsqlDataReader rdr = cmd.ExecuteReader();
@@ -185,6 +186,7 @@ namespace Core.Database
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return null;
             }
         }

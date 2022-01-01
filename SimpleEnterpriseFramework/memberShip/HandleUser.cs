@@ -74,7 +74,7 @@ namespace MemberShip
 
         public static async Task<User> findUserByIdAsync(string id)
         {
-            DataRow dt = await db.GetOneRow(User.nameTable, "id", id);
+            DataRow dt = await db.GetOneRow(User.nameTable, "user_id", id);
             return User.getInstance(dt);
         }
         public static async Task<User> findOneUserByFieldAsync(string field, string value)

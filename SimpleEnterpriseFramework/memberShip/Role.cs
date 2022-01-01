@@ -35,6 +35,7 @@ namespace MemberShip
 
         public static Role getInstance(DataRow dr)
         {
+            Console.WriteLine(dr["role_id"]);
             Role role = new Role();
             role.roleName = dr.Field<string>("rolename");
             role.id = dr.Field<String>("role_id");

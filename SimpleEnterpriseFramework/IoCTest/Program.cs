@@ -31,23 +31,47 @@ namespace IoCTest
             var result = db.GetTable("accounts");
 
             //var oks = db.GetOneRow("accounts", "user_id", "EDDRRUF");
-            //User user = User.getInstance("username", "111", "email", "phone", "address", "role");
+            User user = User.getInstance("username", "111", "email", "phone", "address", "role");
 
-            ////User test = await MemberShip.MemberShip.AddNewUserAsync(user);
+            //User test = await MemberShip.MemberShip.AddNewUserAsync(user);
             //bool isRight = await MemberShip.MemberShip.validateAsync(user.Username, user.Password);
            // Console.WriteLine(isRight);
-            DataRow dr  = await db.GetOneRow(User.nameTable, "user_id", "EDDRRUF");
-            await MemberShip.MemberShip.createRoleAsync(Role.getInstance("test role"));
+            //DataRow dr  = await db.GetOneRow(User.nameTable, "user_id", "EDDRRUF");
+            //await MemberShip.MemberShip.createRoleAsync(Role.getInstance("testrole"));
             role = await MemberShip.MemberShip.findRoleByNameAsync("test role");
 
-            if(role != null)
+            //await MemberShip.MemberShip.removeRoleAsync("ONBSMYS");
+
+
+            //--------------------  CHECK
+            //Role[] roles = new Role[2];
+            //roles[0] = role;
+            //role = await MemberShip.MemberShip.findRoleFieldAsync("role_id", "QBQUXCD");
+            //roles[1] = role;
+            //if (role != null)
+            //{
+            //   await  MemberShip.MemberShip.AddRolesToUserAsync(roles, "SMQRSFV");
+            //}
+            //MemberShip.MemberShip.RemoveRoleFromUser("SMQRSFV", "PMVIXBX");//--   OK
+            //Role[] _roles =await  MemberShip.MemberShip.getAllRoleAsync();//-- OK
+
+            //if(_roles != null)
+            //{
+            //    foreach(Role role1 in _roles)
+            //    {
+            //        Console.WriteLine(role1.Id);
+            //    }
+            //}
+            //if(role!= null)
+            //{
+            //    role.RoleName = "employee1";
+            //    await MemberShip.MemberShip.updateRoleAsync(role);//---- OK
+            //}
+            User tes = await MemberShip.MemberShip.findUserByIdAsync("SMQRSFsV");//   OK
+            if (tes != null)
             {
-                await MemberShip.MemberShip.removeRoleAsync(role.Id);
+                Console.WriteLine(tes.Username);
             }
-         
-            
-
-
 
             //var list = db.GetAllTableNames();
             //Console.WriteLine(list?.Count);

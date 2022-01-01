@@ -15,27 +15,43 @@ namespace MemberShip
         public static string nameTable = "user_role";
         public static bool AddRoleToUser(Role role, string id)
         {
+            bool isSuccess = true;
+
             try
             {
-                return db.Insert(nameTable, User.toUserRoleDataRow(role.Id, id));
+                bool userInRole = isUserInRole(id, role.Id);
+
+                if (!userInRole)
+                {
+                    isSuccess = db.Insert(nameTable, User.toUserRoleDataRow(id, role.Id));
+                    if (!isSuccess)
+                    {
+                        return false;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            return isSuccess;
         }
-        public static bool AddRolesToUser(Role[] roles, string id)
+        public static async Task<bool> AddRolesToUserAsync(Role[] roles, string id)
         {
             bool isSuccess = true;
+
             foreach (Role role in roles)
             {
                 try
                 {
-                    isSuccess = db.Insert(nameTable, User.toUserRoleDataRow(role.Id, id));
+                    isSuccess = AddRoleToUser(role, id);
+
                     if (!isSuccess)
                     {
                         return false;
-                    }
+                    } 
                 }
                 catch (Exception ex)
                 {
@@ -47,11 +63,13 @@ namespace MemberShip
         public static bool AddRoleToUsers(Role role, string[] ids)
         {
             bool isSuccess = true;
+
             foreach (string id in ids)
             {
                 try
                 {
-                    isSuccess = db.Insert(nameTable, User.toUserRoleDataRow(role.Id, id));
+                    isSuccess = AddRoleToUser(role, id);
+
                     if (!isSuccess)
                     {
                         return false;
@@ -64,31 +82,37 @@ namespace MemberShip
             }
             return isSuccess;
         }
-        public static bool AddRolesToUsers(Role[] roles, string[] ids)
+        public static async Task<bool> AddRolesToUsersAsync(Role[] roles, string[] ids)
         {
             bool isSuccess = true;
-            foreach (string id in ids)
+
+            foreach (Role role in roles)
             {
-                try
+                foreach (string id in ids)
                 {
-                    isSuccess = AddRolesToUser(roles, id);
-                    if (!isSuccess)
+                    try
                     {
-                        return false;
+                        isSuccess = AddRoleToUser(role, id);
+
+                        if (!isSuccess)
+                        {
+                            return false;
+                        }
+
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
             }
             return isSuccess;
         }
-        public static bool RemoveRoleFromUser(Role role, string id)
+        public static bool RemoveRoleFromUser(string role_id, string user_id)
         {
             try
             {
-                return db.Delete(nameTable, User.toUserRoleDataRow(role.Id, id));
+                return db.Delete(nameTable, User.toUserRoleDataRow(user_id,role_id));
             }
             catch (Exception ex)
             {
@@ -112,26 +136,24 @@ namespace MemberShip
 
             return roles;
         }
-        public static Role[] GetRolesOfUser(User user)
+        public static Role[] GetRolesOfUser(string  user_id)
         {
-            //db.findDataFrom()--wating for new API
+            //db.GetMultiRow(tableName, props, val)
             return null;
         }
 
-        public static bool isUserInRole(User user, Role role)
+        public static bool isUserInRole(string user_id, string role_id)
         {
             try
             {
-                Role[] roles = GetRolesOfUser(user);
-
-                foreach (Role item in roles)
-                {
-                    if (role.Id == item.Id)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                string[] keys = new string[2];
+                string[] values = new string[2];
+                keys[0] = "user_id";
+                keys[1] = "role_id";
+                values[0] = user_id;
+                values[1] = role_id;
+                DataRow dr = null;//getOneRow(nameTable,keys,  values )-------------------------------------------
+                return dr!=null;
             }
             catch (Exception ex)
             {
@@ -210,7 +232,7 @@ namespace MemberShip
                     throw new Exception("Role is not found!");
                 }
 
-                return db.Delete(nameTable, role.toDataRow());
+                return db.Delete(Role.nameTable, role.toDataRow());
 
             }
             catch (Exception ex)
@@ -222,14 +244,14 @@ namespace MemberShip
         {
             try
             {
-                Role role = await findRoleByNameAsync(newRole.RoleName);
+                Role role = await findRoleFieldAsync("role_id", newRole.Id);
 
                 if (role == null)
                 {
                     throw new Exception("Role is not found!");
                 }
 
-                return db.Update(nameTable, role.toDataRow(), newRole.toDataRow());
+                return db.Update(Role.nameTable, role.toDataRow(), newRole.toDataRow());
             }
             catch (Exception ex)
             {

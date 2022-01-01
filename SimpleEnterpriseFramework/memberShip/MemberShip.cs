@@ -13,7 +13,9 @@ namespace MemberShip
         }
         public static async Task<bool> RemoveUserAsync(string username)
         {
-            return await HandleUser.RemoveUserAsync(username);
+
+                return await HandleUser.RemoveUserAsync(username);
+        
         }
         public static async Task<bool> UpdateUserAsync(User user)
         {
@@ -50,21 +52,21 @@ namespace MemberShip
         {
             return Authorization.AddRoleToUser(role, id);
         }
-        public static bool AddRolesToUser(Role[] role, string id)
+        public static async Task<bool> AddRolesToUserAsync(Role[] role, string id)
         {
-            return Authorization.AddRolesToUser(role, id);
+            return await Authorization.AddRolesToUserAsync(role, id);
         }
         public static bool AddRoleToUsers(Role role, string[] id)
         {
             return Authorization.AddRoleToUsers(role, id);
         }
-        public static bool AddRolesToUsers(Role[] role, string[] id)
+        public static async Task<bool> AddRolesToUsersAsync(Role[] role, string[] id)
         {
-            return Authorization.AddRolesToUsers(role, id);
+            return await Authorization.AddRolesToUsersAsync(role, id);
         }
-        public static bool RemoveRoleFromUser(Role role, string id)
+        public static bool RemoveRoleFromUser(string role_id, string user_id)
         {
-            return Authorization.RemoveRoleFromUser(role, id);
+            return Authorization.RemoveRoleFromUser(role_id, user_id);
         }
         public static async Task<Role[]> getAllRoleAsync()
         {
@@ -74,37 +76,27 @@ namespace MemberShip
         {
             return HandleUser.GetUsersInRole(role);
         }
-        public static Role[] GetRolesOfUser(User user)
+        public static Role[] GetRolesOfUser(string user_id)
         {
-            return Authorization.GetRolesOfUser(user);
+            return Authorization.GetRolesOfUser(user_id);
         }
 
 
-        public static bool isUserInRole(User user,Role role)
+        public static bool isUserInRole(string user_id,string role_id)
         {
-            return Authorization.isUserInRole(user, role);
+            return Authorization.isUserInRole(user_id, role_id);
         }
         public static async Task<Role> findRoleByNameAsync(string roleName)
         {
-            try
-            {
+
                 return await Authorization.findRoleByNameAsync(roleName);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+
         }
         public static async Task<Role> findRoleFieldAsync(string field, string value)
         {
-            try
-            {
+
                 return await Authorization.findRoleFieldAsync(field, value);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
         }
         public static async Task<Role> createRoleAsync(Role role)
         {

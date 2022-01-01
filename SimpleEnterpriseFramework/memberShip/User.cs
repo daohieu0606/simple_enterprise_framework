@@ -80,7 +80,10 @@ namespace MemberShip
         }
         public static User getInstance(DataRow dt)
         {
-
+            if (dt == null)
+            {
+                return null;
+            }
             User user = new User();
             if (dt == null) return user; ;
             user.Id = dt.Field<string>("user_id");
@@ -107,8 +110,8 @@ namespace MemberShip
         public static DataRow toUserRoleDataRow(string user_id, string role_id)
         {
             DataTable table = new DataTable();
-            table = TableHelper.addColumn(table, "user_id", "System.string");
-            table = TableHelper.addColumn(table, "role_id", "System.string");
+            table = TableHelper.addColumn(table, "user_id", typeof(String).ToString());
+            table = TableHelper.addColumn(table, "role_id", typeof(String).ToString());
             DataRow dt = table.NewRow();
             dt["user_id"] = user_id;
             dt["role_id"] = role_id;

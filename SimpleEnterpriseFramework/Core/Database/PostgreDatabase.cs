@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Query;
 using Npgsql;
@@ -150,11 +151,29 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
+        public async Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null) //Có tên bảng 
         {
             try
             {
-                var query = "select * from " + tableName;
+                StringBuilder paramsString = new StringBuilder();
+                if (props != null)
+                {
+                    paramsString.Append(" where ");
+                    for (int i = 0; i < props.Length; ++i)
+                    {
+                        paramsString.Append(props[i])
+                            .Append(" = '")
+                            .Append(val[i])
+                            .Append("'");
+
+                        if (i < props.Length - 1)
+                        {
+                            paramsString.Append(" AND ");
+                        }
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -167,11 +186,26 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        public async Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
         {
             try
             {
-                var query = string.Format("select * from {0} where {1} = '{2}'", tableName, props, val);
+                StringBuilder paramsString = new StringBuilder();
+                paramsString.Append(" where ");
+                for (int i = 0; i < props.Length; ++i)
+                {
+                    paramsString.Append(props[i])
+                        .Append(" = '")
+                        .Append(val[i])
+                        .Append("'");
+
+                    if (i < props.Length - 1)
+                    {
+                        paramsString.Append(" AND ");
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
                 Console.WriteLine(query);
 
                 var result = await ExecuteQueryAsync(query);

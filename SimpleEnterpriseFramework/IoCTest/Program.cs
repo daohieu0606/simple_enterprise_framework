@@ -32,10 +32,17 @@ namespace IoCTest
             //var result = await db.ExecuteQueryAsync("select * from account");
 
 
-            DataTable result = await db.GetTable("accounts");
+            var str0 = new String[2];
+            str0[0] = "user_id";
+            str0[1] = "email";
+            var str1 = new String[2];
+            str1[0] = "10";
+            str1[1] = "hkoi@gmail.com";
+
+            DataTable result = await db.GetTable("accounts", str0, str1);
             Console.WriteLine(result.Columns.Count);
 
-            DataRow oks = await db.GetOneRow("accounts", "user_id", "10");
+            DataRow oks = await db.GetOneRow("accounts", str0, str1);
 
             string rowStr = null;
             foreach (DataColumn col in result.Columns)

@@ -262,12 +262,12 @@ namespace Core.Database
             }
         }
 
-        Task<DataTable> IDatabase.GetTable(string tableName)
+        Task<DataTable> IDatabase.GetTable(string tableName, string[] props = null, string[] val = null)
         {
             throw new NotImplementedException();
         }
 
-        Task<DataRow> IDatabase.GetOneRow(string tableName, string props, string val)
+        Task<DataRow> IDatabase.GetOneRow(string tableName, string[] props, string[] val)
         {
             throw new NotImplementedException();
         }

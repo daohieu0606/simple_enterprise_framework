@@ -91,13 +91,13 @@ namespace Core.Database
         }
 
         //TODO: Hieu Nguyen implement later
-        public Task<DataTable> GetTable(string tableName)
+        public Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null)
         {
             return null;
         }
 
         //TODO: Hieu Nguyen implement later
-        public Task<DataRow> GetOneRow(string tableName, string props, string val)
+        public Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
         {
             return null;
         }

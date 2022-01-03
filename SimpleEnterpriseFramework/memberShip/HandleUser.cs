@@ -11,7 +11,7 @@ namespace MemberShip
 {
     class HandleUser
     {
-        private static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
+        public static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
         public static async Task<User> AddNewUserAsync(User user)
 
         {
@@ -74,27 +74,57 @@ namespace MemberShip
 
         public static async Task<User> findUserByIdAsync(string id)
         {
-            DataRow dt = await db.GetOneRow(User.nameTable, "user_id", id);
+            string[] props = new string[1];
+            props[0] = "user_id";
+            string[] values = new string[1];
+            values[0] = id;
+            DataRow dt = await db.GetOneRow(User.nameTable, props, values);
             return User.getInstance(dt);
         }
         public static async Task<User> findOneUserByFieldAsync(string field, string value)
         {
             User user = null;
-            DataRow dt = await db.GetOneRow(User.nameTable, field, value);
+            string[] props = new string[1];
+            props[0] = field;
+            string[] values = new string[1];
+            values[0] = value;
+            DataRow dt = await db.GetOneRow(User.nameTable, props, values);
             if(dt != null)
             {
                 user = User.getInstance(dt);
             }
             return user;
         }
-        public static User[] findUserByRole(Role role)
+        public static async Task<User[]> findUserByRoleAsync(string rolename)
         {
-            //db.findDataFrom(string tableName1, string[] key1, string tableName2, string[] key2)
+            //db.FindDataFrom(User.nameTable, "user_id", Authorization.nameTable, "user_id", role.Id);
             //db.findDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
             //if valueOfKey = null, join two table without "WHERE"
             // Return a DataTable
+            Role role = await Authorization.findRoleByNameAsync(rolename);
+            if (role == null) return null;
 
-            return null;
+            string[] props = new string[1];
+            string[] values = new string[1];
+            props[0] = "role_id";
+            values[0] = role.Id;
+
+            DataTable dt = await db.GetTable(Authorization.nameTable, props, values);
+            int numberOfRole = dt.Rows.Count;
+            User[] users = null;
+
+            if (numberOfRole > 0)
+            {
+                users = new User[numberOfRole];
+                for (int index = 0; index < dt.Rows.Count; index++)
+                {
+                    string user_id = dt.Rows[index].Field<string>("user_id");
+                    User user =await findUserByIdAsync(user_id);
+                    users[index] = user;
+                }
+
+            }
+            return users;
         }
 
         public static bool ChangePassword(User user, string newPassword)
@@ -134,12 +164,6 @@ namespace MemberShip
             User user = await findOneUserByFieldAsync("username", username);
 
             return user != null;
-        }
-
-        public static User[] GetUsersInRole(Role role)
-        {
-            //db.findDataFrom()--wating for new API
-            return null;
         }
     }
 }

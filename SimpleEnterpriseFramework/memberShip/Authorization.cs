@@ -11,15 +11,15 @@ namespace MemberShip
 {
     class Authorization
     {
-        private static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
+        public static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
         public static string nameTable = "user_role";
-        public static bool AddRoleToUser(Role role, string id)
+        public static async Task<bool> AddRoleToUserAsync(Role role, string id)
         {
             bool isSuccess = true;
 
             try
             {
-                bool userInRole = isUserInRole(id, role.Id);
+                bool userInRole = await isUserInRoleAsync(id, role.Id);
 
                 if (!userInRole)
                 {
@@ -46,7 +46,7 @@ namespace MemberShip
             {
                 try
                 {
-                    isSuccess = AddRoleToUser(role, id);
+                    isSuccess = await AddRoleToUserAsync(role, id);
 
                     if (!isSuccess)
                     {
@@ -60,7 +60,7 @@ namespace MemberShip
             }
             return isSuccess;
         }
-        public static bool AddRoleToUsers(Role role, string[] ids)
+        public static async Task<bool> AddRoleToUsersAsync(Role role, string[] ids)
         {
             bool isSuccess = true;
 
@@ -68,7 +68,7 @@ namespace MemberShip
             {
                 try
                 {
-                    isSuccess = AddRoleToUser(role, id);
+                    isSuccess = await AddRoleToUserAsync(role, id);
 
                     if (!isSuccess)
                     {
@@ -92,7 +92,7 @@ namespace MemberShip
                 {
                     try
                     {
-                        isSuccess = AddRoleToUser(role, id);
+                        isSuccess = await AddRoleToUserAsync(role, id);
 
                         if (!isSuccess)
                         {
@@ -136,13 +136,41 @@ namespace MemberShip
 
             return roles;
         }
-        public static Role[] GetRolesOfUser(string  user_id)
+        public static async Task<Role[]> GetRolesOfUserAsync(string  user_id)
         {
-            //db.GetMultiRow(tableName, props, val)
-            return null;
+            string[] props = new string[1];
+            string[] values = new string[1];
+            props[0] = "user_id";
+            values[0] = user_id;
+            DataTable dt = null;
+            try
+            {
+                dt = await db.GetTable(Role.nameTable, props, values);
+                if (dt == null)
+                {
+                    return null; 
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+         
+
+            int numberOfRole = dt.Rows.Count;
+            Role[] roles = new Role[numberOfRole];
+
+            for (int i = 0; i < numberOfRole; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                Role role = Role.getInstance(dr);
+                roles[i] = role;
+            }
+            return roles;
+
         }
 
-        public static bool isUserInRole(string user_id, string role_id)
+        public static async Task<bool> isUserInRoleAsync(string user_id, string role_id)
         {
             try
             {
@@ -152,7 +180,7 @@ namespace MemberShip
                 keys[1] = "role_id";
                 values[0] = user_id;
                 values[1] = role_id;
-                DataRow dr = null;//getOneRow(nameTable,keys,  values )-------------------------------------------
+                DataRow dr =await db.GetOneRow(nameTable, keys, values);
                 return dr!=null;
             }
             catch (Exception ex)
@@ -167,14 +195,19 @@ namespace MemberShip
 
             try
             {
-                DataRow dt = await db.GetOneRow(Role.nameTable, "rolename", roleName);
+                string[] props = new string[1];
+                    props[0] = "rolename";
+                string[] values = new string[1];
+                values[0] = roleName;
+                DataRow dt = await db.GetOneRow(Role.nameTable,props, values);
 
-                if (dt == null)
+                if (dt != null)
                 {
-                    return null;
+                    return Role.getInstance(dt);
+                    
                 }
 
-                return Role.getInstance(dt);
+                return null;
             }
             catch (Exception ex)
             {
@@ -186,7 +219,11 @@ namespace MemberShip
 
             try
             {
-                DataRow dt = await db.GetOneRow(Role.nameTable, field, value);
+                string[] props = new string[1];
+                props[0]=field;
+                string[] values = new string[1];
+                values[0]=value;
+                DataRow dt = await db.GetOneRow(Role.nameTable,props,values );
 
                 if (dt == null)
                 {

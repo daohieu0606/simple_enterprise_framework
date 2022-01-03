@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Database;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,11 @@ namespace MemberShip
 {
     public class MemberShip
     {
+        public static void updateDbConnection(IDatabase db)
+        {
+            HandleUser.db = db;
+            Authorization.db = db;
+        }
         public static async Task<User> AddNewUserAsync(User user)
         {
             return await HandleUser.AddNewUserAsync(user);
@@ -30,9 +36,9 @@ namespace MemberShip
         {
             return await HandleUser.findOneUserByFieldAsync(field, value);
         }
-        public static User[] findUserByRoleAsync(Role role)
+        public static async Task<User[]> findUserByRoleAsync(string rolename)
         {
-            return HandleUser.findUserByRole(role);
+            return await HandleUser.findUserByRoleAsync(rolename);
         }
 
         public static bool ChangePasswordAsync(User user, string newPassword)
@@ -48,17 +54,17 @@ namespace MemberShip
             return await HandleUser.isExistUserAsync(username);
         }
 
-        public static bool AddRoleToUser(Role role, string id)
+        public static async Task<bool> AddRoleToUserAsync(Role role, string id)
         {
-            return Authorization.AddRoleToUser(role, id);
+            return await Authorization.AddRoleToUserAsync(role, id);
         }
         public static async Task<bool> AddRolesToUserAsync(Role[] role, string id)
         {
             return await Authorization.AddRolesToUserAsync(role, id);
         }
-        public static bool AddRoleToUsers(Role role, string[] id)
+        public static async Task<bool> AddRoleToUsersAsync(Role role, string[] id)
         {
-            return Authorization.AddRoleToUsers(role, id);
+            return await Authorization.AddRoleToUsersAsync(role, id);
         }
         public static async Task<bool> AddRolesToUsersAsync(Role[] role, string[] id)
         {
@@ -72,19 +78,16 @@ namespace MemberShip
         {
             return await Authorization.getAllRolesAsync();
         }
-        public static User[] GetUsersInRole(Role role)
+
+        public static async Task<Role[]> GetRolesOfUserAsync(string user_id)
         {
-            return HandleUser.GetUsersInRole(role);
-        }
-        public static Role[] GetRolesOfUser(string user_id)
-        {
-            return Authorization.GetRolesOfUser(user_id);
+            return await Authorization.GetRolesOfUserAsync(user_id);
         }
 
 
-        public static bool isUserInRole(string user_id,string role_id)
+        public static async Task<bool> isUserInRoleAsync(string user_id,string role_id)
         {
-            return Authorization.isUserInRole(user_id, role_id);
+            return await Authorization.isUserInRoleAsync(user_id, role_id);
         }
         public static async Task<Role> findRoleByNameAsync(string roleName)
         {

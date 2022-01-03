@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {}
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj": {}
   },
   "projects": {
-    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
-        "projectName": "Membership",
-        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
+        "projectName": "Membership_v2",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
         "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\obj\\",
         "projectStyle": "PackageReference",

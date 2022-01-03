@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDemo", "ClientDemo\Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{957FC3CF-C921-472F-AE19-2E737F5052A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Membership", "Membership\Membership.csproj", "{7555E80C-3627-49A7-BA0E-245D6FAFE1B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Membership_v2", "Membership\Membership_v2.csproj", "{7555E80C-3627-49A7-BA0E-245D6FAFE1B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{AA750DE5-CA09-4775-AADE-7771FF0344C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{AA750DE5-CA09-4775-AADE-7771FF0344C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj": {}
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj": {}
   },
   "projects": {
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -79,14 +79,14 @@
         }
       }
     },
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
         "projectName": "Demo",
-        "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -106,8 +106,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj": {
-                "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj"
+              "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj": {
+                "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj"
               }
             }
           }
@@ -143,14 +143,14 @@
         }
       }
     },
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj",
         "projectName": "IoC",
-        "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -200,14 +200,14 @@
         }
       }
     },
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
-        "projectName": "Membership",
-        "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
+        "projectName": "Membership_v2",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -257,14 +257,14 @@
         }
       }
     },
-    "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj",
         "projectName": "UI",
-        "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\UI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\UI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -284,14 +284,14 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
-                "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj"
+              "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj": {
+                "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Core\\Core.csproj"
               },
-              "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj": {
-                "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj"
+              "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj": {
+                "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\IoC\\IoC.csproj"
               },
-              "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {
-                "projectPath": "D:\\Desigin pattern\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj"
+              "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj": {
+                "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj"
               }
             }
           }

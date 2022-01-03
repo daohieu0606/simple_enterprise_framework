@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Xml;
 using Core.Database;
 using Core.Utils;
 using IoC.DI;
-using Npgsql;
 
 namespace IoCTest
 {
@@ -21,39 +16,75 @@ namespace IoCTest
         private async static void DemoDatabase()
         {
             CurrentFrameworkState.Instance.ChangeDataBase(
-                DatabaseType.MySql,
-                host: "",
-                dbName: "",
-                username: "",
-                password: "");
-
-            var currentDb = CurrentFrameworkState.Instance.DatabaseType;
+                DatabaseType.Postgres,
+                host: "localhost",
+                dbName: "crm",
+                username: "postgres",
+                password: "postgres");
 
             var db = ServiceLocator.Instance.Get<IDatabase>();
 
-            var isConnectSuccess = db.OpenConnection();
+            db.OpenConnection();
 
-            var result = await db.ExecuteSqlAsync("select * from student");
+            var list = await db.GetAllTableNames();
+            Console.WriteLine(list?.Count);
+
+            //var result = await db.ExecuteQueryAsync("select * from account");
+
+
+            DataTable result = await db.GetTable("accounts");
+            Console.WriteLine(result.Columns.Count);
+
+            DataRow oks = await db.GetOneRow("accounts", "user_id", "10");
+
+            string rowStr = null;
+            foreach (DataColumn col in result.Columns)
+            {
+
+                rowStr += string.Format(
+                    "{0}: {1}, ",
+                    col.ColumnName,
+                    oks[col.ColumnName]
+                );
+            }
+            Console.WriteLine("sdd: {0}", rowStr);
+
+
+
+
+            //Console.WriteLine(result.Columns[0].MaxLength);
+
 
             if (result?.Rows?.Count > 0)
             {
                 foreach (DataRow row in result.Rows)
                 {
-                    string rowStr = string.Format(
-                        "id: {0}, gpa: {1}, age: {2}, full_name: {3}",
-                        row["id"],
-                        row["gpa"],
-                        row["age"],
-                        row["full_name"]
-                        );
+                    string rowStr1 = null;
+                   foreach (DataColumn col in row.Table.Columns)
+                    {
 
-                    Console.WriteLine(rowStr);
+                       rowStr1 += string.Format(
+                            "{0}: {1}, ",
+                            col.ColumnName,
+                           row[col.ColumnName]
+                     );
+                    }
+                    Console.WriteLine(rowStr1);
                 }
+
             }
 
-            string updateStatement = string.Format("update {0} set gpa = {1} where id = {2}", "student", 8.5, 2);
+            //bool ke = db.Delete("accounts", result.Rows[0]);
+            //Console.WriteLine(ke);
 
-            int effectedRowCount = await db.ExecuteNoQueryAsync(updateStatement);
+
+
+            //DataRow newRow = result.Rows[0];
+            //newRow["user_id"] = 10;
+            //newRow["username"] = "lji";
+            //newRow["email"] = "hkoi@gmail.com";
+            //bool okey = db.Insert("accounts", newRow);
+            //Console.WriteLine(okey);
 
             db.CloseConnection();
         }

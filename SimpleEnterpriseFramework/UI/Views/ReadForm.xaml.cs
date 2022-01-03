@@ -1,23 +1,31 @@
 ﻿namespace UI.Views
 {
+    using Core.Database;
+    using System;
     using System.Data;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using UI.Model;
 
     public partial class ReadForm : Window
     {
-        private IDatabase connection;
+        private IDatabase database;
 
         private DataTable data;
 
         private StyleOption styleOption;
 
-        public ReadForm(IDatabase connection)
+        private string tableName;
+
+        public ReadForm(IDatabase database, StyleOption option, DataTable source, string tableName)
         {
             InitializeComponent();
-            this.connection = connection;
+            this.database = database;
+            this.styleOption = option;
+            this.tableName = tableName;
+            this.data = source;
+            DatagridView.ItemsSource = data.AsDataView();
+            InitStyle();
         }
 
         public ReadForm(DataTable source, StyleOption option)
@@ -36,9 +44,10 @@
 
         private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (data == null)
+            if (database != null)
             {
-                CreateForm createForm = new CreateForm(connection);
+                database.OpenConnection();
+                CreateForm createForm = new CreateForm(database, this, styleOption, data, tableName);
                 createForm.ShowDialog();
             }
             else
@@ -58,27 +67,37 @@
             DataRowView rowView = (DataRowView)DatagridView.SelectedItems[0];
             DataRow row = (DataRow)rowView.Row;
             UpdateForm updateForm = null;
-            if (data == null) updateForm = new UpdateForm(connection, row);
+            if (database != null)
+            {
+                database.OpenConnection();
+                updateForm = new UpdateForm(database, row, tableName, data, this, styleOption);
+            }
             else updateForm = new UpdateForm(data, this, row, styleOption);
             updateForm.Show();
         }
 
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (DatagridView.SelectedItems.Count == 0)
+            try
             {
-                MessageBox.Show("Please select row first");
-                return;
-            }
-            DataRowView rowView = (DataRowView)DatagridView.SelectedItems[0];
-            DataRow row = (DataRow)rowView.Row;
-            if (data == null)
-            {
+                if (DatagridView.SelectedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select row first");
+                    return;
+                }
+                DataRowView rowView = (DataRowView)DatagridView.SelectedItems[0];
+                DataRow row = (DataRow)rowView.Row;
+                if (database != null)
+                {
+                    database.Delete(tableName, row);
+                }
+
+                data.Rows.Remove(row);
 
             }
-            else
+            catch (Exception ex)
             {
-                data.Rows.Remove(row);
+                MessageBox.Show(ex.Message, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -104,7 +123,9 @@
                 }
                 if (styleOption.CRUDWindowNames != null)
                 {
-                    if (styleOption.CRUDWindowNames.Count >= 1) LabelRead.Content = styleOption.CRUDWindowNames[0];
+
+                    if (database == null && styleOption.CRUDWindowNames.Count >= 1) LabelRead.Content = styleOption.CRUDWindowNames[0];
+                    else if (database != null) LabelRead.Content += $" {tableName}";
                 }
 
             }

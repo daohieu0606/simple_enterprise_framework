@@ -8,10 +8,11 @@
     using System.Windows.Media;
     using UI.Helpers;
     using UI.Model;
+    using Core.Database;
 
     public partial class UpdateForm : Window
     {
-        private IDatabase connection;
+        private IDatabase database;
 
         private DataRow currentRow;
 
@@ -23,20 +24,31 @@
 
         private StyleOption styleOption;
 
-        public UpdateForm(IDatabase connection, DataRow row)
+        private string tableName;
+
+        public UpdateForm(IDatabase database, DataRow row, string tableName, DataTable source, ReadForm readForm, StyleOption option)
         {
             InitializeComponent();
-            this.connection = connection;
+            this.database = database;
             this.currentRow = row;
-            List<Field> fields = connection.GetAllFields();
-            foreach (Field field in fields)
-            {
-                field.Value = row[field.Title].ToString();
-                if (field.IsPrimaryKey) field.Title += " (Primary Key)";
-
-            }
+            this.tableName = tableName;
+            this.data = source;
+            this.readForm = readForm;
+            this.styleOption = option;
+            List<Field> fields = DataHelper.GetALLFields(source, row);
+            this.fields = fields;
 
             UpdateList.ItemsSource = fields;
+            InitStyle();
+            //List<Field> fields = connection.GetAllFields();
+            //foreach (Field field in fields)
+            //{
+            //    field.Value = row[field.Title].ToString();
+            //    if (field.IsPrimaryKey) field.Title += " (Primary Key)";
+
+            //}
+
+            //UpdateList.ItemsSource = fields;
         }
 
         public UpdateForm(DataTable source, ReadForm readForm, DataRow row, StyleOption option)
@@ -65,6 +77,7 @@
                         Type type = data.Columns[i].DataType;
                         row[fields[i].Title] = fields[i].Value == "" ? null : fields[i].Value;
                     }
+                    if (database != null) database.Update(tableName, currentRow, row);
                     //find row
                     var array1 = this.currentRow.ItemArray;
                     foreach (DataRow row1 in data.Rows)
@@ -111,7 +124,7 @@
                 }
                 if (styleOption.CRUDWindowNames != null)
                 {
-                    if (styleOption.CRUDWindowNames.Count >= 3) LabelUpdate.Content = styleOption.CRUDWindowNames[2];
+                    if (database == null && styleOption.CRUDWindowNames.Count >= 3) LabelUpdate.Content = styleOption.CRUDWindowNames[2];
                 }
             }
         }

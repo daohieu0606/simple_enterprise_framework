@@ -1,25 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using UI.Views;
-
-namespace UI.Controllers
+﻿namespace UI.Controllers
 {
-    class ConnectDBController
+    using Core.Database;
+    using Core.Utils;
+    using IoC.DI;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using UI.Model;
+    using UI.Views;
+
+    internal class ConnectDBController
     {
         private DBForm dbForm;
-        private IDatabase connection= null;
-        public ConnectDBController(DBForm dbForm)
+
+        private IDatabase database;
+
+        private StyleOption styleOption;
+
+        public ConnectDBController(DBForm dbForm, StyleOption option)
         {
-            this.dbForm= dbForm;
+            this.dbForm = dbForm;
+            this.styleOption = option;
             dbForm.DbTypeComboBox.SelectedIndex = 0;
         }
 
-        public void ButtonRoutedEventArgs(object sender, RoutedEventArgs e)
+        public async void ButtonRoutedEventArgs(object sender, RoutedEventArgs e)
         {
             switch (((Button)sender).Name)
             {
@@ -27,44 +34,63 @@ namespace UI.Controllers
                     string host = dbForm.HostNameInput.Text;
                     string username = dbForm.UserNameInput.Text;
                     string pwd = dbForm.PwdInput.Text;
+                    string dbname = dbForm.DatabaseNameInput.Text;
                     ComboBoxItem selectedItem = (ComboBoxItem)dbForm.DbTypeComboBox.SelectedItem;
                     string dbType = selectedItem.Content.ToString();
-                    if (!ValidateInput(host, pwd))
+                    if (!ValidateInput(host, pwd, dbname))
                     {
-                       // dbForm.IncorrectConnectDB.Text = "Chưa điền đủ thông tin!";
+                        // dbForm.IncorrectConnectDB.Text = "Chưa điền đủ thông tin!";
                     }
                     else
                     {
-                        IDatabase connection = new IDatabase(dbType, host, username, pwd);
-                        if (!connection.Connect())
+
+                        switch (dbType)
                         {
-                            dbForm.IncorrectConnectDB.Text = "Không thể kết nối đến database!";
+                            case "MySQL":
+                                CurrentFrameworkState.Instance.ChangeDataBase(
+                                    DatabaseType.MySql,
+                                    host: host,
+                                    dbName: dbname,
+                                    username: username,
+                                    password: pwd);
+
+                                var db = ServiceLocator.Instance.Get<IDatabase>();
+
+                                if (!db.OpenConnection()) { dbForm.IncorrectConnectDB.Text = "Could not connect to database"; break; }
+                                this.database = db;
+                                //var list = await db.GetAllTableNames();
+                                List<string> tablesName = new List<string>() { "user_entity", "task_entity"};
+                                dbForm.TableNameComboBox.ItemsSource = tablesName;
+                                if (tablesName.Count > 0) dbForm.TableNameComboBox.SelectedIndex = 0;
+
+                                //DataTable result = await db.GetTable("accounts");
+                                break;
+                            case "Postgres":
+                                break;
+                            default:
+                                break;
+
                         }
-                        else
-                        {
-                            this.connection = connection;
-                            ClearFields();
-                            List<string> databaseNames = connection.GetAllDBNames();
-                            dbForm.DbNameComboBox.ItemsSource = databaseNames;
-                            if (databaseNames.Count > 0) dbForm.DbNameComboBox.SelectedIndex = 0;
-                        }
+                        ClearFields();
+
+
 
                     }
                     break;
                 case "ButtonGenerate":
-                    if(this.connection !=null)
+                    if (this.database != null)
                     {
-                        ReadForm readForm = new ReadForm(connection);
-                        //string currentTable = dbForm.TableNameComboBox.SelectedItem.ToString();
-                        DataTable data = connection.GetData();
-                        readForm.DatagridView.ItemsSource = data.AsDataView();
+                        string currentTable = dbForm.TableNameComboBox.SelectedItem.ToString();
+                        DataTable data = await database.GetTable(currentTable);
+
+                        ReadForm readForm = new ReadForm(database, styleOption, data,currentTable);
                         readForm.ShowDialog();
                         //dbForm.Hide();
                     }
-                    
-                   
+
+
                     break;
-                
+
                 default: dbForm.Close(); break;
             }
         }
@@ -72,35 +98,21 @@ namespace UI.Controllers
         public void KeyDownTextBox(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) dbForm.ButtonConnect.Focus();
-            //dbForm.ButtonConnect.Focus();
-
-        }
-        
-        public void OnChangeComboBox(object sender,  SelectionChangedEventArgs  e)
-        {
-            if(((ComboBox)sender).Name== "DbNameComboBox")
-            {
-                if (this.connection !=null)
-                {
-                    //string dbName = dbForm.DbNameComboBox.SelectedItem.ToString();
-                    List<string> tableNames = connection.GetAllTableNames();
-                    dbForm.TableNameComboBox.ItemsSource = tableNames;
-                    if (tableNames.Count > 0) dbForm.TableNameComboBox.SelectedIndex = 0;
-                }
-      
-            }
-
         }
 
-        private bool ValidateInput(string host, string username)
+        public void OnChangeComboBox(object sender, SelectionChangedEventArgs e)
         {
-            return host.Length > 0 && username.Length > 0;
+            
+        }
+
+        private bool ValidateInput(string host, string username, string database)
+        {
+            return host.Length > 0 && username.Length > 0 && database.Length > 0;
         }
 
         private void ClearFields()
         {
             dbForm.IncorrectConnectDB.Text = "";
         }
-
     }
 }

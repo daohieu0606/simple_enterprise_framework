@@ -1,37 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using UI.Helpers;
-using UI.Model;
-
-namespace UI.Views
+﻿namespace UI.Views
 {
-    /// <summary>
-    /// Interaction logic for CreateForm.xaml
-    /// </summary>
+    using Core.Database;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Windows;
+    using System.Windows.Media;
+    using UI.Helpers;
+    using UI.Model;
+
     public partial class CreateForm : Window
     {
-        private IDatabase connection;
-        StyleOption styleOption;
+        internal StyleOption styleOption;
+
         private ReadForm readForm;
+
         private DataTable data;
+
         private List<Field> fields;
-        public CreateForm(IDatabase connection)
+
+        private IDatabase database;
+
+        private string tableName;
+
+        public CreateForm(IDatabase database, ReadForm readForm, StyleOption option, DataTable source, string tableName)
         {
             InitializeComponent();
-            this.connection = connection;
-            List<Field> items = connection.GetAllFields();
-            CreateList.ItemsSource = items;
+            this.database = database;
+            this.readForm = readForm;
+            this.styleOption = option;
+            this.tableName = tableName;
+            this.data = source;
+
+            fields = DataHelper.GetALLFields(source, null);
+            CreateList.ItemsSource = fields;
+
+            InitStyle();
         }
 
         public CreateForm(DataTable source, ReadForm readForm, StyleOption option)
@@ -56,17 +60,23 @@ namespace UI.Views
                 for (var i = 0; i < fields.Count; i++)
                 {
                     Type type = data.Columns[i].DataType;
-                    row[fields[i].Title] = fields[i].Value ==""?null:fields[i].Value;
+                    row[fields[i].Title] = fields[i].Value == "" ? null : fields[i].Value;
                 }
                 data.Rows.Add(row);
+                if (database != null)
+                {
+                    database.Insert(tableName, row);
+
+                }
                 readForm.setData(data);
                 MessageBox.Show("Create successfully!");
                 this.Close();
+
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-
         }
 
         public StyleOption OptionStyle
@@ -94,17 +104,18 @@ namespace UI.Views
                 }
             }
         }
-
-
     }
+
     public class Field
     {
         public string Title { get; set; }
+
         public bool IsNullable { get; set; }
 
         public bool IsPrimaryKey { get; set; }
 
         public string Value { get; set; }
-    }
 
+        public string DataType { get; set; }
+    }
 }

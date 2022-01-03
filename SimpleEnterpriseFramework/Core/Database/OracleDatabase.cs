@@ -62,13 +62,13 @@ namespace Core.Database
         }
 
         //TODO: Hieu Dao implement later
-        public Task<DataTable> ExecuteSqlAsync(string quey)
+        public async Task<DataTable> ExecuteQueryAsync(string quey)
         {
             throw new NotImplementedException();
         }
 
         //TODO: Hieu Dao implement later
-        public IList<string> GetAllTableNames()
+        public async Task<IList<string>> GetAllTableNames()
         {
             throw new NotImplementedException();
         }
@@ -100,6 +100,36 @@ namespace Core.Database
             {
                 return false;
             }
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public async Task<DataTable> GetTable(string tableName)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            return false;
         }
     }
 }

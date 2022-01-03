@@ -53,6 +53,7 @@
                 field.Title = columnNames[i];
                 field.IsNullable = true;
                 field.IsPrimaryKey = false;
+                field.DataType = data.Columns[i].DataType.ToString();
                 if (row == null)
                     field.Value = "";
                 else field.Value = row[field.Title].ToString(); 

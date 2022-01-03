@@ -49,7 +49,7 @@ namespace UI.Controllers
                             }
                             else
                             {
-                                DBForm dbForm = new DBForm();
+                                DBForm dbForm = new DBForm(loginView.OptionStyle);
                                 dbForm.ShowDialog();
                             }
 

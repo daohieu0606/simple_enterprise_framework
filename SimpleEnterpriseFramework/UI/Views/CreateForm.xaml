@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UI.Views"
-        mc:Ignorable="d"
+        mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="CreateForm" Height="650" Width="650"
         ResizeMode="CanMinimize">
     <Grid Margin="10">
@@ -21,7 +20,7 @@
                     <Grid Margin="0,2">
 
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Content="{Binding Title}"/>
-                        <TextBox  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="250,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="16"/>
+                        <TextBox materialDesign:HintAssist.Hint="{Binding DataType}"  materialDesign:HintAssist.IsFloating="True"  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="250,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="16"/>
                         <CheckBox IsChecked="{Binding IsNullable}" Margin="500,0,0,0" IsHitTestVisible="false">
                             <WrapPanel>
                                 <TextBlock>

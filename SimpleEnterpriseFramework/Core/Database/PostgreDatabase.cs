@@ -215,6 +215,7 @@ namespace Core.Database
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return null;
             }
         }
@@ -255,14 +256,16 @@ namespace Core.Database
         {
             NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreatePostgres(tableName, row, newRow).GetQuery();
             cmd.Connection = _con;
+            Console.WriteLine(cmd);
             try
             {
                 int check = cmd.ExecuteNonQuery();
                 Console.WriteLine(check);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }

@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MemberShip
 {
     class Authentication
     {
-       
-        public string Hash(string value)
+        private static int salt = 12;
+        public static string Hash(string value)
         {
-            string hashValue = "";
-            return hashValue;
+            if (value == null)
+            {
+                return "";
+            }
+            return BCrypt.Net.BCrypt.HashPassword(value, salt);
         }
 
-        public User validate(string username, string password)
+        public static async Task<bool> validateAsync(string username, string password)
         {
-            return new User();
+            User user = await HandleUser.findOneUserByFieldAsync("username", username);
+            if(user == null)
+            {
+                return false;
+            }
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 
     }

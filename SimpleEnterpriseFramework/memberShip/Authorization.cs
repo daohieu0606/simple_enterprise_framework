@@ -1,43 +1,264 @@
-﻿using System;
+﻿using Core.Database;
+using HelperLibrary;
+using IoC.DI;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MemberShip
 {
     class Authorization
     {
-        public bool AddRoleToUser(Role role, User user)
+        private static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
+        public static string nameTable = "user_role";
+        public static bool AddRoleToUser(Role role, string id)
         {
-            return true;
+            bool isSuccess = true;
+
+            try
+            {
+                bool userInRole = isUserInRole(id, role.Id);
+
+                if (!userInRole)
+                {
+                    isSuccess = db.Insert(nameTable, User.toUserRoleDataRow(id, role.Id));
+                    if (!isSuccess)
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return isSuccess;
         }
-        public bool AddRolesToUser(Role[] role, User user)
+        public static async Task<bool> AddRolesToUserAsync(Role[] roles, string id)
         {
-            return true;
+            bool isSuccess = true;
+
+            foreach (Role role in roles)
+            {
+                try
+                {
+                    isSuccess = AddRoleToUser(role, id);
+
+                    if (!isSuccess)
+                    {
+                        return false;
+                    } 
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return isSuccess;
         }
-        public bool AddRoleToUsers(Role role, User[] user)
+        public static bool AddRoleToUsers(Role role, string[] ids)
         {
-            return true;
+            bool isSuccess = true;
+
+            foreach (string id in ids)
+            {
+                try
+                {
+                    isSuccess = AddRoleToUser(role, id);
+
+                    if (!isSuccess)
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return isSuccess;
         }
-        public bool AddRolesToUsers(Role[] role, User[] user)
+        public static async Task<bool> AddRolesToUsersAsync(Role[] roles, string[] ids)
         {
-            return true;
+            bool isSuccess = true;
+
+            foreach (Role role in roles)
+            {
+                foreach (string id in ids)
+                {
+                    try
+                    {
+                        isSuccess = AddRoleToUser(role, id);
+
+                        if (!isSuccess)
+                        {
+                            return false;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            return isSuccess;
         }
-        public bool RemoveRoleFromUser(Role role, User user)
+        public static bool RemoveRoleFromUser(string role_id, string user_id)
         {
-            return true;
+            try
+            {
+                return db.Delete(nameTable, User.toUserRoleDataRow(user_id,role_id));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        public Role[] getAllRole()
+        public static async Task<Role[]> getAllRolesAsync()
         {
-            return null;
+            DataTable dt = await db.GetTable(Role.nameTable);
+            int numberOfRole = dt.Rows.Count;
+            Role[] roles = null;
+
+            if (numberOfRole > 0)
+            {
+                roles = new Role[numberOfRole];
+                for (int index = 0; index < dt.Rows.Count; index++)
+                {
+                    roles[index] = Role.getInstance(dt.Rows[index]);
+                }
+            }
+
+            return roles;
         }
-        public User[] GetUsersInRole(Role role)
+        public static Role[] GetRolesOfUser(string  user_id)
         {
+            //db.GetMultiRow(tableName, props, val)
             return null;
         }
 
-        public bool isUserInRole(Role role)
+        public static bool isUserInRole(string user_id, string role_id)
         {
-            return true;
+            try
+            {
+                string[] keys = new string[2];
+                string[] values = new string[2];
+                keys[0] = "user_id";
+                keys[1] = "role_id";
+                values[0] = user_id;
+                values[1] = role_id;
+                DataRow dr = null;//getOneRow(nameTable,keys,  values )-------------------------------------------
+                return dr!=null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
+
+        public static async Task<Role> findRoleByNameAsync(string roleName)
+        {
+
+            try
+            {
+                DataRow dt = await db.GetOneRow(Role.nameTable, "rolename", roleName);
+
+                if (dt == null)
+                {
+                    return null;
+                }
+
+                return Role.getInstance(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<Role> findRoleFieldAsync(string field, string value)
+        {
+
+            try
+            {
+                DataRow dt = await db.GetOneRow(Role.nameTable, field, value);
+
+                if (dt == null)
+                {
+                    return null;
+                }
+
+                return Role.getInstance(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static async Task<Role> createRole(Role role)
+        {
+            try
+            {
+                Role cloneRole = Role.getInstance(role);
+                cloneRole.Id = StringHelper.GenerateRandomString();
+                bool isSuccess = db.Insert(Role.nameTable, cloneRole.toDataRow());
+                if (!isSuccess)
+                {
+                    return null;
+                }
+                
+                return cloneRole;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw ex;
+            }
+
+        }
+        public static async Task<bool> removeRoleAsync(string id)
+        {
+            try
+            {
+                Role role = await findRoleFieldAsync("role_id", id);
+                if (role == null)
+                {
+                    throw new Exception("Role is not found!");
+                }
+
+                return db.Delete(Role.nameTable, role.toDataRow());
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static async Task<bool> updateRoleAsync(Role newRole)
+        {
+            try
+            {
+                Role role = await findRoleFieldAsync("role_id", newRole.Id);
+
+                if (role == null)
+                {
+                    throw new Exception("Role is not found!");
+                }
+
+                return db.Update(Role.nameTable, role.toDataRow(), newRole.toDataRow());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

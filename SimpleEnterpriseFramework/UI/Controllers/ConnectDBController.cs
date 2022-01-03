@@ -59,7 +59,8 @@
                                 if (!db.OpenConnection()) { dbForm.IncorrectConnectDB.Text = "Could not connect to database"; break; }
                                 this.database = db;
                                 //var list = await db.GetAllTableNames();
-                                List<string> tablesName = new List<string>() { "user_entity", "task_entity"};
+                                //List<string> tablesName = new List<string>() { "user_entity", "task_entity"};
+                                List<string> tablesName = (List<string>) db.GetAllTableNames();
                                 dbForm.TableNameComboBox.ItemsSource = tablesName;
                                 if (tablesName.Count > 0) dbForm.TableNameComboBox.SelectedIndex = 0;
 

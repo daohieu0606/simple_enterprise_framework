@@ -50,25 +50,13 @@ namespace Core.Database
         }
 
         //TODO: Hieu Dao implement later
-        public void ExecuteNoSql(string command)
+        public Task<DataTable> ExecuteQueryAsync(string quey)
         {
             throw new NotImplementedException();
         }
 
         //TODO: Hieu Dao implement later
-        public void ExecuteSql(string commmand)
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Hieu Dao implement later
-        public async Task<DataTable> ExecuteQueryAsync(string quey)
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Hieu Dao implement later
-        public async Task<IList<string>> GetAllTableNames()
+        public IList<string> GetAllTableNames()
         {
             throw new NotImplementedException();
         }
@@ -103,13 +91,18 @@ namespace Core.Database
         }
 
         //TODO: Hieu Nguyen implement later
-        public async Task<DataTable> GetTable(string tableName)
+        public Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null)
         {
             return null;
         }
 
         //TODO: Hieu Nguyen implement later
-        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        public Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
+        {
+            return null;
+        }
+
+        public Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
         {
             return null;
         }

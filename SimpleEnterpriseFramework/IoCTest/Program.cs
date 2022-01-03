@@ -26,16 +26,23 @@ namespace IoCTest
 
             db.OpenConnection();
 
-            var list = await db.GetAllTableNames();
+            var list = db.GetAllTableNames();
             Console.WriteLine(list?.Count);
 
             //var result = await db.ExecuteQueryAsync("select * from account");
 
 
-            DataTable result = await db.GetTable("accounts");
+            var str0 = new String[2];
+            str0[0] = "user_id";
+            str0[1] = "email";
+            var str1 = new String[2];
+            str1[0] = "10";
+            str1[1] = "hkoi@gmail.com";
+
+            DataTable result = await db.GetTable("accounts", str0, str1);
             Console.WriteLine(result.Columns.Count);
 
-            DataRow oks = await db.GetOneRow("accounts", "user_id", "10");
+            DataRow oks = await db.GetOneRow("accounts", str0, str1);
 
             string rowStr = null;
             foreach (DataColumn col in result.Columns)
@@ -48,11 +55,6 @@ namespace IoCTest
                 );
             }
             Console.WriteLine("sdd: {0}", rowStr);
-
-
-
-
-            //Console.WriteLine(result.Columns[0].MaxLength);
 
 
             if (result?.Rows?.Count > 0)
@@ -74,17 +76,19 @@ namespace IoCTest
 
             }
 
-            //bool ke = db.Delete("accounts", result.Rows[0]);
-            //Console.WriteLine(ke);
+            bool ke = db.Delete("accounts", result.Rows[0]);
+            Console.WriteLine(ke);
 
 
 
-            //DataRow newRow = result.Rows[0];
-            //newRow["user_id"] = 10;
-            //newRow["username"] = "lji";
-            //newRow["email"] = "hkoi@gmail.com";
-            //bool okey = db.Insert("accounts", newRow);
-            //Console.WriteLine(okey);
+            DataRow newRow = result.Rows[0];
+            newRow["user_id"] = 10;
+            newRow["username"] = "lji";
+            newRow["email"] = "hkoi@gmail.com";
+            bool okey = db.Insert("accounts", newRow);
+            Console.WriteLine(okey);
+
+            //db.Update("accounts", result.Rows[0], newRow);
 
             db.CloseConnection();
         }

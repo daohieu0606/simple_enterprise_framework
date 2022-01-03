@@ -690,24 +690,13 @@
           "bin/placeholder/IoC.dll": {}
         }
       },
-      "Membership_v2/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "compile": {
-          "bin/placeholder/Membership_v2.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Membership_v2.dll": {}
-        }
-      },
       "UI/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Core": "1.0.0",
           "IoC": "1.0.0",
-          "MaterialDesignThemes": "4.4.0-ci32-ci32",
-          "Membership_v2": "1.0.0"
+          "MaterialDesignThemes": "4.4.0-ci32-ci32"
         },
         "compile": {
           "bin/placeholder/UI.dll": {}
@@ -2111,11 +2100,6 @@
       "type": "project",
       "path": "../IoC/IoC.csproj",
       "msbuildProject": "../IoC/IoC.csproj"
-    },
-    "Membership_v2/1.0.0": {
-      "type": "project",
-      "path": "../Membership/Membership_v2.csproj",
-      "msbuildProject": "../Membership/Membership_v2.csproj"
     },
     "UI/1.0.0": {
       "type": "project",

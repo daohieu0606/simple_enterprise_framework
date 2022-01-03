@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
-      "projectName": "Membership_v2",
-      "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership_v2.csproj",
+      "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj",
+      "projectName": "memberShip",
+      "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\obj\\",
+      "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

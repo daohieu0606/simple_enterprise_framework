@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {}
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj": {}
   },
   "projects": {
-    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj": {
+    "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
-        "projectName": "Membership",
-        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\Membership.csproj",
+        "projectUniqueName": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj",
+        "projectName": "memberShip",
+        "projectPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\memberShip.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Membership\\obj\\",
+        "outputPath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\memberShip\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -88,7 +88,10 @@
                 DataRowView rowView = (DataRowView)DatagridView.SelectedItems[0];
                 DataRow row = (DataRow)rowView.Row;
                 if (database != null)
+
                 {
+                    database.OpenConnection();
+
                     database.Delete(tableName, row);
                 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Query;
 using Npgsql;
@@ -33,9 +34,10 @@ namespace Core.Database
         {
             try
             {
-                using (var cmd = new NpgsqlCommand(query, _con))
+                using (_con)
                 {
-                    var result = await cmd.ExecuteNonQueryAsync();
+                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
+                    var result = await command.ExecuteNonQueryAsync();
 
                     return result;
                 }
@@ -46,18 +48,55 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> ExecuteQueryAsync(string query)
+        public async Task<DataTable> ExecuteQueryAsync(string commmand)
         {
-            using (var cmd = new NpgsqlCommand(query, _con))
+            OpenConnection();
+            using (var cmd = new NpgsqlCommand(commmand, _con))
             {
-                var reader = await cmd.ExecuteReaderAsync();
+                var reader = cmd.ExecuteReader();
 
                 DataTable dt = new DataTable();
 
                 dt.Load(reader);
                 reader.Close();
 
+                //DataTable result = new DataTable();
+                //var cmd = new NpgsqlCommand(query, _con);
+                //NpgsqlDataReader rdr = cmd.ExecuteReader();
+                //result.Load(rdr);
+                //rdr.Close();
+
+
                 return dt;
+            }
+        }
+
+        public IList<string> GetAllTableNames()
+        {
+            try
+            {
+                IList<string> result = new List<string>();
+                using (_con)
+                {
+                    string query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
+
+                    NpgsqlCommand command = new NpgsqlCommand(query, _con);
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            result.Add(reader.GetString(0));
+                        }
+
+                        reader.Close();
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 
@@ -112,40 +151,29 @@ namespace Core.Database
             }
         }
 
-        public async Task<IList<string>> GetAllTableNames()
+        public async Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null) //Có tên bảng 
         {
             try
             {
-                IList<string> result = new List<string>();
-                var query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';";
-
-                using (var command = new NpgsqlCommand(query, _con))
+                StringBuilder paramsString = new StringBuilder();
+                if (props != null)
                 {
-                    NpgsqlDataReader reader = await command.ExecuteReaderAsync();
-                    while (reader.Read())
+                    paramsString.Append(" where ");
+                    for (int i = 0; i < props.Length; ++i)
                     {
-                        result.Add(reader.GetString(0));
-                    }
-                    reader.Close();
-                }
-                return result;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+                        paramsString.Append(props[i])
+                            .Append(" = '")
+                            .Append(val[i])
+                            .Append("'");
 
-        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
-        {
-            try
-            {
-                var query = "select * from " + tableName;
-                //DataTable result = new DataTable();
-                //var cmd = new NpgsqlCommand(query, _con);
-                //NpgsqlDataReader rdr = cmd.ExecuteReader();
-                //result.Load(rdr);
-                //rdr.Close();
+                        if (i < props.Length - 1)
+                        {
+                            paramsString.Append(" AND ");
+                        }
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -158,20 +186,48 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        public async Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
         {
             try
             {
-                var query = string.Format("select * from {0} where {1} = {2}", tableName, props, val); ;
-                //DataTable result = new DataTable();
-                //var cmd = new NpgsqlCommand(query, _con);
-                //NpgsqlDataReader rdr = cmd.ExecuteReader();
-                //result.Load(rdr);
-                //rdr.Close();
+                StringBuilder paramsString = new StringBuilder();
+                paramsString.Append(" where ");
+                for (int i = 0; i < props.Length; ++i)
+                {
+                    paramsString.Append(props[i])
+                        .Append(" = '")
+                        .Append(val[i])
+                        .Append("'");
+
+                    if (i < props.Length - 1)
+                    {
+                        paramsString.Append(" AND ");
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
+                Console.WriteLine(query);
 
                 var result = await ExecuteQueryAsync(query);
 
                 return result?.Rows[0];
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = '{4}'", tableName1, tableName2, key1, key2, valueOfKey);
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
 
             }
             catch (Exception e)

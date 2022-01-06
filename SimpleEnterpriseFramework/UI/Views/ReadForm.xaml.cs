@@ -7,16 +7,17 @@
     using System.Windows.Media;
     using UI.Model;
 
-    public partial class ReadForm : Window
+    public partial class ReadForm : Window, RootForm
     {
-        private IDatabase database;
 
-        private DataTable data;
 
-        private StyleOption styleOption;
+        public IDatabase database { get; set; }
 
-        private string tableName;
+        public DataTable data { get; set; }
 
+        public StyleOption styleOption { get; set; }
+
+        public string tableName { get; set; }
         public ReadForm(IDatabase database, StyleOption option, DataTable source, string tableName)
         {
             InitializeComponent();
@@ -104,13 +105,8 @@
             }
         }
 
-        public StyleOption OptionStyle
-        {
-            get { return styleOption; }
-            set { styleOption = value; }
-        }
 
-        private void InitStyle()
+        public void InitStyle()
         {
             if (this.styleOption != null)
             {

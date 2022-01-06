@@ -8,6 +8,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using UI.ConcreteBuilder;
     using UI.Model;
     using UI.Views;
 
@@ -84,9 +85,11 @@
                         string currentTable = dbForm.TableNameComboBox.SelectedItem.ToString();
                         DataTable data = await database.GetTable(currentTable);
 
-                        ReadForm readForm = new ReadForm(database, styleOption, data,currentTable);
+                        //ReadForm readForm = new ReadForm(database, styleOption, data,currentTable);
+                        //readForm.ShowDialog();
+
+                        ReadForm readForm = (ReadForm) new ReadFormBuilder().setDatabase(database).setStyleOption(styleOption).setData(data).setTableName(currentTable).build();
                         readForm.ShowDialog();
-                        //dbForm.Hide();
                     }
 
 

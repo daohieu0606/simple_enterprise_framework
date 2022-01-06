@@ -1,14 +1,17 @@
-﻿namespace UI.ConcreteBuilder
-{
-    using Core.Database;
-    using System;
-    using System.Data;
-    using UI.Builder;
-    using UI.Model;
-    using UI.Views;
+﻿using Core.Database;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using UI.Builder;
+using UI.Model;
+using UI.Views;
 
-    public class ReadFormBuilder : FormBuilder
+namespace UI.ConcreteBuilder
+{
+    public class UpdateFormBuilder : FormBuilder
     {
+
         public IDatabase database { get; set; }
 
         public DataTable data { get; set; }
@@ -21,7 +24,7 @@
 
         public DataRow currentRow { get; set; }
 
-        public FormBuilder setDatabase(IDatabase database)
+        public  FormBuilder setDatabase(IDatabase database)
         {
             this.database = database;
             return this;
@@ -45,21 +48,22 @@
             return this;
         }
 
+        public FormBuilder setReadForm(ReadForm readForm)
+        {
+            this.readForm = readForm;
+            return this;
+        }
+
         public FormBuilder setCurrentRow(DataRow row)
         {
             this.currentRow = row;
             return this;
         }
 
-        public RootForm build()
+        public  RootForm build()
         {
-            return new ReadForm(database, styleOption, data, tableName);
+            return new UpdateForm(database, currentRow, tableName, data, readForm, styleOption);
         }
 
-        public FormBuilder setReadForm(ReadForm readForm)
-        {
-            this.readForm = readForm;
-            return this;
-        }
     }
 }

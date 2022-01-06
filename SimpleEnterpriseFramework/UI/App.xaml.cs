@@ -26,7 +26,7 @@ namespace UI
                 new Student() { StudentID = 4, StudentName = "Ram" , Age = 20, Country = "USA"  } ,
                 new Student() { StudentID = 5, StudentName = "Ron" , Age = 21, Country = "Germany"  }
             };
-            //baseForm.setDataSource<Student>(studentList);
+            baseForm.setDataSource<Student>(studentList);
             StyleOption option = new StyleOption();
             ColorArgs buttonColor = new ColorArgs(255, 0, 0, 144);
             option.CRUDWindowNames = new List<string> { "Danh sách sinh viên", "Tạo mới sinh viên", "Cập nhật sinh viên" };

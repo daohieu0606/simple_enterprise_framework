@@ -31,7 +31,7 @@ namespace UI.Controllers
 
             this.loginView = loginView;
             this.data = source;
-            loginView.NameLoginIn.Focus();
+            loginView.UsernameLogin.Focus();
         }
 
         public async void ButtonRoutedEventArgs(object sender, RoutedEventArgs e)
@@ -40,17 +40,16 @@ namespace UI.Controllers
             {
                 case "ButtonLogin":
                     {
-                        string username = this.getUserNameInput(false);
-                        string pwd = this.getPasswordInput(false);
+                        string username = this.GetUsernameInput(false);
+                        string pwd = this.GetPasswordInput(false);
                         if (!ValidationUser(username,pwd))
                         {
-                            loginView.IncorrectLoginIn.Text = "Chưa điền đủ thông tin!";
+                            loginView.ErrorLogin.Text = "Chưa điền đủ thông tin!";
                             return;
                         }
                         var x = await Membership.Authentication.validateAsync("username", "pasword");
                         if (await Membership.Authentication.validateAsync(username,pwd))
                         {
-                            //listUserModel.Clear();
                             loginView.Hide();
                             if (data != null)
                             {
@@ -66,25 +65,25 @@ namespace UI.Controllers
 
                             loginView.Close();
                         }
-                        else loginView.IncorrectLoginIn.Text = "Tài khoản người dùng không tồn tại";
+                        else loginView.ErrorLogin.Text = "Tài khoản người dùng không tồn tại";
                         break;
                     }
-                case "ButtonVolverLogin": GridLoginVisiblility(); break;
-                case "ButtonRegistro": GridRegiterVisiblility(); break;
-                case "ButtonSignUp": ButtonSignUp(); break;
+                case "ButtonToLoginView": ShowLoginView(); break;
+                case "ButtonToRegisterView": ShowRegisterView(); break;
+                case "ButtonRegister": ButtonRegister(); break;
                 default: loginView.Close(); break;
             }
         }
 
-        public void _KeyDownTextBox(object sender, KeyEventArgs e)
+        public void KeyDownTextBox(object sender, KeyEventArgs e)
         {
             switch (((TextBox)sender).Name)
             {
-                case "NameSingUp":
-                    if (e.Key == Key.Enter) loginView.PasswordSingUp.Focus();
+                case "UsernameRegister":
+                    if (e.Key == Key.Enter) loginView.PasswordRegister.Focus();
                     break;
-                case "NameLoginIn":
-                    if (e.Key == Key.Enter) loginView.PasswordLoginIn.Focus();
+                case "UsernameLogin":
+                    if (e.Key == Key.Enter) loginView.PasswordLogin.Focus();
                     break;
             }
         }
@@ -94,49 +93,48 @@ namespace UI.Controllers
             return username.Length > 0 && pwd.Length > 0;
         }
 
-        private void _MouseDown(object sender, MouseButtonEventArgs e) => loginView.DragMove();
 
-        public string getUserNameInput(bool v)
+        public string GetUsernameInput(bool isRegisterMode)
         {
-            if (v) return loginView.NameSingUp.Text.Trim().Replace(" ", "");
-            return loginView.NameLoginIn.Text.Trim().Replace(" ", "");
+            if (isRegisterMode) return loginView.UsernameRegister.Text.Trim().Replace(" ", "");
+            return loginView.UsernameLogin.Text.Trim().Replace(" ", "");
             
         }
 
-        public string getPasswordInput(bool v)
+        public string GetPasswordInput(bool isRegisterMode)
         {
-            if (v) return loginView.PasswordSingUp.Password.Trim().Replace(" ", "");
-            return loginView.PasswordLoginIn.Password.Trim().Replace(" ", "");
+            if (isRegisterMode) return loginView.PasswordRegister.Password.Trim().Replace(" ", "");
+            return loginView.PasswordLogin.Password.Trim().Replace(" ", "");
         }
  
 
-        public void GridRegiterVisiblility()
+        public void ShowRegisterView()
         {
             loginView.GridLogin.Visibility = Visibility.Collapsed;
             loginView.GridRegister.Visibility = Visibility.Visible;
-            loginView.NameSingUp.Focus();
+            loginView.UsernameRegister.Focus();
         }
 
-        public void GridLoginVisiblility()
+        public void ShowLoginView()
         {
             loginView.GridRegister.Visibility = Visibility.Collapsed;
             loginView.GridLogin.Visibility = Visibility.Visible;
             ClearFields();
         }
 
-        private async void ButtonSignUp()
+        private async void ButtonRegister()
         {
-            string username = this.getUserNameInput(true);
-            string pwd = this.getPasswordInput(true);
+            string username = this.GetUsernameInput(true);
+            string pwd = this.GetPasswordInput(true);
             if (!ValidationUser(username, pwd))
             {
-                loginView.IncorrectSingUp.Text = "Chưa nhập đủ thông tin!";
+                loginView.ErrorRegister.Text = "Chưa nhập đủ thông tin!";
                 return;
             }
             User user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
             if(user != null)
             {
-                loginView.IncorrectSingUp.Text = "Tài khoản đã tồn tại";
+                loginView.ErrorRegister.Text = "Tài khoản đã tồn tại";
                 return;
             }
 
@@ -144,18 +142,18 @@ namespace UI.Controllers
             {
                 User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
                 await Membership.HandleUser.AddNewUserAsync(newUser);
-                GridLoginVisiblility();
+                ShowLoginView();
             }
         }
 
         private void ClearFields()
         {
-            loginView.NameLoginIn.Clear();
-            loginView.NameSingUp.Clear();
-            loginView.PasswordLoginIn.Clear();
-            loginView.PasswordSingUp.Clear();
-            loginView.IncorrectSingUp.Text = "";
-            loginView.IncorrectLoginIn.Text = "";
+            loginView.UsernameLogin.Clear();
+            loginView.UsernameRegister.Clear();
+            loginView.PasswordLogin.Clear();
+            loginView.PasswordRegister.Clear();
+            loginView.ErrorRegister.Text = "";
+            loginView.ErrorLogin.Text = "";
         }
 
 

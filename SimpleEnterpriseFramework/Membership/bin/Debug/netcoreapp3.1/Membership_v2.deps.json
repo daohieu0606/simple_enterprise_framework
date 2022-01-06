@@ -10,7 +10,8 @@
         "dependencies": {
           "BCrypt.Net-Next": "4.0.2",
           "Core": "1.0.0",
-          "HelperLibrary": "1.0.0"
+          "HelperLibrary": "1.0.0",
+          "IoC": "1.0.0"
         },
         "runtime": {
           "Membership_v2.dll": {}
@@ -598,6 +599,11 @@
         "runtime": {
           "HelperLibrary.dll": {}
         }
+      },
+      "IoC/1.0.0": {
+        "runtime": {
+          "IoC.dll": {}
+        }
       }
     }
   },
@@ -914,6 +920,11 @@
       "sha512": ""
     },
     "HelperLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IoC/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

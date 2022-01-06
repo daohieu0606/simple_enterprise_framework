@@ -9,19 +9,17 @@
     using UI.Helpers;
     using UI.Model;
 
-    public partial class CreateForm : Window
+    public partial class CreateForm : Window, RootForm
     {
-        internal StyleOption styleOption;
+        public IDatabase database { get; set; }
+        public DataTable data { get; set; }
+        public StyleOption styleOption { get; set; }
+        public string tableName { get; set; }
 
-        private ReadForm readForm;
+        public ReadForm readForm { get; set; }
 
-        private DataTable data;
+        public List<Field> fields { get; set; }
 
-        private List<Field> fields;
-
-        private IDatabase database;
-
-        private string tableName;
 
         public CreateForm(IDatabase database, ReadForm readForm, StyleOption option, DataTable source, string tableName)
         {
@@ -79,13 +77,8 @@
             }
         }
 
-        public StyleOption OptionStyle
-        {
-            get { return styleOption; }
-            set { styleOption = value; }
-        }
 
-        private void InitStyle()
+        public void InitStyle()
         {
             if (this.styleOption != null)
             {
@@ -104,6 +97,7 @@
                 }
             }
         }
+
     }
 
     public class Field

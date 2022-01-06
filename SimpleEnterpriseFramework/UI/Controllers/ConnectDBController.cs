@@ -34,19 +34,20 @@
                 case "ButtonConnect":
                     string host = dbForm.HostNameInput.Text;
                     string username = dbForm.UserNameInput.Text;
-                    string pwd = dbForm.PwdInput.Text;
+                    string pwd = dbForm.PwdInput.Password;
                     string dbname = dbForm.DatabaseNameInput.Text;
                     ComboBoxItem selectedItem = (ComboBoxItem)dbForm.DbTypeComboBox.SelectedItem;
                     string dbType = selectedItem.Content.ToString();
                     if (!ValidateInput(host, pwd, dbname))
                     {
-                        // dbForm.IncorrectConnectDB.Text = "Chưa điền đủ thông tin!";
+                        dbForm.IncorrectConnectDB.Text = "Chưa điền đủ thông tin!";
                     }
                     else
                     {
 
                         switch (dbType)
                         {
+                            
                             case "MySQL":
                                 CurrentFrameworkState.Instance.ChangeDataBase(
                                     DatabaseType.MySql,
@@ -55,25 +56,35 @@
                                     username: username,
                                     password: pwd);
 
-                                var db = ServiceLocator.Instance.Get<IDatabase>();
+                                database = ServiceLocator.Instance.Get<IDatabase>();
 
-                                if (!db.OpenConnection()) { dbForm.IncorrectConnectDB.Text = "Could not connect to database"; break; }
-                                this.database = db;
-                                //var list = await db.GetAllTableNames();
-                                //List<string> tablesName = new List<string>() { "user_entity", "task_entity"};
-                                List<string> tablesName = (List<string>) db.GetAllTableNames();
-                                dbForm.TableNameComboBox.ItemsSource = tablesName;
-                                if (tablesName.Count > 0) dbForm.TableNameComboBox.SelectedIndex = 0;
-
-                                //DataTable result = await db.GetTable("accounts");
+                                if (!database.OpenConnection()) { dbForm.IncorrectConnectDB.Text = "Could not connect to database"; return; }
+                                
                                 break;
                             case "Postgres":
+                                CurrentFrameworkState.Instance.ChangeDataBase(
+                                    DatabaseType.Postgres,
+                                    host: host,
+                                    dbName: dbname,
+                                    username: username,
+                                    password: pwd);
+
+                                database = ServiceLocator.Instance.Get<IDatabase>();
+
+                                if (!database.OpenConnection()) { dbForm.IncorrectConnectDB.Text = "Could not connect to database"; return; }
                                 break;
                             default:
                                 break;
 
                         }
-                        ClearFields();
+                        if (database != null)
+                        {
+                            List<string> tablesName = (List<string>)database.GetAllTableNames();
+                            dbForm.TableNameComboBox.ItemsSource = tablesName;
+                            if (tablesName.Count > 0) dbForm.TableNameComboBox.SelectedIndex = 0;
+                            ClearFields();
+                        }
+                        
 
 
 

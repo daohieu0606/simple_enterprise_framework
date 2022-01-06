@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
         Title="DBForm" Height="450" Width="700"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        >
     <Grid x:Name="GridBase" Height="450" Width="700" Visibility="Visible">
         <ComboBox HorizontalAlignment="Left" Margin="126,100,0,0" VerticalAlignment="Top" Width="174" Name="DbTypeComboBox" FontSize="16">
             <ComboBoxItem Content="MySQL"></ComboBoxItem>
@@ -14,7 +16,7 @@
         </ComboBox>
         <TextBox Name="HostNameInput" HorizontalAlignment="Left" Margin="126,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal" />
         <TextBox Name="UserNameInput" HorizontalAlignment="Left" Margin="126,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
-        <TextBox Name="PwdInput" HorizontalAlignment="Left" Margin="126,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+        <PasswordBox Name="PwdInput" HorizontalAlignment="Left" Margin="126,220,0,0" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,70" />
         <Label FontFamily="UTM Impact" Content="Connect Database" HorizontalAlignment="Center" Margin="0,13,0,0" VerticalAlignment="Top" FontSize="48" FontStyle="Normal" FontWeight="Bold" Background="{x:Null}"/>
@@ -27,11 +29,8 @@
         <ComboBox Name="TableNameComboBox" HorizontalAlignment="Left" Margin="439,100,0,0" VerticalAlignment="Top" Width="174"  FontSize="16"/>
         <Button Content="Connect" Name="ButtonConnect" HorizontalAlignment="Left" Margin="148,338,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
         <Button Content="Generate forms" Name="ButtonGenerate" HorizontalAlignment="Left" Margin="447,154,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
-        <TextBlock x:Name="IncorrectConnectDB"
-                               FontSize="14"
-                               Foreground="Red"
-                               HorizontalAlignment="Left" Margin="116,255,0,-255"/>
         <TextBox x:Name="DatabaseNameInput" HorizontalAlignment="Left" Margin="126,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+        <TextBlock Name="IncorrectConnectDB" HorizontalAlignment="Left" Margin="113,317,0,0" Foreground="Red"  TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

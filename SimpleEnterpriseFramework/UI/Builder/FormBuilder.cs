@@ -10,20 +10,29 @@ namespace UI.Builder
 {
     public interface FormBuilder
     {
-        public FormBuilder setDatabase(IDatabase database);
-        public FormBuilder setStyleOption(StyleOption option);
+        public IDatabase database { get; set; }
 
-        public FormBuilder setData(DataTable data);
+        public DataTable data { get; set; }
 
-        public FormBuilder setTableName(string tableName);
+        public StyleOption styleOption { get; set; }
 
-        //public FormBuilder setCurrentRow(DataRow row);
+        public string tableName { get; set; }
 
-        //public FormBuilder setReadForm(ReadForm readForm);
+        public ReadForm readForm { get; set; }
 
-        //public FormBuilder setFields(List<Field> fields);
+        public DataRow currentRow { get; set; }
+        public  FormBuilder setDatabase(IDatabase database);
+        public  FormBuilder setStyleOption(StyleOption option);
 
-        public RootForm build();
+        public  FormBuilder setData(DataTable data);
+
+        public  FormBuilder setTableName(string tableName);
+
+        public  FormBuilder setCurrentRow(DataRow row);
+
+        public  FormBuilder setReadForm(ReadForm readForm);
+
+        public abstract RootForm build();
 
     }
 }

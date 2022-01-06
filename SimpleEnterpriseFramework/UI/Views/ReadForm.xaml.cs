@@ -5,6 +5,7 @@
     using System.Data;
     using System.Windows;
     using System.Windows.Media;
+    using UI.ConcreteBuilder;
     using UI.Model;
 
     public partial class ReadForm : Window, RootForm
@@ -48,7 +49,8 @@
             if (database != null)
             {
                 database.OpenConnection();
-                CreateForm createForm = new CreateForm(database, this, styleOption, data, tableName);
+                //CreateForm createForm = new CreateForm(database, this, styleOption, data, tableName);
+                CreateForm createForm = (CreateForm)new CreateFormBuilder().setDatabase(database).setStyleOption(styleOption).setData(data).setTableName(tableName).setReadForm(this).build();
                 createForm.ShowDialog();
             }
             else
@@ -71,7 +73,8 @@
             if (database != null)
             {
                 database.OpenConnection();
-                updateForm = new UpdateForm(database, row, tableName, data, this, styleOption);
+                //updateForm = new UpdateForm(database, row, tableName, data, this, styleOption);
+                updateForm = (UpdateForm)new UpdateFormBuilder().setDatabase(database).setTableName(tableName).setData(data).setReadForm(this).setCurrentRow(row).setStyleOption(styleOption).build();
             }
             else updateForm = new UpdateForm(data, this, row, styleOption);
             updateForm.Show();

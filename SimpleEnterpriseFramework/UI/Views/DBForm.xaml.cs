@@ -9,7 +9,7 @@
 
     public partial class DBForm : Window
     {
-        private ConnectDBController _Controller;
+        private ConnectDBController controller;
 
         private StyleOption styleOption;
 
@@ -24,12 +24,12 @@
 
         public void HandleEvents()
         {
-            _Controller = new ConnectDBController(this, styleOption);
-            HostNameInput.KeyDown += new KeyEventHandler(_Controller.KeyDownTextBox);
-            UserNameInput.KeyDown += new KeyEventHandler(_Controller.KeyDownTextBox);
-            PwdInput.KeyDown += new KeyEventHandler(_Controller.KeyDownTextBox);
-            ButtonConnect.Click += new RoutedEventHandler(_Controller.ButtonRoutedEventArgs);
-            ButtonGenerate.Click += new RoutedEventHandler(_Controller.ButtonRoutedEventArgs);
+            controller = new ConnectDBController(this, styleOption);
+            HostNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            UserNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            PwdInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            ButtonConnect.Click += new RoutedEventHandler(controller.ButtonRoutedEventArgs);
+            ButtonGenerate.Click += new RoutedEventHandler(controller.ButtonRoutedEventArgs);
            // DbTypeComboBox.SelectionChanged += new SelectionChangedEventHandler(_Controller.OnChangeComboBox);
             //TableNameComboBox.SelectionChanged += new SelectionChangedEventHandler(_Controller.OnChangeComboBox);
         }

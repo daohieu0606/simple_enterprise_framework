@@ -10,21 +10,21 @@
     using UI.Model;
     using Core.Database;
 
-    public partial class UpdateForm : Window
+    public partial class UpdateForm : Window, RootForm
     {
-        private IDatabase database;
 
-        private DataRow currentRow;
+        public IDatabase database { get; set; }
+        public DataTable data { get; set; }
+        public StyleOption styleOption { get; set; }
+        public string tableName { get; set; }
+        private DataRow currentRow { get; set; }
 
-        private DataTable data;
 
-        private ReadForm readForm;
 
-        private List<Field> fields;
+        private ReadForm readForm { get; set; }
 
-        private StyleOption styleOption;
+        private List<Field> fields { get; set; }
 
-        private string tableName;
 
         public UpdateForm(IDatabase database, DataRow row, string tableName, DataTable source, ReadForm readForm, StyleOption option)
         {
@@ -110,6 +110,8 @@
             set { styleOption = value; }
         }
 
+
+
         private void InitStyle()
         {
             if (this.styleOption != null)
@@ -127,6 +129,11 @@
                     if (database == null && styleOption.CRUDWindowNames.Count >= 3) LabelUpdate.Content = styleOption.CRUDWindowNames[2];
                 }
             }
+        }
+
+        void RootForm.InitStyle()
+        {
+            throw new NotImplementedException();
         }
     }
 }

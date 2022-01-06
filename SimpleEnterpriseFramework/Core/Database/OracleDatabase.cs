@@ -124,5 +124,10 @@ namespace Core.Database
         {
             return false;
         }
+
+        public Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

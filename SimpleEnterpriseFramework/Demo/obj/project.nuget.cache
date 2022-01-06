@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "AJWXN/pErDZMU5IeUxJ9MoffMyDArPpTQJQaTPiTQCNhOD478ayw1T0pax3s769oMxit3c7ULu7oaFFG4rt4kA==",
+  "dgSpecHash": "QPmJ1iBKlY2lOGt+nuk5yYj7AEBiWLfZOV9VcVq8k8C20Ogb3FGmfYKogUfh/mPzD/f6h2uYmVeGidQNBfN4Yw==",
   "success": true,
   "projectFilePath": "D:\\Desigin pattern\\FinalSEP\\simple_enterprise_framework\\SimpleEnterpriseFramework\\Demo\\Demo.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",

@@ -17,12 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\IoC\IoC.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Membership">
-      <HintPath>..\..\..\..\simple_enterprise_framework\SimpleEnterpriseFramework\Membership\obj\Debug\netcoreapp3.1\Membership.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Membership\Membership_v2.csproj" />
   </ItemGroup>
 
 

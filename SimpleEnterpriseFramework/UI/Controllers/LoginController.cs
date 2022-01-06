@@ -1,31 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Membership;
-using UI.Views;
-using UI.Model;
 using System.Data;
+using Core.Database;
+using Core.Utils;
+using IoC.DI;
+using UI.Views;
 
 namespace UI.Controllers
 {
     class LoginController
     {
-        private Membership.Authenticaiton authentication;
         private Login loginView;
         private DataTable data;
 
         public LoginController(Login loginView, DataTable source)
         {
+            //connect user database
+            CurrentFrameworkState.Instance.ChangeDataBase(
+                DatabaseType.MySql,
+                host: "localhost",
+                dbName: "usermanage",
+                username: "root",
+                password: "123456");
+
+            var db = ServiceLocator.Instance.Get<IDatabase>();
+            db.OpenConnection();
+
             this.loginView = loginView;
             this.data = source;
-            authentication = new Membership.Authenticaiton();
             loginView.NameLoginIn.Focus();
         }
 
-        public void ButtonRoutedEventArgs(object sender, RoutedEventArgs e)
+        public async void ButtonRoutedEventArgs(object sender, RoutedEventArgs e)
         {
             switch (((Button)sender).Name)
             {
@@ -38,7 +47,8 @@ namespace UI.Controllers
                             loginView.IncorrectLoginIn.Text = "Chưa điền đủ thông tin!";
                             return;
                         }
-                        if (authentication.validate(username,pwd))
+                        var x = await Membership.Authentication.validateAsync("username", "pasword");
+                        if (await Membership.Authentication.validateAsync(username,pwd))
                         {
                             //listUserModel.Clear();
                             loginView.Hide();
@@ -114,7 +124,7 @@ namespace UI.Controllers
             ClearFields();
         }
 
-        private void ButtonSignUp()
+        private async void ButtonSignUp()
         {
             string username = this.getUserNameInput(true);
             string pwd = this.getPasswordInput(true);
@@ -123,14 +133,17 @@ namespace UI.Controllers
                 loginView.IncorrectSingUp.Text = "Chưa nhập đủ thông tin!";
                 return;
             }
-            if (authentication.validateExistenceUser(username,pwd))
+            User user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
+            if(user != null)
             {
                 loginView.IncorrectSingUp.Text = "Tài khoản đã tồn tại";
                 return;
             }
+
             else
             {
-                authentication.createUser(username, pwd);
+                User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
+                await Membership.HandleUser.AddNewUserAsync(newUser);
                 GridLoginVisiblility();
             }
         }

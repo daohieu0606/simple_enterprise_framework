@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace IoC.DI
@@ -35,7 +34,7 @@ namespace IoC.DI
 
         public void Remove<T>() where T : class
         {
-            if(_container.ContainsKey(typeof(T)))
+            if (_container.ContainsKey(typeof(T)))
                 _container.Remove(typeof(T));
         }
     }

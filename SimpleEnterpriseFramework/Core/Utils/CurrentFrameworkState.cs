@@ -1,10 +1,11 @@
-﻿using System;
-using Core.Database;
+﻿using Core.Database;
 using IoC.DI;
+using System;
 
 namespace Core.Utils
 {
-    public enum DatabaseType{
+    public enum DatabaseType
+    {
         None,
         MySql,
         Postgres,
@@ -49,13 +50,13 @@ namespace Core.Utils
                 {
                     ServiceLocator.Instance.Get<IDatabase>().CloseConnection();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     //do nothing
                 }
             }
 
-            switch(databaseType)
+            switch (databaseType)
             {
                 case DatabaseType.MySql:
                     ServiceLocator.Instance.Register<IDatabase, MySqlDatabase>(host, dbName, username, password);

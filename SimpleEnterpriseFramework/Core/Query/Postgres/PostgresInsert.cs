@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using System;
 using System.Data;
 using System.Text;
 
@@ -23,7 +22,6 @@ namespace Core.Query
             string paramsString = this.CreateParamsInsertString(cols);
 
             command.CommandText = "INSERT INTO " + tableName + " VALUES " + paramsString;
-            Console.WriteLine(cols.Count);
             for (int i = 0; i < cols.Count; i++)
             {
                 command.Parameters.AddWithValue("@param" + i, row[cols[i].ColumnName]);

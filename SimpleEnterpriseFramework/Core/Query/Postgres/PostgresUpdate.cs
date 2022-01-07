@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Npgsql;
 using System.Data;
 using System.Text;
-using Npgsql;
 
 namespace Core.Query
 {

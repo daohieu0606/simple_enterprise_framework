@@ -1,11 +1,10 @@
 ﻿using Npgsql;
-using System;
 using System.Data;
 using System.Text;
 
 namespace Core.Query
 {
-    class PostgresDelete: IPostgresQuery
+    class PostgresDelete : IPostgresQuery
     {
         private readonly string tableName;
         private readonly DataRow row;
@@ -24,7 +23,7 @@ namespace Core.Query
             for (int i = 0; i < cols.Count; i++)
             {
                 //command.Parameters.AddWithValue("param"+i, row[cols[i].ColumnName]);
-                command.Parameters.Add(new NpgsqlParameter("@param"+i, row[cols[i].ColumnName]));
+                command.Parameters.Add(new NpgsqlParameter("@param" + i, row[cols[i].ColumnName]));
             }
             return command;
         }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Core.Query;
+using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Query;
-using Npgsql;
 
 namespace Core.Database
 {
@@ -59,13 +59,6 @@ namespace Core.Database
 
                 dt.Load(reader);
                 reader.Close();
-
-                //DataTable result = new DataTable();
-                //var cmd = new NpgsqlCommand(query, _con);
-                //NpgsqlDataReader rdr = cmd.ExecuteReader();
-                //result.Load(rdr);
-                //rdr.Close();
-
 
                 return dt;
             }
@@ -206,7 +199,6 @@ namespace Core.Database
                 }
 
                 var query = "select * from " + tableName + paramsString.ToString();
-                Console.WriteLine(query);
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -258,7 +250,6 @@ namespace Core.Database
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 return true;
             }
             catch
@@ -270,12 +261,10 @@ namespace Core.Database
         public bool Update(string tableName, DataRow row, DataRow newRow)
         {
             NpgsqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreatePostgres(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 return true;
             }
             catch

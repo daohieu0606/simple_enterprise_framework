@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.Query
 {
-    class MySqlDelete: IMySqlQuery
+    class MySqlDelete : IMySqlQuery
     {
         private readonly string tableName;
         private readonly DataRow row;

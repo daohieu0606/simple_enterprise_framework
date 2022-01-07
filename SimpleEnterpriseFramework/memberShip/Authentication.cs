@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MemberShip
+﻿namespace MemberShip
 {
     class Authentication
     {
-       
+
         public string Hash(string value)
         {
             string hashValue = "";

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +18,7 @@ namespace IoC
         {
             get
             {
-                if(_instance == null)
+                if (_instance == null)
                 {
                     _instance = new Container();
                 }
@@ -54,7 +52,7 @@ namespace IoC
                 XmlDocument doc = new XmlDocument();
                 doc.Load(stream);
 
-                if(doc.DocumentElement?.Name != _rootName)
+                if (doc.DocumentElement?.Name != _rootName)
                     return;
 
                 if (doc.DocumentElement?.ChildNodes?.Count > 0)
@@ -72,7 +70,7 @@ namespace IoC
 
             foreach (var nodeKey in _nodes)
             {
-                if(!string.IsNullOrEmpty(nodeKey.Key) && !_objects.ContainsKey(nodeKey.Key))
+                if (!string.IsNullOrEmpty(nodeKey.Key) && !_objects.ContainsKey(nodeKey.Key))
                 {
                     var obj = GetObjectFromNode(nodeKey);
                     RegisterObject(nodeKey.Key, obj);
@@ -82,7 +80,7 @@ namespace IoC
 
         private string RegisterObject(string key, object obj)
         {
-            if(!string.IsNullOrWhiteSpace(key) && !_objects.ContainsKey(key) && obj != null)
+            if (!string.IsNullOrWhiteSpace(key) && !_objects.ContainsKey(key) && obj != null)
             {
                 _objects.Add(key, obj);
                 return key;
@@ -206,7 +204,7 @@ namespace IoC
             do
             {
                 key = RandomKey();
-                if(times == 1000)
+                if (times == 1000)
                 {
                     return string.Empty;
                 }

@@ -3,12 +3,12 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Database
 {
-    public class MySqlDatabase: IDatabase
+    public class MySqlDatabase : IDatabase
     {
         private MySqlConnection _con;
 
@@ -33,7 +33,9 @@ namespace Core.Database
         public bool CloseConnection()
         {
             if (_con == null || _con.State == ConnectionState.Closed)
+            {
                 return true;
+            }
 
             try
             {
@@ -43,7 +45,6 @@ namespace Core.Database
             }
             catch (MySqlException ex)
             {
-                //MessageBox.Show(ex.Message);
                 return false;
             }
         }
@@ -72,7 +73,7 @@ namespace Core.Database
             MySqlCommand cmd = new MySqlCommand(commmand, _con);
             DataTable dt = new DataTable();
 
-            var reader = await cmd.ExecuteReaderAsync();
+            var reader = cmd.ExecuteReader();
 
             dt.Load(reader);
 
@@ -114,15 +115,13 @@ namespace Core.Database
         {
             return _con != null && _con.State == System.Data.ConnectionState.Open;
         }
-
-        //TODO: look this function
         public bool OpenConnection()
         {
-            if(_con != null && _con.State == System.Data.ConnectionState.Open)
+            if (_con != null && _con.State == System.Data.ConnectionState.Open)
             {
                 return true;
             }
-            
+
             //init
             string connectionString;
             connectionString = "SERVER=" + _host + ";" + "DATABASE=" +
@@ -160,11 +159,29 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> GetTable(string tableName) //Có tên bảng 
+        public async Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null) //Có tên bảng 
         {
             try
             {
-                var query = "select * from " + tableName;
+                StringBuilder paramsString = new StringBuilder();
+                if (props != null)
+                {
+                    paramsString.Append(" where ");
+                    for (int i = 0; i < props.Length; ++i)
+                    {
+                        paramsString.Append(props[i])
+                            .Append(" = '")
+                            .Append(val[i])
+                            .Append("'");
+
+                        if (i < props.Length - 1)
+                        {
+                            paramsString.Append(" AND ");
+                        }
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -177,11 +194,26 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        public async Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
         {
             try
             {
-                var query = string.Format("select * from {0} where {1} = '{2}'", tableName, props, val); ;
+                StringBuilder paramsString = new StringBuilder();
+                paramsString.Append(" where ");
+                for (int i = 0; i < props.Length; ++i)
+                {
+                    paramsString.Append(props[i])
+                        .Append(" = '")
+                        .Append(val[i])
+                        .Append("'");
+
+                    if (i < props.Length - 1)
+                    {
+                        paramsString.Append(" AND ");
+                    }
+                }
+
+                var query = "select * from " + tableName + paramsString.ToString();
 
                 var result = await ExecuteQueryAsync(query);
 
@@ -214,7 +246,6 @@ namespace Core.Database
         public bool Insert(string tableName, DataRow row, DataRow newRow = null)
         {
             MySqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreateMySql(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {
@@ -230,12 +261,10 @@ namespace Core.Database
         public bool Delete(string tableName, DataRow row, DataRow newRow = null)
         {
             MySqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreateMySql(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 return true;
             }
             catch
@@ -247,12 +276,10 @@ namespace Core.Database
         public bool Update(string tableName, DataRow row, DataRow newRow)
         {
             MySqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreateMySql(tableName, row, newRow).GetQuery();
-            Console.WriteLine(cmd.CommandText);
             cmd.Connection = _con;
             try
             {
                 int check = cmd.ExecuteNonQuery();
-                Console.WriteLine(check);
                 CloseConnection();
                 return true;
             }
@@ -260,16 +287,6 @@ namespace Core.Database
             {
                 return false;
             }
-        }
-
-        Task<DataTable> IDatabase.GetTable(string tableName, string[] props = null, string[] val = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<DataRow> IDatabase.GetOneRow(string tableName, string[] props, string[] val)
-        {
-            throw new NotImplementedException();
         }
     }
 }

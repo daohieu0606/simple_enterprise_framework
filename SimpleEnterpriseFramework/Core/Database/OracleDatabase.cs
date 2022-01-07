@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using Oracle.ManagedDataAccess.Client;
 
 namespace Core.Database
 {
-    public class OracleDatabase: IDatabase
+    public class OracleDatabase : IDatabase
     {
         private OracleConnection _con;
 
@@ -37,7 +37,7 @@ namespace Core.Database
 
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -75,7 +75,7 @@ namespace Core.Database
                 _con = new OracleConnection();
                 _con.ConnectionString = string.Format(
                     "User Id=<username>;Password=<password>;Data Source=<datasource>"
-                    ,_username,
+                    , _username,
                     _password,
                     _dbName);
 
@@ -84,7 +84,7 @@ namespace Core.Database
                 Console.WriteLine("Connected to Oracle" + _con.ServerVersion);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }

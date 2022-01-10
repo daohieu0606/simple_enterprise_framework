@@ -7,17 +7,8 @@
     using System.Linq;
     using UI.Views;
 
-    /// <summary>
-    /// Defines the <see cref="DataHelper" />.
-    /// </summary>
     public static class DataHelper
     {
-        /// <summary>
-        /// The ToDataTable.
-        /// </summary>
-        /// <typeparam name="T">.</typeparam>
-        /// <param name="data">The data<see cref="IList{T}"/>.</param>
-        /// <returns>The <see cref="DataTable"/>.</returns>
         public static DataTable ToDataTable<T>(IList<T> data)
         {
             PropertyDescriptorCollection properties =
@@ -35,12 +26,6 @@
             return table;
         }
 
-        /// <summary>
-        /// The GetALLFields.
-        /// </summary>
-        /// <param name="data">The data<see cref="DataTable"/>.</param>
-        /// <param name="row">The row<see cref="DataRowView"/>.</param>
-        /// <returns>The <see cref="List{Field}"/>.</returns>
         public static List<Field> GetALLFields(DataTable data, DataRow row)
         {
             string[] columnNames = data.Columns.Cast<DataColumn>()
@@ -56,7 +41,7 @@
                 field.DataType = data.Columns[i].DataType.ToString();
                 if (row == null)
                     field.Value = "";
-                else field.Value = row[field.Title].ToString(); 
+                else field.Value = row[field.Title].ToString();
                 items.Add(field);
             }
             return items;

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="UpdateForm" Height="650" Width="650"
          ResizeMode="CanMinimize">
-    <Grid Margin="10">
+    <Grid Margin="10" x:Name="UpdateFormGrid">
         <Label Name="LabelUpdate" Content="Update" HorizontalAlignment="Center"  VerticalAlignment="Top" FontFamily="UTM Impact" FontSize="48" FontWeight="Bold"/>
 
         <ListBox Name="UpdateList" HorizontalContentAlignment="Stretch" Margin="0,62,0,140">

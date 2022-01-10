@@ -7,13 +7,13 @@
     using UI.Controllers;
     using UI.Model;
 
-    public partial class DBForm : Window
+    public partial class ConnectDatabaseWindow : Window
     {
-        private ConnectDBController controller;
+        private HandleDataController controller;
 
         private StyleOption styleOption;
 
-        public DBForm(StyleOption option)
+        public ConnectDatabaseWindow(StyleOption option)
         {
 
             InitializeComponent();
@@ -24,14 +24,11 @@
 
         public void HandleEvents()
         {
-            controller = new ConnectDBController(this, styleOption);
-            HostNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
-            UserNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
-            PwdInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            controller = new HandleDataController(this, styleOption);
             ButtonConnect.Click += new RoutedEventHandler(controller.ButtonRoutedEventArgs);
             ButtonGenerate.Click += new RoutedEventHandler(controller.ButtonRoutedEventArgs);
-           // DbTypeComboBox.SelectionChanged += new SelectionChangedEventHandler(_Controller.OnChangeComboBox);
-            //TableNameComboBox.SelectionChanged += new SelectionChangedEventHandler(_Controller.OnChangeComboBox);
+            HostNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            UserNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
         }
 
         private void InitStyle()

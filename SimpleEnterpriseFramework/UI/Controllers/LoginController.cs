@@ -8,15 +8,16 @@ using Core.Database;
 using Core.Utils;
 using IoC.DI;
 using UI.Views;
+using UI.ConcreteBuilder;
 
 namespace UI.Controllers
 {
     class LoginController
     {
-        private Login loginView;
+        private LoginWindow loginView;
         private DataTable data;
 
-        public LoginController(Login loginView, DataTable source)
+        public LoginController(LoginWindow loginView, DataTable source)
         {
             //connect user database
             CurrentFrameworkState.Instance.ChangeDataBase(
@@ -28,7 +29,6 @@ namespace UI.Controllers
 
             var db = ServiceLocator.Instance.Get<IDatabase>();
             db.OpenConnection();
-
             this.loginView = loginView;
             this.data = source;
             loginView.UsernameLogin.Focus();
@@ -42,7 +42,7 @@ namespace UI.Controllers
                     {
                         string username = this.GetUsernameInput(false);
                         string pwd = this.GetPasswordInput(false);
-                        if (!ValidationUser(username,pwd))
+                        if (!ValidateUser(username,pwd))
                         {
                             loginView.ErrorLogin.Text = "Chưa điền đủ thông tin!";
                             return;
@@ -53,13 +53,13 @@ namespace UI.Controllers
                             loginView.Hide();
                             if (data != null)
                             {
-                                ReadForm readForm = new ReadForm(data, loginView.OptionStyle);
+                                ReadForm readForm = (ReadForm) new ReadFormBuilder().setData(data).setStyleOption(loginView.StyleOption).build();// ReadForm(data, loginView.OptionStyle);
                                 readForm.ShowDialog();
                             }
                             else
                             {
-                                DBForm dbForm = new DBForm(loginView.OptionStyle);
-                                dbForm.ShowDialog();
+                                ConnectDatabaseWindow dbWindow = new ConnectDatabaseWindow(loginView.StyleOption);
+                                dbWindow.ShowDialog();
                             }
 
 
@@ -70,7 +70,30 @@ namespace UI.Controllers
                     }
                 case "ButtonToLoginView": ShowLoginView(); break;
                 case "ButtonToRegisterView": ShowRegisterView(); break;
-                case "ButtonRegister": ButtonRegister(); break;
+                case "ButtonRegister":
+                    {
+                        string username = this.GetUsernameInput(true);
+                        string pwd = this.GetPasswordInput(true);
+                        if (!ValidateUser(username, pwd))
+                        {
+                            loginView.ErrorRegister.Text = "Chưa nhập đủ thông tin!";
+                            return;
+                        }
+                        User user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
+                        if (user != null)
+                        {
+                            loginView.ErrorRegister.Text = "Tài khoản đã tồn tại";
+                            return;
+                        }
+
+                        else
+                        {
+                            User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
+                            await Membership.HandleUser.AddNewUserAsync(newUser);
+                            ShowLoginView();
+                        }
+                        break;
+                    }
                 default: loginView.Close(); break;
             }
         }
@@ -88,7 +111,7 @@ namespace UI.Controllers
             }
         }
 
-        private bool ValidationUser(string username, string pwd)
+        private bool ValidateUser(string username, string pwd)
         {
             return username.Length > 0 && pwd.Length > 0;
         }
@@ -122,29 +145,7 @@ namespace UI.Controllers
             ClearFields();
         }
 
-        private async void ButtonRegister()
-        {
-            string username = this.GetUsernameInput(true);
-            string pwd = this.GetPasswordInput(true);
-            if (!ValidationUser(username, pwd))
-            {
-                loginView.ErrorRegister.Text = "Chưa nhập đủ thông tin!";
-                return;
-            }
-            User user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
-            if(user != null)
-            {
-                loginView.ErrorRegister.Text = "Tài khoản đã tồn tại";
-                return;
-            }
 
-            else
-            {
-                User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
-                await Membership.HandleUser.AddNewUserAsync(newUser);
-                ShowLoginView();
-            }
-        }
 
         private void ClearFields()
         {

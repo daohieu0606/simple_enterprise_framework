@@ -1,5 +1,6 @@
 ﻿namespace UI.Views
 {
+    using Core.Database;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -8,23 +9,22 @@
     using System.Windows.Media;
     using UI.Helpers;
     using UI.Model;
-    using Core.Database;
 
-    public partial class UpdateForm : Window, RootForm
+    public partial class UpdateForm : Window, BaseForm
     {
-
         public IDatabase database { get; set; }
+
         public DataTable data { get; set; }
+
         public StyleOption styleOption { get; set; }
+
         public string tableName { get; set; }
+
         private DataRow currentRow { get; set; }
-
-
 
         private ReadForm readForm { get; set; }
 
         private List<Field> fields { get; set; }
-
 
         public UpdateForm(IDatabase database, DataRow row, string tableName, DataTable source, ReadForm readForm, StyleOption option)
         {
@@ -33,29 +33,6 @@
             this.currentRow = row;
             this.tableName = tableName;
             this.data = source;
-            this.readForm = readForm;
-            this.styleOption = option;
-            List<Field> fields = DataHelper.GetALLFields(source, row);
-            this.fields = fields;
-
-            UpdateList.ItemsSource = fields;
-            InitStyle();
-            //List<Field> fields = connection.GetAllFields();
-            //foreach (Field field in fields)
-            //{
-            //    field.Value = row[field.Title].ToString();
-            //    if (field.IsPrimaryKey) field.Title += " (Primary Key)";
-
-            //}
-
-            //UpdateList.ItemsSource = fields;
-        }
-
-        public UpdateForm(DataTable source, ReadForm readForm, DataRow row, StyleOption option)
-        {
-            InitializeComponent();
-            this.data = source;
-            this.currentRow = row;
             this.readForm = readForm;
             this.styleOption = option;
             List<Field> fields = DataHelper.GetALLFields(source, row);
@@ -104,15 +81,8 @@
             }
         }
 
-        public StyleOption OptionStyle
-        {
-            get { return styleOption; }
-            set { styleOption = value; }
-        }
 
-
-
-        private void InitStyle()
+        public void InitStyle()
         {
             if (this.styleOption != null)
             {
@@ -124,16 +94,26 @@
                     byte b = styleOption.ButtonColor.b;
                     ButtonUpdate.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                 }
+
+                if (styleOption.BackgroundColor != null)
+                {
+                    byte a = styleOption.BackgroundColor.a;
+                    byte r = styleOption.BackgroundColor.r;
+                    byte g = styleOption.BackgroundColor.g;
+                    byte b = styleOption.BackgroundColor.b;
+                    UpdateFormGrid.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+
+                }
+                if (styleOption.FontFamily != null)
+                {
+                    LabelUpdate.FontFamily = new FontFamily(styleOption.FontFamily);
+                    UpdateList.FontFamily = new FontFamily(styleOption.FontFamily);
+                }
                 if (styleOption.CRUDWindowNames != null)
                 {
                     if (database == null && styleOption.CRUDWindowNames.Count >= 3) LabelUpdate.Content = styleOption.CRUDWindowNames[2];
                 }
             }
-        }
-
-        void RootForm.InitStyle()
-        {
-            throw new NotImplementedException();
         }
     }
 }

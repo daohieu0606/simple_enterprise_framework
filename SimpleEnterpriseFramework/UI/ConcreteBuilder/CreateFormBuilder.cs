@@ -59,7 +59,7 @@ namespace UI.ConcreteBuilder
             return this;
         }
 
-        public RootForm build()
+        public BaseForm build()
         {
             return new CreateForm(database,readForm, styleOption, data, tableName);
         }

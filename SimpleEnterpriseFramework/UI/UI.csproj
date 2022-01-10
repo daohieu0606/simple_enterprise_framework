@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Resource Include="Images\login.png" />
-    <Resource Include="Views\login.png" />
   </ItemGroup>
 
 </Project>

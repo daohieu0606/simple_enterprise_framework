@@ -7,39 +7,36 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\CreateForm.xaml.cs">
+    <Compile Update="Forms\CreateForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\DBForm.xaml.cs">
+    <Compile Update="Views\ConnectDatabaseWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Login.xaml.cs">
+    <Compile Update="Views\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\ReadForm.xaml.cs">
+    <Compile Update="Forms\ReadForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\UpdateForm.xaml.cs">
+    <Compile Update="Forms\UpdateForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Forms\CreateForm.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\CreateForm.xaml">
+    <Page Update="Views\ConnectDatabaseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\DBForm.xaml">
+    <Page Update="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Login.xaml">
+    <Page Update="Forms\ReadForm.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\ReadForm.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\UpdateForm.xaml">
+    <Page Update="Forms\UpdateForm.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

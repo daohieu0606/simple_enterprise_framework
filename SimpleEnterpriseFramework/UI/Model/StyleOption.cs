@@ -15,8 +15,6 @@
 
         List<string> columnNames;
 
-        List<string> columnWidths;
-
         public ColorArgs ButtonColor
         {
             get { return buttonColor; }
@@ -28,11 +26,24 @@
             get { return backgroundColor; }
             set { backgroundColor = value; }
         }
+        public string FontFamily
+        {
+            get { return fontFamily; }
+            set { fontFamily = value; }
+        }
 
         public List<string> CRUDWindowNames
         {
             get { return windowNames; }
             set { windowNames = value; }
         }
+
+        public List<string> ColumnNames
+        {
+            get { return columnNames; }
+            set { columnNames = value; }
+        }
+
+
     }
 }

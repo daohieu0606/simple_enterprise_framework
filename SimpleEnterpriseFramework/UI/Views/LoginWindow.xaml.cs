@@ -10,7 +10,7 @@
     using UI.Controllers;
     using UI.Model;
 
-    public partial class Login : Window
+    public partial class LoginWindow : Window
     {
         private LoginController controller;
 
@@ -18,7 +18,7 @@
 
         private DataTable data;
 
-        public Login(StyleOption option)
+        public LoginWindow(StyleOption option)
         {
             InitializeComponent();
             this.styleOption = option;
@@ -26,7 +26,7 @@
             HandleEvents();
         }
 
-        public Login(StyleOption option, DataTable source)
+        public LoginWindow(StyleOption option, DataTable source)
         {
             InitializeComponent();
             this.data = source;
@@ -48,7 +48,7 @@
         }
 
 
-        public StyleOption OptionStyle
+        public StyleOption StyleOption
         {
             get { return styleOption; }
             set { styleOption = value; }
@@ -67,6 +67,7 @@
                     ButtonLogin.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                     ButtonRegister.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                 }
+               
             }
         }
     }

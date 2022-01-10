@@ -9,19 +9,21 @@ using UI.Views;
 
 namespace UI
 {
-    public class BaseForm
+    public class ProxyForm
     {
-        private Login loginForm;
+        private RealForm form;
         private StyleOption styleOption;
         private DataTable data;
 
 
         public void startForm()
         {
-            if(this.data==null)
-            loginForm = new Login(styleOption);
-            else loginForm = new Login(styleOption, data);
-            loginForm.Show();
+
+            if (form == null)
+            {
+                form = new RealForm(styleOption, data);
+            }
+            form.startForm();
         }
 
         public void setDataSource<T>(IList<T> dataSource)
@@ -29,14 +31,15 @@ namespace UI
             data = DataHelper.ToDataTable(dataSource);
         }
 
+        public void setDataSource(DataTable dataSource)
+        {
+            data = dataSource;
+        }
+
         public void setStyle(StyleOption option)
         {
             styleOption = option;
         }
-
-
-
-
 
     }
 }

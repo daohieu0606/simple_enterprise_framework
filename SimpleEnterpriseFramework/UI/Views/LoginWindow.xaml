@@ -1,4 +1,4 @@
-﻿<Window x:Class="UI.Views.Login"
+﻿<Window x:Class="UI.Views.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -100,6 +100,6 @@
                 </Button>
             </Grid>
         </Grid>
-        <Image Name="ImageLogo" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="86" Source="/Views/login.png" />
+        <Image Name="ImageLogo" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="86" Source="/Images/login.png" />
     </Grid>
 </Window>

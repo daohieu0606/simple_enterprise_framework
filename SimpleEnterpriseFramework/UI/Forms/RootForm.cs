@@ -4,7 +4,7 @@
     using System.Data;
     using UI.Model;
 
-    public interface RootForm
+    public interface BaseForm
     {
         IDatabase database { get; set; }
 

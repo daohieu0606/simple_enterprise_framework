@@ -51,7 +51,7 @@
             return this;
         }
 
-        public RootForm build()
+        public BaseForm build()
         {
             return new ReadForm(database, styleOption, data, tableName);
         }

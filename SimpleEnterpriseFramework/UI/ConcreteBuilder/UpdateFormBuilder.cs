@@ -60,7 +60,7 @@ namespace UI.ConcreteBuilder
             return this;
         }
 
-        public  RootForm build()
+        public  BaseForm build()
         {
             return new UpdateForm(database, currentRow, tableName, data, readForm, styleOption);
         }

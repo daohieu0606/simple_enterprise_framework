@@ -9,7 +9,7 @@
     using UI.Helpers;
     using UI.Model;
 
-    public partial class CreateForm : Window, RootForm
+    public partial class CreateForm : Window, BaseForm
     {
         public IDatabase database { get; set; }
         public DataTable data { get; set; }
@@ -34,19 +34,6 @@
             CreateList.ItemsSource = fields;
 
             InitStyle();
-        }
-
-        public CreateForm(DataTable source, ReadForm readForm, StyleOption option)
-        {
-            InitializeComponent();
-            this.data = source;
-            this.readForm = readForm;
-            this.styleOption = option;
-
-            fields = DataHelper.GetALLFields(data, null);
-            InitStyle();
-
-            CreateList.ItemsSource = fields;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -89,6 +76,22 @@
                     byte g = styleOption.ButtonColor.g;
                     byte b = styleOption.ButtonColor.b;
                     ButtonCreate.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+                }
+
+                if (styleOption.BackgroundColor != null)
+                {
+                    byte a = styleOption.BackgroundColor.a;
+                    byte r = styleOption.BackgroundColor.r;
+                    byte g = styleOption.BackgroundColor.g;
+                    byte b = styleOption.BackgroundColor.b;
+                    CreateFormGrid.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+
+                }
+
+                if(styleOption.FontFamily != null)
+                {
+                    LabelCreate.FontFamily = new FontFamily(styleOption.FontFamily);
+                    CreateList.FontFamily = new FontFamily(styleOption.FontFamily);
                 }
 
                 if (styleOption.CRUDWindowNames != null)

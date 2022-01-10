@@ -32,7 +32,7 @@ namespace UI.Builder
 
         public  FormBuilder setReadForm(ReadForm readForm);
 
-        public abstract RootForm build();
+        public BaseForm build();
 
     }
 }

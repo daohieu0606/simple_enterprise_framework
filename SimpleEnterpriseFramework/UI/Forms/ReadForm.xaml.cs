@@ -8,7 +8,7 @@
     using UI.ConcreteBuilder;
     using UI.Model;
 
-    public partial class ReadForm : Window, RootForm
+    public partial class ReadForm : Window, BaseForm
     {
 
 
@@ -49,13 +49,12 @@
             if (database != null)
             {
                 database.OpenConnection();
-                //CreateForm createForm = new CreateForm(database, this, styleOption, data, tableName);
                 CreateForm createForm = (CreateForm)new CreateFormBuilder().setDatabase(database).setStyleOption(styleOption).setData(data).setTableName(tableName).setReadForm(this).build();
                 createForm.ShowDialog();
             }
             else
             {
-                CreateForm createForm = new CreateForm(data, this, styleOption);
+                CreateForm createForm = (CreateForm)new CreateFormBuilder().setData(data).setReadForm(this).setStyleOption(styleOption).build();  
                 createForm.ShowDialog();
             }
         }
@@ -73,10 +72,9 @@
             if (database != null)
             {
                 database.OpenConnection();
-                //updateForm = new UpdateForm(database, row, tableName, data, this, styleOption);
                 updateForm = (UpdateForm)new UpdateFormBuilder().setDatabase(database).setTableName(tableName).setData(data).setReadForm(this).setCurrentRow(row).setStyleOption(styleOption).build();
             }
-            else updateForm = new UpdateForm(data, this, row, styleOption);
+            else updateForm = (UpdateForm)new UpdateFormBuilder().setData(data).setReadForm(this).setCurrentRow(row).setStyleOption(styleOption).build();
             updateForm.Show();
         }
 
@@ -123,6 +121,26 @@
                     ButtonUpdate.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                     ButtonDelete.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                 }
+
+                if (styleOption.BackgroundColor != null)
+                {
+                    byte a = styleOption.BackgroundColor.a;
+                    byte r = styleOption.BackgroundColor.r;
+                    byte g = styleOption.BackgroundColor.g;
+                    byte b = styleOption.BackgroundColor.b;
+                    ReadFormGrid.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+
+                }
+
+                if(styleOption.FontFamily != null)
+                {
+                    LabelRead.FontFamily = new FontFamily(styleOption.FontFamily);
+                    ButtonCreate.FontFamily = new FontFamily(styleOption.FontFamily);
+                    ButtonUpdate.FontFamily = new FontFamily(styleOption.FontFamily);
+                    ButtonDelete.FontFamily = new FontFamily(styleOption.FontFamily);
+                    DatagridView.FontFamily = new FontFamily(styleOption.FontFamily);
+                }
+
                 if (styleOption.CRUDWindowNames != null)
                 {
 

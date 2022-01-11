@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Core.Query;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -65,14 +66,17 @@ namespace Core.Database
             }
         }
 
-        public async Task<DataTable> ExecuteSqlAsync(string commmand)
+        public async Task<DataTable> ExecuteQueryAsync(string commmand)
         {
+            OpenConnection();
             MySqlCommand cmd = new MySqlCommand(commmand, _con);
             DataTable dt = new DataTable();
 
             var reader = await cmd.ExecuteReaderAsync();
 
             dt.Load(reader);
+
+            reader.Close();
 
             return dt;
         }
@@ -93,12 +97,14 @@ namespace Core.Database
                         {
                             result.Add(reader.GetString(0));
                         }
+
+                        reader.Close();
                     }
                 }
 
                 return result;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }
@@ -153,5 +159,117 @@ namespace Core.Database
                 return false;
             }
         }
+
+        public async Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null) //Có tên bảng 
+        {
+            try
+            {
+                var query = "select * from " + tableName;
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} where {1} = '{2}'", tableName, props, val); ;
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result?.Rows[0];
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            try
+            {
+                var query = string.Format("select * from {0} inner join {1} on {2} = {3} where {2} = '{4}'", tableName1, tableName2, key1, key2, valueOfKey);
+
+                var result = await ExecuteQueryAsync(query);
+
+                return result;
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.insert).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception ex) {
+                throw ex;
+            }
+        }
+
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.delete).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            MySqlCommand cmd = QueryFactory.GetFactory(QueryType.update).CreateMySql(tableName, row, newRow).GetQuery();
+            Console.WriteLine(cmd.CommandText);
+            cmd.Connection = _con;
+            try
+            {
+                int check = cmd.ExecuteNonQuery();
+                Console.WriteLine(check);
+                CloseConnection();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+   
+
+        Task<DataRow> IDatabase.GetOneRow(string tableName, string[] props, string[] val)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

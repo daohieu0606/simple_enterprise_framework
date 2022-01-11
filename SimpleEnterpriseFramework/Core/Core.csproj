@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -14,7 +14,6 @@
     <None Remove="Utils\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
@@ -22,10 +21,5 @@
     <PackageReference Include="Npgsql" Version="6.0.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.41" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="IoC">
-      <HintPath>..\IoC\bin\Release\netcoreapp3.1\IoC.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>

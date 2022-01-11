@@ -50,19 +50,7 @@ namespace Core.Database
         }
 
         //TODO: Hieu Dao implement later
-        public void ExecuteNoSql(string command)
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Hieu Dao implement later
-        public void ExecuteSql(string commmand)
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Hieu Dao implement later
-        public Task<DataTable> ExecuteSqlAsync(string quey)
+        public Task<DataTable> ExecuteQueryAsync(string quey)
         {
             throw new NotImplementedException();
         }
@@ -100,6 +88,46 @@ namespace Core.Database
             {
                 return false;
             }
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public Task<DataTable> GetTable(string tableName, string[] props = null, string[] val = null)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public Task<DataRow> GetOneRow(string tableName, string[] props, string[] val)
+        {
+            return null;
+        }
+
+        public Task<DataTable> FindDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
+        {
+            return null;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Insert(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Delete(string tableName, DataRow row, DataRow newRow = null)
+        {
+            return false;
+        }
+
+        //TODO: Hieu Nguyen implement later
+        public bool Update(string tableName, DataRow row, DataRow newRow)
+        {
+            return false;
+        }
+
+        public Task<DataRow> GetOneRow(string tableName, string props, string val)
+        {
+            throw new NotImplementedException();
         }
     }
 }

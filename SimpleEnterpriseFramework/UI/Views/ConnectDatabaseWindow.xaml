@@ -1,0 +1,36 @@
+﻿<Window x:Class="UI.Views.ConnectDatabaseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Views"
+        mc:Ignorable="d"
+        Title="DBForm" Height="450" Width="700"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid x:Name="GridBase" Height="450" Width="700" Visibility="Visible">
+        <ComboBox HorizontalAlignment="Left" Margin="126,100,0,0" VerticalAlignment="Top" Width="174" Name="DbTypeComboBox" FontSize="16">
+            <ComboBoxItem Content="MySQL"></ComboBoxItem>
+            <ComboBoxItem Content="Postgres"></ComboBoxItem>
+        </ComboBox>
+        <TextBox Name="HostNameInput" HorizontalAlignment="Left" Margin="126,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal" />
+        <TextBox Name="UserNameInput" HorizontalAlignment="Left" Margin="126,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+        <PasswordBox Name="PwdInput" HorizontalAlignment="Left" Margin="126,220,0,0" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,70" />
+        <Label FontFamily="UTM Impact" Content="Connect Database" HorizontalAlignment="Center" Margin="0,13,0,0" VerticalAlignment="Top" FontSize="48" FontStyle="Normal" FontWeight="Bold" Background="{x:Null}"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Type" HorizontalAlignment="Left" Margin="16,100,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Host" HorizontalAlignment="Left" Margin="16,144,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Username" HorizontalAlignment="Left" Margin="16,183,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Password" HorizontalAlignment="Left" Margin="16,226,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Database" HorizontalAlignment="Left" Margin="16,267,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.003,0.459"/>
+        <Label FontFamily="Champagne &amp; Limousines" Content="Tables" HorizontalAlignment="Left" Margin="367,100,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.003,0.459"/>
+        <ComboBox Name="TableNameComboBox" HorizontalAlignment="Left" Margin="439,100,0,0" VerticalAlignment="Top" Width="174"  FontSize="16"/>
+        <Button Content="Connect" Name="ButtonConnect" HorizontalAlignment="Left" Margin="148,338,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
+        <Button Content="Generate forms" Name="ButtonGenerate" HorizontalAlignment="Left" Margin="447,154,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
+        <TextBox x:Name="DatabaseNameInput" HorizontalAlignment="Left" Margin="126,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+        <TextBlock Name="IncorrectConnectDB" HorizontalAlignment="Left" Margin="113,317,0,0" Foreground="Red"  TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

@@ -5,10 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
-        Title="DBForm" Height="450" Width="700"
+        Title="Connect Database" Height="450" Width="700"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid x:Name="GridBase" Height="450" Width="700" Visibility="Visible">
         <ComboBox HorizontalAlignment="Left" Margin="126,100,0,0" VerticalAlignment="Top" Width="174" Name="DbTypeComboBox" FontSize="16">
             <ComboBoxItem Content="MySQL"></ComboBoxItem>

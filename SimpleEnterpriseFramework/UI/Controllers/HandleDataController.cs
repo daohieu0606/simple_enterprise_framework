@@ -124,6 +124,11 @@
             }
         }
 
+        public void KeyDownPasswordBox(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) dbWindow.DatabaseNameInput.Focus();
+        }
+
         private bool ValidateInput(string host, string username, string database)
         {
             return host.Length > 0 && username.Length > 0 && database.Length > 0;

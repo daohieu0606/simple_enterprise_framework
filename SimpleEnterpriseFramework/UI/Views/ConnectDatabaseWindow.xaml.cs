@@ -29,6 +29,7 @@
             ButtonGenerate.Click += new RoutedEventHandler(controller.ButtonRoutedEventArgs);
             HostNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
             UserNameInput.KeyDown += new KeyEventHandler(controller.KeyDownTextBox);
+            PwdInput.KeyDown += new KeyEventHandler(controller.KeyDownPasswordBox);
         }
 
         private void InitStyle()

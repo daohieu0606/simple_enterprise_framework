@@ -43,7 +43,7 @@ namespace UI
             //4. Set font
             option.FontFamily = "Comic Sans MS";
             //Set style cho các form
-            baseForm.setStyle(option);
+            //baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();

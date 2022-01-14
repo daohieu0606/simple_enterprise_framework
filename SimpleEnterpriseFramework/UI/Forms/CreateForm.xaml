@@ -6,6 +6,16 @@
         mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="CreateForm" Height="650" Width="650"
         ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid Margin="10" x:Name="CreateFormGrid">
         <Label Name="LabelCreate" Content="Create" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="UTM Impact" FontSize="48" FontWeight="Bold"/>
 

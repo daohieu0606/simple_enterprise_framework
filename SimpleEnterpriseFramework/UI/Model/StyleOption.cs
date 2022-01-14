@@ -5,15 +5,19 @@
 
     public class StyleOption
     {
-        ColorArgs buttonColor;
+        private ColorArgs buttonColor;
 
-        ColorArgs backgroundColor;
+        private ColorArgs backgroundColor;
 
-        string fontFamily;
+        private string fontFamily;
 
-        List<string> windowNames;
+        private string logoUrl;
 
-        List<string> columnNames;
+        private double rowHeight = 30d;
+
+        private List<string> windowNames;
+
+        private DataGridStyle dataGridStyle;
 
         public ColorArgs ButtonColor
         {
@@ -25,6 +29,12 @@
         {
             get { return backgroundColor; }
             set { backgroundColor = value; }
+        }
+
+        public double DatatRowHeight
+        {
+            get { return rowHeight; }
+            set { rowHeight= value; }
         }
         public string FontFamily
         {
@@ -38,10 +48,16 @@
             set { windowNames = value; }
         }
 
-        public List<string> ColumnNames
+        public string LogoUrl
         {
-            get { return columnNames; }
-            set { columnNames = value; }
+            get { return logoUrl; }
+            set { logoUrl = value; }
+        }
+
+        public DataGridStyle DataGridStyle
+        {
+            get { return dataGridStyle; }
+            set { dataGridStyle = value; }
         }
 
 

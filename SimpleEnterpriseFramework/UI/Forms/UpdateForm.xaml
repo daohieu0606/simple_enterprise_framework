@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
-        Title="UpdateForm" Height="650" Width="650"
+        xmlns:materilDesing="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="UpdateForm" Height="500" Width="650"
          ResizeMode="CanMinimize">
     <Window.Resources>
         <ResourceDictionary>
@@ -44,8 +45,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Update" Name="ButtonUpdate" HorizontalAlignment="Left" Margin="263,551,0,0" VerticalAlignment="Top"
-                FontSize="18" Background="#FF84CC66" BorderThickness="0" Click="ButtonUpdate_Click" />
+        <Button FontFamily="Champagne &amp; Limousines" materilDesing:ButtonAssist.CornerRadius="10" Content="Update" Name="ButtonUpdate" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                FontSize="18" Background="#00688B" BorderThickness="0" Click="ButtonUpdate_Click" />
     </Grid>
 
 </Window>

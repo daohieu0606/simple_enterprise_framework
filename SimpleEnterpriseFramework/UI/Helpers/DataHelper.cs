@@ -32,12 +32,21 @@
                              .Select(x => x.ColumnName)
                              .ToArray();
             List<Field> items = new List<Field>();
+            List<string> nullableColumns = new List<string>();
+            foreach(DataColumn d in data.Columns)
+            {
+                if (d.AllowDBNull == true) nullableColumns.Add(d.ColumnName);
+            }
+            DataColumn[] primaryKeyColumns = data.PrimaryKey;
+            List<string> primaryKeys = primaryKeyColumns.ToList().ConvertAll<string>(x => x.ColumnName);
             for (var i = 0; i < columnNames.Length; i++)
             {
                 Field field = new Field();
                 field.Title = columnNames[i];
-                field.IsNullable = true;
-                field.IsPrimaryKey = false;
+                field.IsNullable = nullableColumns.Contains(field.Title);
+                field.IsPrimaryKey = primaryKeys.Contains(field.Title);
+                if (field.IsPrimaryKey) field.KeyVisibility = System.Windows.Visibility.Visible;
+                else field.KeyVisibility = System.Windows.Visibility.Hidden; 
                 field.DataType = data.Columns[i].DataType.ToString();
                 if (row == null)
                     field.Value = "";

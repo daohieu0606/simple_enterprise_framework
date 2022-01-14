@@ -28,6 +28,7 @@
 
         public LoginWindow(StyleOption option, DataTable source)
         {
+
             InitializeComponent();
             this.data = source;
             this.styleOption = option;
@@ -56,6 +57,7 @@
 
         private void InitStyle()
         {
+            UsernameLogin.Focus();
             if (this.styleOption != null)
             {
                 if (styleOption.ButtonColor != null)
@@ -67,7 +69,17 @@
                     ButtonLogin.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                     ButtonRegister.Background = new SolidColorBrush(Color.FromArgb(a, r, g, b));
                 }
-               
+                if(styleOption.LogoUrl != null)
+                {
+                    var bitmapImage = new BitmapImage();
+
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri(styleOption.LogoUrl, UriKind.RelativeOrAbsolute);
+
+                    bitmapImage.EndInit();
+                    ImageLogo.Source = bitmapImage;
+                }
+
             }
         }
     }

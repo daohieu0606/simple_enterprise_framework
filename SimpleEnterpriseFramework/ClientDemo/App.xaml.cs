@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using UI;
-using UI.Model;
-
-namespace ClientDemo
+﻿namespace ClientDemo
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    using System.Collections.Generic;
+    using System.Windows;
+    using UI;
+    using UI.Model;
+
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
@@ -42,23 +34,33 @@ namespace ClientDemo
             option.BackgroundColor = new ColorArgs(255, 215, 123, 144);
             //4. Set font
             option.FontFamily = "Comic Sans MS";
+            //5. Set logo
+
+            option.LogoUrl = "logo1.png";
+            //6. Set column header color
+
+            DataGridStyle style = new DataGridStyle(
+                headerBackground: new ColorArgs(255, 123, 123, 144),
+                cellsBackground: new ColorArgs(255, 255, 249, 219),
+                rowHeight: 20d,
+                headerHeight: 35
+                );
+            option.DataGridStyle = style;
             //Set style cho các form
             //baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();
-
-
-            //Login mw = new Login();
-            //mw.SetButtonColor(255, 255, 0, 255);
-            //mw.Show();
         }
 
         public class Student
         {
             public int StudentID { get; set; }
+
             public string StudentName { get; set; }
+
             public int Age { get; set; }
+
             public string Country { get; set; }
 
             public override string ToString()

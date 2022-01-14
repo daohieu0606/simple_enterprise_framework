@@ -1,6 +1,5 @@
 ﻿namespace Membership
 {
-    using MemberShip;
     using System;
     using System.Data;
     using System.Threading.Tasks;

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
-        Title="Connect Database" Height="450" Width="700"
+        Title="Connect Database" Height="400" Width="500"
         ResizeMode="CanMinimize"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" xmlns:materilDesing="http://materialdesigninxaml.net/winfx/xaml/themes"
         >
     <Window.Resources>
         <ResourceDictionary>
@@ -19,28 +19,34 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="GridBase" Height="450" Width="700" Visibility="Visible">
-        <ComboBox HorizontalAlignment="Left" Margin="126,100,0,0" VerticalAlignment="Top" Width="174" Name="DbTypeComboBox" FontSize="16">
+    <Grid x:Name="GridBase" Height="400" Width="500" Visibility="Visible">
+        <ComboBox HorizontalAlignment="Left" Margin="40,90,0,0" VerticalAlignment="Top" Width="174" Name="DbTypeComboBox" FontSize="16" materilDesing:HintAssist.Hint="Database type" >
             <ComboBoxItem Content="MySQL"></ComboBoxItem>
             <ComboBoxItem Content="Postgres"></ComboBoxItem>
         </ComboBox>
-        <TextBox Name="HostNameInput" HorizontalAlignment="Left" Margin="126,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal" />
-        <TextBox Name="UserNameInput" HorizontalAlignment="Left" Margin="126,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
-        <PasswordBox Name="PwdInput" HorizontalAlignment="Left" Margin="126,220,0,0" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
+        <materilDesing:PackIcon Kind="Network"  Width="25" Height="26" Margin="10,135,0,0"/>
+        <TextBox Name="HostNameInput" HorizontalAlignment="Left" Margin="40,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" 
+                 BorderBrush="Blue" materilDesing:HintAssist.Hint="Host" 
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" />
+        <materilDesing:PackIcon Kind="User"  Width="25" Height="26" Margin="10,177,0,0"/>
+        <TextBox Name="UserNameInput" HorizontalAlignment="Left" Margin="40,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" 
+                 BorderBrush="Blue" materilDesing:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 FontFamily="Champagne &amp; Limousines"  />
+        <materilDesing:PackIcon Kind="Password"  Width="25" Height="26" Margin="10,217,0,0"/>
+
+        <PasswordBox Name="PwdInput" HorizontalAlignment="Left" Margin="40,200,0,0" VerticalAlignment="Top" Width="174" FontSize="16" 
+                     BorderBrush="Blue" materilDesing:HintAssist.Hint="Password" 
+                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontFamily="Champagne &amp; Limousines" />
+        <materilDesing:PackIcon Kind="Database"  Width="25" Height="26" Margin="10,257,0,0"/>
+        <TextBox x:Name="DatabaseNameInput" HorizontalAlignment="Left" Margin="40,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16"
+                 BorderBrush="Blue" materilDesing:HintAssist.Hint="Database" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 FontFamily="Champagne &amp; Limousines"/>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,70" />
-        <Label FontFamily="UTM Impact" Content="Connect Database" HorizontalAlignment="Center" Margin="0,13,0,0" VerticalAlignment="Top" FontSize="48" FontStyle="Normal" FontWeight="Bold" Background="{x:Null}"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Type" HorizontalAlignment="Left" Margin="16,100,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Host" HorizontalAlignment="Left" Margin="16,144,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Username" HorizontalAlignment="Left" Margin="16,183,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Password" HorizontalAlignment="Left" Margin="16,226,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Database" HorizontalAlignment="Left" Margin="16,267,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.003,0.459"/>
-        <Label FontFamily="Champagne &amp; Limousines" Content="Tables" HorizontalAlignment="Left" Margin="367,100,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.003,0.459"/>
-        <ComboBox Name="TableNameComboBox" HorizontalAlignment="Left" Margin="439,100,0,0" VerticalAlignment="Top" Width="174"  FontSize="16"/>
-        <Button Content="Connect" Name="ButtonConnect" HorizontalAlignment="Left" Margin="148,338,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
-        <Button Content="Generate forms" Name="ButtonGenerate" HorizontalAlignment="Left" Margin="447,154,0,0" VerticalAlignment="Top" FontSize="18" Background="#FF84CC66" BorderThickness="0" />
-        <TextBox x:Name="DatabaseNameInput" HorizontalAlignment="Left" Margin="126,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16" FontWeight="Normal" FontStyle="Normal"/>
-        <TextBlock Name="IncorrectConnectDB" HorizontalAlignment="Left" Margin="113,317,0,0" Foreground="Red"  TextWrapping="Wrap" VerticalAlignment="Top"/>
-
+        <Label FontFamily="UTM Impact" Content="Connect Database" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="48" FontStyle="Normal" FontWeight="Bold" Background="{x:Null}"/>
+        <ComboBox Name="TableNameComboBox" HorizontalAlignment="Left" Margin="269,90,0,0" VerticalAlignment="Top" Width="174"  FontSize="16" materilDesing:HintAssist.Hint="Tables"/>
+        <Button  FontFamily="Champagne &amp; Limousines"  Content="Connect" Name="ButtonConnect" HorizontalAlignment="Left" Margin="81,320,0,0" VerticalAlignment="Top" FontSize="18" Background="#00688B" BorderThickness="0" />
+        <Button FontFamily="Champagne &amp; Limousines" Content="Generate forms" Name="ButtonGenerate" HorizontalAlignment="Left" Margin="275,135,0,0" VerticalAlignment="Top" FontSize="18" Background="#00688B" BorderThickness="0" />
+        <TextBlock Name="IncorrectConnectDB" HorizontalAlignment="Left" Margin="38,297,0,0" Foreground="Red"  TextWrapping="Wrap" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="CreateForm" Height="650" Width="650"
+        xmlns:materilDesing="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="CreateForm" Height="500" Width="650"
         ResizeMode="CanMinimize">
     <Window.Resources>
+        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
@@ -19,7 +21,7 @@
     <Grid Margin="10" x:Name="CreateFormGrid">
         <Label Name="LabelCreate" Content="Create" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="UTM Impact" FontSize="48" FontWeight="Bold"/>
 
-        <ListBox Name="CreateList" HorizontalContentAlignment="Stretch" Margin="0,62,0,140">
+        <ListBox Name="CreateList" HorizontalContentAlignment="Stretch" Margin="0,62,0,0" Height="352" VerticalAlignment="Top">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Focusable" Value="False"/>
@@ -28,9 +30,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
-
-                        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Content="{Binding Title}"/>
-                        <TextBox  materialDesign:HintAssist.Hint="{Binding DataType}"  materialDesign:HintAssist.IsFloating="True"  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="250,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="16"/>
+                        <materilDesing:PackIcon Kind="Key" Width="25" Height="25" HorizontalAlignment="Left" Foreground="Orange"  Visibility="{Binding KeyVisibility}"/>
+                        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Content="{Binding Title}" Margin="25,0,0,0"/>
+                        <TextBox  materialDesign:HintAssist.Hint="{Binding DataType}"  materialDesign:HintAssist.IsFloating="True"  Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="250,0,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="14"/>
                         <CheckBox IsChecked="{Binding IsNullable}" Margin="500,0,0,0" IsHitTestVisible="false">
                             <WrapPanel>
                                 <TextBlock>
@@ -42,9 +44,10 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+           
         </ListBox>
-        <Button Name="ButtonCreate" Content="Create" HorizontalAlignment="Left" Margin="263,551,0,0" VerticalAlignment="Top"
-                FontSize="18" Background="#FF84CC66" BorderThickness="0" Click="Button_Click"/>
+        <Button  FontFamily="Champagne &amp; Limousines" materilDesing:ButtonAssist.CornerRadius="10" Name="ButtonCreate" Content="Create" HorizontalAlignment="Center"  VerticalAlignment="Bottom"
+                FontSize="18" Background="#00688B" BorderThickness="0" Click="Button_Click"/>
     </Grid>
 
 </Window>

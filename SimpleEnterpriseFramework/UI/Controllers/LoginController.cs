@@ -22,10 +22,10 @@ namespace UI.Controllers
             //connect user database
             CurrentFrameworkState.Instance.ChangeDataBase(
                 DatabaseType.MySql,
-                host: "localhost",
-                dbName: "usermanage",
-                username: "root",
-                password: "123456");
+                host: "us-cdbr-east-04.cleardb.com",
+                dbName: "heroku_97ce2639eb80fdc",
+                username: "b3f0d16b8782a5",
+                password: "ae60240e");
 
             var db = ServiceLocator.Instance.Get<IDatabase>();
             db.OpenConnection();
@@ -65,7 +65,7 @@ namespace UI.Controllers
 
                             loginView.Close();
                         }
-                        else loginView.ErrorLogin.Text = "Tài khoản người dùng không tồn tại";
+                        else loginView.ErrorLogin.Text = "Tên đăng nhập hoặc mật khẩu không đúng";
                         break;
                     }
                 case "ButtonToLoginView": ShowLoginView(); break;
@@ -88,7 +88,7 @@ namespace UI.Controllers
 
                         else
                         {
-                            User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
+                            User newUser = User.getInstance(username, pwd, null, null, null, "user");
                             await Membership.HandleUser.AddNewUserAsync(newUser);
                             ShowLoginView();
                         }
@@ -142,6 +142,7 @@ namespace UI.Controllers
         {
             loginView.GridRegister.Visibility = Visibility.Collapsed;
             loginView.GridLogin.Visibility = Visibility.Visible;
+            loginView.UsernameLogin.Focus();
             ClearFields();
         }
 

@@ -34,6 +34,7 @@
 
         private void InitStyle()
         {
+            HostNameInput.Focus();
             if (this.styleOption != null)
             {
                 if (styleOption.ButtonColor != null)

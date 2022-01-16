@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Npgsql;
 using System.Data;
 using System.Text;
-using Npgsql;
 
 namespace Core.Query
 {
@@ -22,7 +21,7 @@ namespace Core.Query
         {
             NpgsqlCommand command = new NpgsqlCommand();
             DataColumnCollection cols = row.Table.Columns;
-            string paramsString = this.CreateParamsSetUpdateString(cols);
+            string paramsString = this.CreateParamsSetUpdateString(cols, row);
 
             command.CommandText = "update " + tableName + " set " + paramsString;
 
@@ -32,12 +31,15 @@ namespace Core.Query
             }
             for (int i = cols.Count; i < cols.Count * 2; i++)
             {
-                command.Parameters.AddWithValue("@param" + i, row[cols[i - cols.Count].ColumnName]);
+                if (row[cols[i - cols.Count].ColumnName] != null)
+                {
+                    command.Parameters.AddWithValue("@param" + i, row[cols[i - cols.Count].ColumnName]);
+                }
             }
             return command;
         }
 
-        private string CreateParamsSetUpdateString(DataColumnCollection cols)
+        private string CreateParamsSetUpdateString(DataColumnCollection cols, DataRow row)
         {
             StringBuilder paramsString = new StringBuilder();
             if (cols.Count < 1)
@@ -56,15 +58,19 @@ namespace Core.Query
             paramsString.Append(" where ");
             for (int i = 0; i < cols.Count; ++i)
             {
-                paramsString.Append(cols[i].ColumnName)
-                    .Append(" = ")
-                    .Append("@param")
-                    .Append(i + cols.Count);
-
-                if (i < cols.Count - 1)
+                if (row[cols[i].ColumnName] != null)
                 {
-                    paramsString.Append(" AND ");
+                    if (i > 0)
+                    {
+                        paramsString.Append(" AND ");
+                    }
+
+                    paramsString.Append(cols[i].ColumnName)
+                        .Append(" = ")
+                        .Append("@param")
+                        .Append(i + cols.Count);
                 }
+
             }
             return paramsString.ToString();
         }

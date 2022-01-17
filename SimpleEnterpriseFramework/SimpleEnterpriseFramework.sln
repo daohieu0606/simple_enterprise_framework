@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Membership_v2", "Membership\Membership_v2.csproj", "{7555E80C-3627-49A7-BA0E-245D6FAFE1B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "Demo\Demo.csproj", "{AA750DE5-CA09-4775-AADE-7771FF0344C5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "memberShip", "memberShip\memberShip.csproj", "{54E8FEE5-8E62-482D-A45A-D35055C19F45}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelperLibrary", "HelperLibrary\HelperLibrary.csproj", "{BD099C08-9DCC-46C3-B055-937905C01C6A}"

@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Threading.Tasks;
+using BC = BCrypt.Net.BCrypt;
 namespace Membership
 {
-    public class Authenticaiton
+    public class Authentication
     {
-        public string Hash(string value)
+        private static int salt = 12;
+        public static string Hash(string value)
         {
-            return "string";
+            if (value == null)
+            {
+                return "";
+            }
+            return BC.HashPassword(value, salt);
         }
 
-        public bool validate(string username, string password)
+        public static async Task<bool> validateAsync(string username, string password)
         {
-            User user = HandleUser.findUserByUsername(username);
-            return true;
-        }
-        public bool validateExistenceUser(string username, string password)
-        {
-            return true;
+            User user = await HandleUser.findOneUserByFieldAsync("username", username);
+            if(user == null)
+            {
+                return false;
+            }
+            return BC.Verify(password, user.Password);
         }
 
-        public bool createUser(string username, string password)
-        {
-            return true;
-        }
     }
 }

@@ -1,35 +1,35 @@
 ﻿namespace Membership
 {
-    using MemberShip;
     using System;
     using System.Data;
     using System.Threading.Tasks;
     using Core.Database;
     using IoC.DI;
     using HelperLibrary;
+    using Membership_v2;
 
     public class HandleUser
     {
         public static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
-
-        public static async Task<User> AddNewUserAsync(User user)
+        public static IUser userInstance = new User();
+        public static async Task<IUser> AddNewUserAsync(IUser user)
         {
-            User returnUser = null;
-            returnUser = await findOneUserByFieldAsync("username", user.Username);
+            IUser returnUser = null;
+            returnUser = await findOneUserByFieldAsync("id", user.Id);
             if (returnUser != null)
             {
                 throw new Exception("User is already exists!");
             }
-            User cloneUser = User.copy(user);
+            IUser cloneUser = user.clone();
             cloneUser.Password = Authentication.Hash(cloneUser.Password);
             cloneUser.Id = StringHelper.GenerateRandomString();
             DataRow dt = cloneUser.parseToDataRow();
 
-            bool isSuccess = db.Insert(User.nameTable, dt);
-            Console.WriteLine(isSuccess);
+            bool isSuccess = db.Insert(userInstance.NameTable, dt);
+            
             if (isSuccess)
             {
-                returnUser = await findOneUserByFieldAsync("username", user.Username);
+                returnUser = await findOneUserByFieldAsync("id", user.Id);
             }
 
             return returnUser;
@@ -37,7 +37,7 @@
 
         public static async Task<bool> RemoveUserAsync(string username)
         {
-            User user = await findOneUserByFieldAsync("username", username);
+            IUser user = await findOneUserByFieldAsync("username", username);
 
             if (user == null)
             {
@@ -45,7 +45,7 @@
             }
             try
             {
-                bool isSuccess = db.Delete(User.nameTable, user.parseToDataRow());
+                bool isSuccess = db.Delete(userInstance.NameTable, user.parseToDataRow());
                 return isSuccess;
             }
             catch (Exception ex)
@@ -54,9 +54,9 @@
             }
         }
 
-        public static async Task<bool> UpdateUserAsync(User user)
+        public static async Task<bool> UpdateUserAsync(IUser user)
         {
-            User oldUser = await findOneUserByFieldAsync("user_id", user.Id);
+            IUser oldUser = await findOneUserByFieldAsync("user_id", user.Id);
 
             if (oldUser == null)
             {
@@ -64,7 +64,7 @@
             }
             try
             {
-                bool isSuccess = db.Update(User.nameTable, oldUser.parseToDataRow(), user.parseToDataRow());
+                bool isSuccess = db.Update(userInstance.NameTable, oldUser.parseToDataRow(), user.parseToDataRow());
                 return isSuccess;
             }
             catch (Exception ex)
@@ -73,35 +73,32 @@
             }
         }
 
-        public static async Task<User> findUserByIdAsync(string id)
+        public static async Task<IUser> findUserByIdAsync(string id)
         {
             string[] props = new string[1];
             props[0] = "user_id";
             string[] values = new string[1];
             values[0] = id;
-            DataRow dt = await db.GetOneRow(User.nameTable, props, values);
-            return User.getInstance(dt);
+            DataRow dt = await db.GetOneRow(userInstance.NameTable, props, values);
+            return userInstance.getInstance(dt);
         }
 
-        public static async Task<User> findOneUserByFieldAsync(string field, string value)
+        public static async Task<IUser> findOneUserByFieldAsync(string field, string value)
         {
-            User user = null;
+            IUser user = null;
 
-            DataRow dt = await db.GetOneRow(User.nameTable, field, value);
+            DataRow dt = await db.GetOneRow(userInstance.NameTable, field, value);
             if (dt != null)
             {
-                user = User.getInstance(dt);
+                user = userInstance.getInstance(dt);
             }
             return user;
         }
 
-        public static async Task<User[]> findUserByRoleAsync(string rolename)
+        public static async Task<IUser[]> findUserByRoleAsync(string rolename)
         {
-            //db.FindDataFrom(User.nameTable, "user_id", Authorization.nameTable, "user_id", role.Id);
-            //db.findDataFrom(string tableName1, string key1, string tableName2, string key2, string valueOfKey)
-            //if valueOfKey = null, join two table without "WHERE"
-            // Return a DataTable
-            Role role = await Authorization.findRoleByNameAsync(rolename);
+
+            IRole role = await Authorization.findRoleByNameAsync(rolename);
             if (role == null) return null;
 
             string[] props = new string[1];
@@ -111,7 +108,7 @@
 
             DataTable dt = await db.GetTable(Authorization.nameTable, props, values);
             int numberOfRole = dt.Rows.Count;
-            User[] users = null;
+            IUser[] users = null;
 
             if (numberOfRole > 0)
             {
@@ -119,7 +116,7 @@
                 for (int index = 0; index < dt.Rows.Count; index++)
                 {
                     string user_id = dt.Rows[index].Field<string>("user_id");
-                    User user = await findUserByIdAsync(user_id);
+                    IUser user = await findUserByIdAsync(user_id);
                     users[index] = user;
                 }
 
@@ -127,14 +124,14 @@
             return users;
         }
 
-        public static bool ChangePassword(User user, string newPassword)
+        public static bool ChangePassword(IUser user, string newPassword)
         {
-            User cloneUser = User.copy(user);
+            IUser cloneUser = user.clone();
             cloneUser.Password = Authentication.Hash(newPassword);
 
             try
             {
-                return db.Update(User.nameTable, user.parseToDataRow(), cloneUser.parseToDataRow());
+                return db.Update(userInstance.NameTable, user.parseToDataRow(), cloneUser.parseToDataRow());
             }
             catch (Exception ex)
             {
@@ -144,7 +141,7 @@
 
         public static async Task<bool> resetPasswordAsync(string id, string initPassword)
         {
-            User user = await findOneUserByFieldAsync("user_id", id);
+            IUser user = await findOneUserByFieldAsync("user_id", id);
 
             if (user == null)
             {
@@ -162,7 +159,7 @@
 
         public static async Task<bool> isExistUserAsync(string username)
         {
-            User user = await findOneUserByFieldAsync("username", username);
+            IUser user = await findOneUserByFieldAsync("username", username);
 
             return user != null;
         }

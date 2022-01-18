@@ -9,6 +9,7 @@ using Core.Utils;
 using IoC.DI;
 using UI.Views;
 using UI.ConcreteBuilder;
+using Membership_v2;
 
 namespace UI.Controllers
 {
@@ -22,10 +23,10 @@ namespace UI.Controllers
             //connect user database
             CurrentFrameworkState.Instance.ChangeDataBase(
                 DatabaseType.MySql,
-                host: "localhost",
-                dbName: "usermanage",
-                username: "root",
-                password: "123456");
+                host: "us-cdbr-east-04.cleardb.com",
+                dbName: "heroku_97ce2639eb80fdc",
+                username: "b3f0d16b8782a5",
+                password: "ae60240e");
 
             var db = ServiceLocator.Instance.Get<IDatabase>();
             db.OpenConnection();
@@ -65,7 +66,7 @@ namespace UI.Controllers
 
                             loginView.Close();
                         }
-                        else loginView.ErrorLogin.Text = "Tài khoản người dùng không tồn tại";
+                        else loginView.ErrorLogin.Text = "Tên đăng nhập hoặc mật khẩu không đúng";
                         break;
                     }
                 case "ButtonToLoginView": ShowLoginView(); break;
@@ -79,7 +80,7 @@ namespace UI.Controllers
                             loginView.ErrorRegister.Text = "Chưa nhập đủ thông tin!";
                             return;
                         }
-                        User user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
+                        IUser user = await Membership.HandleUser.findOneUserByFieldAsync("username", username);
                         if (user != null)
                         {
                             loginView.ErrorRegister.Text = "Tài khoản đã tồn tại";
@@ -88,7 +89,7 @@ namespace UI.Controllers
 
                         else
                         {
-                            User newUser = User.getInstance(username, pwd, "email", "phone", "address", "role");
+                            User newUser = User.getInstance(username, pwd, null, null, null);
                             await Membership.HandleUser.AddNewUserAsync(newUser);
                             ShowLoginView();
                         }
@@ -108,8 +109,15 @@ namespace UI.Controllers
                 case "UsernameLogin":
                     if (e.Key == Key.Enter) loginView.PasswordLogin.Focus();
                     break;
+
             }
         }
+
+        public void KeyDownPasswordBox(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) loginView.ButtonLogin.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+                            
 
         private bool ValidateUser(string username, string pwd)
         {
@@ -142,6 +150,7 @@ namespace UI.Controllers
         {
             loginView.GridRegister.Visibility = Visibility.Collapsed;
             loginView.GridLogin.Visibility = Visibility.Visible;
+            loginView.UsernameLogin.Focus();
             ClearFields();
         }
 

@@ -36,6 +36,7 @@ namespace UI
             data = dataSource;
         }
 
+
         public void setStyle(StyleOption option)
         {
             styleOption = option;

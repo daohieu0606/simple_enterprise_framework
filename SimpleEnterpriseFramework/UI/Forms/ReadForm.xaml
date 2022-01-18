@@ -8,26 +8,48 @@
         mc:Ignorable="d"
         Title="ReadForm" Height="450" Width="800"
         ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid x:Name="ReadFormGrid">
         <Label Name="LabelRead" Content="List data" HorizontalAlignment="Center"  VerticalAlignment="Top" FontFamily="UTM Impact" FontSize="48" FontWeight="Bold"/>
-
-        <DataGrid Height="251" Name="DatagridView"  IsReadOnly="True"
+        <ScrollViewer Width="auto" VerticalScrollBarVisibility="Auto">
+            <DataGrid AutoGenerateColumns="True" Height="251" Name="DatagridView"  IsReadOnly="True"
    HorizontalContentAlignment="Stretch" 
-   ColumnWidth="*" Margin="10,152,10,0"  VerticalAlignment="Top" Width="780"  >
-            <DataGrid.Resources>
-                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="#FF84CC66" />
-                </Style>
-            </DataGrid.Resources>
-        </DataGrid>
+    Margin="10,152,10,0"  VerticalAlignment="Top" Width="780"  >
+                <DataGrid.Resources>
+                    <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#87CEEB" />
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="40"/>
+                    </Style>
+                    <Style x:Key="rowStyle" TargetType="DataGridRow">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Background" Value="Black" />
+                    </Style>
 
-        <Button Name="ButtonCreate"  FontSize="18" Content="Create" Background="#FF84CC66" HorizontalAlignment="Left" 
-                Margin="95,69,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonCreate_Click"/>
+                </DataGrid.Resources>
 
-        <Button Name="ButtonUpdate" FontSize="18" Content="Update" Background="#FF84CC66" HorizontalAlignment="Left" 
-                Margin="339,69,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonUpdate_Click"/>
+            </DataGrid>
+        </ScrollViewer>
 
-        <Button Name="ButtonDelete" FontSize="18" Content="Delete" Background="#FF84CC66" HorizontalAlignment="Left" 
-                Margin="561,69,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonDelete_Click"/>
+        <Button FontFamily="Champagne &amp; Limousines" materilDesing:ButtonAssist.CornerRadius="10" Name="ButtonCreate"  FontSize="18" Content="Create" Background="#00688B" HorizontalAlignment="Left" 
+                Margin="95,84,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonCreate_Click"/>
+
+        <Button FontFamily="Champagne &amp; Limousines" materilDesing:ButtonAssist.CornerRadius="10" Name="ButtonUpdate" FontSize="18" Content="Update" Background="#00688B" HorizontalAlignment="Left" 
+                Margin="339,84,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonUpdate_Click"/>
+
+        <Button FontFamily="Champagne &amp; Limousines" materilDesing:ButtonAssist.CornerRadius="10" Name="ButtonDelete" FontSize="18" Content="Delete" Background="#00688B" HorizontalAlignment="Left" 
+                Margin="561,84,0,0" VerticalAlignment="Top" BorderThickness="0" Click="ButtonDelete_Click"/>
     </Grid>
 </Window>

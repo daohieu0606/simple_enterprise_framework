@@ -84,6 +84,8 @@
 
         public void InitStyle()
         {
+            if (tableName != null)
+                LabelUpdate.Content = LabelUpdate.Content + " " + tableName;
             if (this.styleOption != null)
             {
                 if (styleOption.ButtonColor != null)

@@ -1,16 +1,16 @@
 ﻿using HelperLibrary;
+using Membership_v2;
 using System;
 using System.Data;
 
 namespace Membership
 {
-    public class User
+    public class User : IUser 
     {
-        private string id;
 
         private string username;
 
-        private string password;
+       
 
         private string email;
 
@@ -18,11 +18,7 @@ namespace Membership
 
         private string address;
 
-        private Role[] roles;
 
-        public static string nameTable = "accounts";
-
-        public string Password { get => password; set => password = value; }
 
         public string Username { get => username; set => username = value; }
 
@@ -32,41 +28,17 @@ namespace Membership
 
         public string Address { get => address; set => address = value; }
 
-        internal Role[] Roles { get => roles; set => roles = value; }
-
-        public string Id { get => id; set => id = value; }
-
-        public void addRole(Role role)
-        {
-            int length = 1;
-            if (roles != null)
-            {
-                length = roles.Length + 1;
-            }
-
-            Role[] temp = new Role[length];
-
-            for (int index = 0; index < length - 1; index++)
-            {
-                temp[index] = Role.getInstance(roles[index].RoleName);
-            }
-            temp[length - 1] = role;
-            roles = temp;
-        }
-
-        public static User getInstance(string username, string password, string email, string phongNumber, string address, string role)
+        public static User getInstance(string username, string password, string email, string phongNumber, string address)
         {
             User user = new User();
             user.address = address;
             user.username = username;
-            user.password = password;
+            user.Password = password;
             user.phoneNumber = phongNumber;
             user.email = email;
-            Role _role = Role.getInstance(role);
-            user.addRole(_role);
             return user;
         }
-
+        override
         public DataTable makeUserDataTable()
         {
             DataTable table = new DataTable();
@@ -78,22 +50,22 @@ namespace Membership
             table = TableHelper.addColumn(table, "address", typeof(String).ToString());
             return table;
         }
-
+        override
         public DataRow parseToDataRow()
         {
             DataTable dtUser = makeUserDataTable();
             DataRow dt = dtUser.NewRow();
             dt["user_id"] = null;
             dt["username"] = this.username;
-            dt["password"] = this.password;
+            dt["password"] = this.Password;
             dt["email"] = this.email;
             dt["phonenumber"] = this.phoneNumber;
             dt["address"] = this.address;
 
             return dt;
         }
-
-        public static User getInstance(DataRow dt)
+        override
+        public IUser getInstance(DataRow dt)
         {
             if (dt == null)
             {
@@ -102,36 +74,27 @@ namespace Membership
             User user = new User();
             if (dt == null) return user; ;
             user.username = dt.Field<string>("username");
-            user.password = dt.Field<string>("password");
+            user.Password = dt.Field<string>("password");
             user.email = dt.Field<string>("email");
             user.phoneNumber = dt.Field<string>("phonenumber");
             user.address = dt.Field<string>("address");
 
             return user;
         }
-
-        public static User copy(User user)
+        override
+        public IUser clone()
         {
             User copyUser = new User();
-            copyUser.id = user.id;
-            copyUser.username = user.username;
-            copyUser.password = user.password;
-            copyUser.email = user.email;
-            copyUser.phoneNumber = user.phoneNumber;
-            copyUser.address = user.address;
+            copyUser.Id = this.Id;
+            copyUser.username = this.username;
+            copyUser.Password = this.Password;
+            copyUser.email = this.email;
+            copyUser.phoneNumber = this.phoneNumber;
+            copyUser.address = this.address;
 
             return copyUser;
         }
 
-        public static DataRow toUserRoleDataRow(string user_id, string role_id)
-        {
-            DataTable table = new DataTable();
-            table = TableHelper.addColumn(table, "user_id", typeof(String).ToString());
-            table = TableHelper.addColumn(table, "role_id", typeof(String).ToString());
-            DataRow dt = table.NewRow();
-            dt["user_id"] = user_id;
-            dt["role_id"] = role_id;
-            return dt;
-        }
+
     }
 }

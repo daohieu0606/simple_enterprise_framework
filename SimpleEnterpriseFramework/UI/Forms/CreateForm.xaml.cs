@@ -67,6 +67,8 @@
 
         public void InitStyle()
         {
+            if (tableName != null)
+                LabelCreate.Content = LabelCreate.Content + " " + tableName;
             if (this.styleOption != null)
             {
                 if (styleOption.ButtonColor != null)
@@ -114,5 +116,7 @@
         public string Value { get; set; }
 
         public string DataType { get; set; }
+
+        public Visibility KeyVisibility { get; set; }
     }
 }

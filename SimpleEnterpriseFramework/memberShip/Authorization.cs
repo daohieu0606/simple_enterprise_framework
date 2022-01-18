@@ -3,6 +3,7 @@
     using Core.Database;
     using HelperLibrary;
     using IoC.DI;
+    using Membership_v2;
     using System;
     using System.Data;
     using System.Threading.Tasks;
@@ -10,20 +11,21 @@
     public class Authorization
     {
         public static IDatabase db = ServiceLocator.Instance.Get<IDatabase>();
-
+        public static IUser userInstance = new User();
         public static string nameTable = "user_role";
+        public static IRole roleInstance = new Role();
 
-        public static async Task<bool> AddRoleToUserAsync(Role role, string id)
+        public static async Task<bool> AddRoleToUserAsync(IRole role, string id)
         {
             bool isSuccess = true;
 
             try
             {
                 bool userInRole = await isUserInRoleAsync(id, role.Id);
-
+                
                 if (!userInRole)
                 {
-                    isSuccess = db.Insert(nameTable, User.toUserRoleDataRow(id, role.Id));
+                    isSuccess = db.Insert(nameTable, userInstance.toUserRoleDataRow(id, role.Id));
                     if (!isSuccess)
                     {
                         return false;
@@ -39,11 +41,11 @@
             return isSuccess;
         }
 
-        public static async Task<bool> AddRolesToUserAsync(Role[] roles, string id)
+        public static async Task<bool> AddRolesToUserAsync(IRole[] roles, string id)
         {
             bool isSuccess = true;
 
-            foreach (Role role in roles)
+            foreach (IRole role in roles)
             {
                 try
                 {
@@ -62,7 +64,7 @@
             return isSuccess;
         }
 
-        public static async Task<bool> AddRoleToUsersAsync(Role role, string[] ids)
+        public static async Task<bool> AddRoleToUsersAsync(IRole role, string[] ids)
         {
             bool isSuccess = true;
 
@@ -85,11 +87,11 @@
             return isSuccess;
         }
 
-        public static async Task<bool> AddRolesToUsersAsync(Role[] roles, string[] ids)
+        public static async Task<bool> AddRolesToUsersAsync(IRole[] roles, string[] ids)
         {
             bool isSuccess = true;
 
-            foreach (Role role in roles)
+            foreach (IRole role in roles)
             {
                 foreach (string id in ids)
                 {
@@ -116,7 +118,7 @@
         {
             try
             {
-                return db.Delete(nameTable, User.toUserRoleDataRow(user_id, role_id));
+                return db.Delete(nameTable, userInstance.toUserRoleDataRow(user_id, role_id));
             }
             catch (Exception ex)
             {
@@ -124,25 +126,25 @@
             }
         }
 
-        public static async Task<Role[]> getAllRolesAsync()
+        public static async Task<IRole[]> getAllRolesAsync()
         {
-            DataTable dt = await db.GetTable(Role.nameTable);
+            DataTable dt = await db.GetTable(roleInstance.NameTable);
             int numberOfRole = dt.Rows.Count;
-            Role[] roles = null;
+            IRole[] roles = null;
 
             if (numberOfRole > 0)
             {
-                roles = new Role[numberOfRole];
+                roles = new IRole[numberOfRole];
                 for (int index = 0; index < dt.Rows.Count; index++)
                 {
-                    roles[index] = Role.getInstance(dt.Rows[index]);
+                    roles[index] = roleInstance.getInstance(dt.Rows[index]);
                 }
             }
 
             return roles;
         }
 
-        public static async Task<Role[]> GetRolesOfUserAsync(string user_id)
+        public static async Task<IRole[]> GetRolesOfUserAsync(string user_id)
         {
             string[] props = new string[1];
             string[] values = new string[1];
@@ -151,7 +153,7 @@
             DataTable dt = null;
             try
             {
-                dt = await db.GetTable(Role.nameTable, props, values);
+                dt = await db.GetTable(roleInstance.NameTable, props, values);
                 if (dt == null)
                 {
                     return null;
@@ -164,12 +166,12 @@
 
 
             int numberOfRole = dt.Rows.Count;
-            Role[] roles = new Role[numberOfRole];
+            IRole[] roles = new IRole[numberOfRole];
 
             for (int i = 0; i < numberOfRole; i++)
             {
                 DataRow dr = dt.Rows[i];
-                Role role = Role.getInstance(dr);
+                IRole role = roleInstance.getInstance(dr);
                 roles[i] = role;
             }
             return roles;
@@ -194,7 +196,7 @@
             }
         }
 
-        public static async Task<Role> findRoleByNameAsync(string roleName)
+        public static async Task<IRole> findRoleByNameAsync(string roleName)
         {
 
             try
@@ -203,11 +205,11 @@
                 props[0] = "rolename";
                 string[] values = new string[1];
                 values[0] = roleName;
-                DataRow dt = await db.GetOneRow(Role.nameTable, props, values);
+                DataRow dt = await db.GetOneRow(roleInstance.NameTable, props, values);
 
                 if (dt != null)
                 {
-                    return Role.getInstance(dt);
+                    return roleInstance.getInstance(dt);
 
                 }
 
@@ -219,7 +221,7 @@
             }
         }
 
-        public static async Task<Role> findRoleFieldAsync(string field, string value)
+        public static async Task<IRole> findRoleFieldAsync(string field, string value)
         {
 
             try
@@ -228,14 +230,14 @@
                 props[0] = field;
                 string[] values = new string[1];
                 values[0] = value;
-                DataRow dt = await db.GetOneRow(Role.nameTable, props, values);
+                DataRow dt = await db.GetOneRow(roleInstance.NameTable, props, values);
 
                 if (dt == null)
                 {
                     return null;
                 }
 
-                return Role.getInstance(dt);
+                return roleInstance.getInstance(dt);
             }
             catch (Exception ex)
             {
@@ -243,13 +245,13 @@
             }
         }
 
-        public static async Task<Role> createRole(Role role)
+        public static async Task<IRole> createRole(IRole role)
         {
             try
             {
-                Role cloneRole = Role.getInstance(role);
+                IRole cloneRole = role.clone();
                 cloneRole.Id = StringHelper.GenerateRandomString();
-                bool isSuccess = db.Insert(Role.nameTable, cloneRole.toDataRow());
+                bool isSuccess = db.Insert(roleInstance.NameTable, cloneRole.toDataRow());
                 if (!isSuccess)
                 {
                     return null;
@@ -268,13 +270,13 @@
         {
             try
             {
-                Role role = await findRoleFieldAsync("role_id", id);
+                IRole role = await findRoleFieldAsync("role_id", id);
                 if (role == null)
                 {
                     throw new Exception("Role is not found!");
                 }
 
-                return db.Delete(Role.nameTable, role.toDataRow());
+                return db.Delete(roleInstance.NameTable, role.toDataRow());
 
             }
             catch (Exception ex)
@@ -283,18 +285,18 @@
             }
         }
 
-        public static async Task<bool> updateRoleAsync(Role newRole)
+        public static async Task<bool> updateRoleAsync(IRole newRole)
         {
             try
             {
-                Role role = await findRoleFieldAsync("role_id", newRole.Id);
+                IRole role = await findRoleFieldAsync("role_id", newRole.Id);
 
                 if (role == null)
                 {
                     throw new Exception("Role is not found!");
                 }
 
-                return db.Update(Role.nameTable, role.toDataRow(), newRole.toDataRow());
+                return db.Update(roleInstance.NameTable, role.toDataRow(), newRole.toDataRow());
             }
             catch (Exception ex)
             {

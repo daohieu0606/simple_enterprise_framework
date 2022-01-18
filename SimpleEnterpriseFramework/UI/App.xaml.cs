@@ -42,8 +42,10 @@ namespace UI
             option.BackgroundColor = new ColorArgs(255, 215, 123, 144);
             //4. Set font
             option.FontFamily = "Comic Sans MS";
+
+            //option.LogoUrl = "/Images/login.png";
             //Set style cho các form
-            baseForm.setStyle(option);
+            //baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();

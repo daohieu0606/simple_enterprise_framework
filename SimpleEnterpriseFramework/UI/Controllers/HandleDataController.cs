@@ -119,9 +119,17 @@
                 case "UserNameInput":
                     if (e.Key == Key.Enter) dbWindow.PwdInput.Focus();
                     break;
+                case "DatabaseNameInput":
+                    if (e.Key == Key.Enter) dbWindow.ButtonConnect.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    break;
                 default:
                     break;
             }
+        }
+
+        public void KeyDownPasswordBox(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) dbWindow.DatabaseNameInput.Focus();
         }
 
         private bool ValidateInput(string host, string username, string database)

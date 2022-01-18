@@ -10,8 +10,6 @@
 
     public partial class ReadForm : Window, BaseForm
     {
-
-
         public IDatabase database { get; set; }
 
         public DataTable data { get; set; }
@@ -19,6 +17,7 @@
         public StyleOption styleOption { get; set; }
 
         public string tableName { get; set; }
+
         public ReadForm(IDatabase database, StyleOption option, DataTable source, string tableName)
         {
             InitializeComponent();
@@ -54,7 +53,7 @@
             }
             else
             {
-                CreateForm createForm = (CreateForm)new CreateFormBuilder().setData(data).setReadForm(this).setStyleOption(styleOption).build();  
+                CreateForm createForm = (CreateForm)new CreateFormBuilder().setData(data).setReadForm(this).setStyleOption(styleOption).build();
                 createForm.ShowDialog();
             }
         }
@@ -106,9 +105,13 @@
             }
         }
 
-
         public void InitStyle()
         {
+            //Style rowStyle = new Style();
+            //rowStyle.Setters.Add(new Setter(HeightProperty, styleOption.DatatRowHeight));
+            //DatagridView.ColumnHeaderStyle = rowStyle;
+            if (tableName != null)
+                LabelRead.Content = LabelRead.Content + " " + tableName;
             if (this.styleOption != null)
             {
                 if (styleOption.ButtonColor != null)
@@ -132,7 +135,7 @@
 
                 }
 
-                if(styleOption.FontFamily != null)
+                if (styleOption.FontFamily != null)
                 {
                     LabelRead.FontFamily = new FontFamily(styleOption.FontFamily);
                     ButtonCreate.FontFamily = new FontFamily(styleOption.FontFamily);
@@ -148,6 +151,36 @@
                     else if (database != null) LabelRead.Content += $" {tableName}";
                 }
 
+                if (styleOption.DataGridStyle != null)
+                {
+                    Style cellStyle = new Style();
+                    Style headerStyle = new Style();
+                    cellStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.RowHeight));
+                    cellStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+                    cellStyle.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Center));
+                    headerStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.HeaderHeight));
+                    headerStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+
+                    if (styleOption.DataGridStyle.CellsBackground != null)
+                    {
+                        //style.Setters.Add(new Setter(ToolTipService.ToolTipProperty, "Your tool tip here"));
+
+                        //DatagridView.ColumnHeaderStyle = style;
+                        cellStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.CellsBackground.a, styleOption.DataGridStyle.CellsBackground.r, styleOption.DataGridStyle.CellsBackground.g, styleOption.DataGridStyle.CellsBackground.b))));
+
+                    }
+                    //cellStyle.Setters.Add(new Setter(IsHitTestVisibleProperty, false));
+
+                    DatagridView.CellStyle = cellStyle;
+
+                    if (styleOption.DataGridStyle.HeaderBackground != null)
+                    {
+                        headerStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.HeaderBackground.a, styleOption.DataGridStyle.HeaderBackground.r, styleOption.DataGridStyle.HeaderBackground.g, styleOption.DataGridStyle.HeaderBackground.b))));
+                    }
+
+                    DatagridView.ColumnHeaderStyle = headerStyle;
+
+                }
             }
         }
     }

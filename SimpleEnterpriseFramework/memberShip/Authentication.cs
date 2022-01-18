@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Membership_v2;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Membership
 
         public static async Task<bool> validateAsync(string username, string password)
         {
-            User user = await HandleUser.findOneUserByFieldAsync("username", username);
+            IUser user = await HandleUser.findOneUserByFieldAsync("username", username);
             if(user == null)
             {
                 return false;

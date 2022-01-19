@@ -95,7 +95,7 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,90" >
                 <TextBlock x:Name="ErrorRegister" Margin="0 0 0 5" FontSize="14"
                                Foreground="Red" HorizontalAlignment="Center"/>
-                <Button  HorizontalAlignment="Center" x:Name="ButtonRegister" Width="170" Height="45" FontSize="18" Focusable="False" Background="#FF84CC66" 
+                <Button  HorizontalAlignment="Center" x:Name="ButtonRegister" Width="170" Height="45" FontSize="18" Focusable="False" Background="#00688B" 
                             BorderThickness="0" Foreground="White" Content="Đăng ký" FontFamily="Champagne &amp; Limousines"
                             materilDesing:ButtonAssist.CornerRadius="10" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
             </StackPanel>
@@ -107,6 +107,6 @@
                         HorizontalAlignment="Center" FontFamily="Champagne &amp; Limousines">
             </Button>
         </Grid>
-        <Image Name="ImageLogo" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="86" Source="/UI;component/Images/login.png" />
+        <Image Name="ImageLogo" HorizontalAlignment="Center" Height="86" VerticalAlignment="Top" Width="86" Source="pack://application:,,,/SEPFramework;component/Images/login.png" />
     </Grid>
 </Window>

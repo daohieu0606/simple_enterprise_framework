@@ -119,6 +119,9 @@
                 case "UserNameInput":
                     if (e.Key == Key.Enter) dbWindow.PwdInput.Focus();
                     break;
+                case "DatabaseNameInput":
+                    if (e.Key == Key.Enter) dbWindow.ButtonConnect.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    break;
                 default:
                     break;
             }

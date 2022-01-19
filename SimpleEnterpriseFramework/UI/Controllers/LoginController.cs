@@ -108,8 +108,15 @@ namespace UI.Controllers
                 case "UsernameLogin":
                     if (e.Key == Key.Enter) loginView.PasswordLogin.Focus();
                     break;
+
             }
         }
+
+        public void KeyDownPasswordBox(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) loginView.ButtonLogin.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+                            
 
         private bool ValidateUser(string username, string pwd)
         {

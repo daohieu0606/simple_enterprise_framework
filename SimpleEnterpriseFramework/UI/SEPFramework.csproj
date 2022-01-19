@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\login.png" />
     <None Remove="Views\logo3.png" />
     <None Remove="Views\pngwing.com %282%29.png" />
   </ItemGroup>
@@ -25,6 +26,7 @@
 
   <ItemGroup>
     <Resource Include="Images\login.png" />
+    <Resource Include="Views\login.png" />
     <Resource Include="Views\logo3.png" />
   </ItemGroup>
 

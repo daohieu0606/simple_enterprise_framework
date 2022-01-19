@@ -156,11 +156,14 @@
                     Style cellStyle = new Style();
                     Style headerStyle = new Style();
                     cellStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.RowHeight));
+                    cellStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+                    cellStyle.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Center));
                     headerStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.HeaderHeight));
+                    headerStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
+
                     if (styleOption.DataGridStyle.CellsBackground != null)
                     {
                         //style.Setters.Add(new Setter(ToolTipService.ToolTipProperty, "Your tool tip here"));
-                        //style.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
 
                         //DatagridView.ColumnHeaderStyle = style;
                         cellStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.CellsBackground.a, styleOption.DataGridStyle.CellsBackground.r, styleOption.DataGridStyle.CellsBackground.g, styleOption.DataGridStyle.CellsBackground.b))));

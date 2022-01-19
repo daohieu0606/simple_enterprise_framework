@@ -45,7 +45,7 @@ namespace UI
 
             //option.LogoUrl = "/Images/login.png";
             //Set style cho các form
-            baseForm.setStyle(option);
+            //baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();

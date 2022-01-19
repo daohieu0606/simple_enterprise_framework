@@ -13,7 +13,7 @@
             base.OnStartup(e);
             ProxyForm baseForm = new ProxyForm();
             // Nguồn dữ liệu dạng List
-            baseForm.setDataSource<Student>(GetList());
+            //baseForm.setDataSource<Student>(GetList());
             //Nguồn dữ liệu dạng DataTable
             //baseForm.setDataSource(GetDataTable());
             //Nguồn dữ liệu dạng Array
@@ -41,7 +41,7 @@
                 );
             option.DataGridStyle = style;
             //Set style cho các form
-            baseForm.setStyle(option);
+            //baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();

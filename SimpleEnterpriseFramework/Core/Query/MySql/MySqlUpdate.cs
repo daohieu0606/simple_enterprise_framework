@@ -1,7 +1,6 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
 using System.Data;
 using System.Text;
-using MySql.Data.MySqlClient;
 
 namespace Core.Query
 {
@@ -28,13 +27,14 @@ namespace Core.Query
 
             for (int i = 0; i < cols.Count; i++)
             {
-                Console.WriteLine("param" + i + " la " + newRow[cols[i].ColumnName]);
                 command.Parameters.AddWithValue("@param" + i, newRow[cols[i].ColumnName]);
             }
             for (int i = cols.Count; i < cols.Count * 2; i++)
             {
-                Console.WriteLine("param" + i + " la " + row[cols[i - cols.Count].ColumnName]);
-                command.Parameters.AddWithValue("@param" + i, row[cols[i - cols.Count].ColumnName]);
+                if (row[cols[i - cols.Count].ColumnName] != null)
+                {
+                    command.Parameters.AddWithValue("@param" + i, row[cols[i - cols.Count].ColumnName]);
+                }
             }
             return command;
         }
@@ -58,14 +58,17 @@ namespace Core.Query
             paramsString.Append(" where ");
             for (int i = 0; i < cols.Count; ++i)
             {
-                paramsString.Append(cols[i].ColumnName)
-                    .Append(" = ")
-                    .Append("@param")
-                    .Append(i + cols.Count);
-
-                if (i < cols.Count - 1)
+                if (row[cols[i].ColumnName] != null)
                 {
-                    paramsString.Append(" AND ");
+                    if (i > 0)
+                    {
+                        paramsString.Append(" AND ");
+                    }
+
+                    paramsString.Append(cols[i].ColumnName)
+                        .Append(" = ")
+                        .Append("@param")
+                        .Append(i + cols.Count);
                 }
             }
             return paramsString.ToString();

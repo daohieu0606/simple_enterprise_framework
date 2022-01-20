@@ -37,6 +37,9 @@
                         <Setter Property="BorderThickness" Value="1"/>
                         <Setter Property="Background" Value="Black" />
                     </Style>
+                    <Style TargetType="DataGridRow">
+                         <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                    </Style>
 
                 </DataGrid.Resources>
 

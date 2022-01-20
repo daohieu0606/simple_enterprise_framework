@@ -52,7 +52,8 @@
                     for (var i = 0; i < fields.Count; i++)
                     {
                         Type type = data.Columns[i].DataType;
-                        row[fields[i].Title] = fields[i].Value == "" ? null : fields[i].Value;
+                        if(fields[i].Value!="")
+                        row[fields[i].Title] =  fields[i].Value;
                     }
                     if (database != null) database.Update(tableName, currentRow, row);
                     //find row

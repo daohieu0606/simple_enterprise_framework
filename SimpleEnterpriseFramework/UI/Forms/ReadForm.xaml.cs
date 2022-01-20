@@ -2,8 +2,12 @@
 {
     using Core.Database;
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Input;
     using System.Windows.Media;
     using UI.ConcreteBuilder;
     using UI.Model;
@@ -77,6 +81,19 @@
             updateForm.Show();
         }
 
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataRowView rowView = (DataRowView)DatagridView.SelectedItems[0];
+            DataRow row = (DataRow)rowView.Row;
+            UpdateForm updateForm = null;
+            if (database != null)
+            {
+                database.OpenConnection();
+                updateForm = (UpdateForm)new UpdateFormBuilder().setDatabase(database).setTableName(tableName).setData(data).setReadForm(this).setCurrentRow(row).setStyleOption(styleOption).build();
+            }
+            else updateForm = (UpdateForm)new UpdateFormBuilder().setData(data).setReadForm(this).setCurrentRow(row).setStyleOption(styleOption).build();
+            updateForm.Show();
+        }
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -107,9 +124,7 @@
 
         public void InitStyle()
         {
-            //Style rowStyle = new Style();
-            //rowStyle.Setters.Add(new Setter(HeightProperty, styleOption.DatatRowHeight));
-            //DatagridView.ColumnHeaderStyle = rowStyle;
+
             if (tableName != null)
                 LabelRead.Content = LabelRead.Content + " " + tableName;
             if (this.styleOption != null)
@@ -153,29 +168,35 @@
 
                 if (styleOption.DataGridStyle != null)
                 {
-                    Style cellStyle = new Style();
+                    Style rowStyle= new Style();
                     Style headerStyle = new Style();
-                    cellStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.RowHeight));
-                    cellStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-                    cellStyle.Setters.Add(new Setter(VerticalContentAlignmentProperty, VerticalAlignment.Center));
+                    rowStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.RowHeight));
+                    rowStyle.Setters.Add(new EventSetter() { Event = DataGridRow.MouseDoubleClickEvent, Handler = new MouseButtonEventHandler(Row_DoubleClick) });
+                    rowStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
                     headerStyle.Setters.Add(new Setter(HeightProperty, styleOption.DataGridStyle.HeaderHeight));
-                    headerStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-
+                    headerStyle.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
+                    headerStyle.Setters.Add(new Setter(FontWeightProperty, FontWeights.SemiBold));
+                    
                     if (styleOption.DataGridStyle.CellsBackground != null)
                     {
-                        //style.Setters.Add(new Setter(ToolTipService.ToolTipProperty, "Your tool tip here"));
-
-                        //DatagridView.ColumnHeaderStyle = style;
-                        cellStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.CellsBackground.a, styleOption.DataGridStyle.CellsBackground.r, styleOption.DataGridStyle.CellsBackground.g, styleOption.DataGridStyle.CellsBackground.b))));
-
+                        rowStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.CellsBackground.a, styleOption.DataGridStyle.CellsBackground.r, styleOption.DataGridStyle.CellsBackground.g, styleOption.DataGridStyle.CellsBackground.b))));
                     }
-                    //cellStyle.Setters.Add(new Setter(IsHitTestVisibleProperty, false));
 
-                    DatagridView.CellStyle = cellStyle;
+                    DatagridView.RowStyle = rowStyle;
 
                     if (styleOption.DataGridStyle.HeaderBackground != null)
                     {
                         headerStyle.Setters.Add(new Setter(BackgroundProperty, new SolidColorBrush(Color.FromArgb(styleOption.DataGridStyle.HeaderBackground.a, styleOption.DataGridStyle.HeaderBackground.r, styleOption.DataGridStyle.HeaderBackground.g, styleOption.DataGridStyle.HeaderBackground.b))));
+                    }
+
+                    if(database==null && styleOption.DataGridStyle.ColumnNames != null)
+                    {
+                        List<string> columnNames = styleOption.DataGridStyle.ColumnNames;
+                        int length = data.Columns.Count > columnNames.Count ? columnNames.Count : data.Columns.Count;
+                        for (var i=0; i<length;i++)
+                        {
+                            if (columnNames[i] != null) data.Columns[i].ColumnName = columnNames[i];
+                        }
                     }
 
                     DatagridView.ColumnHeaderStyle = headerStyle;

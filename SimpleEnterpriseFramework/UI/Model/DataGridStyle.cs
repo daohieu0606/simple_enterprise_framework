@@ -29,7 +29,7 @@ namespace UI.Model
         private List<string> columnNames;
 
 
-        public DataGridStyle(ColorArgs headerBackground = null, ColorArgs cellsBackground = null, double headerHeight = 40d, double rowHeight = 30d, ColorArgs cellsColor = null, ColorArgs headerColor = null)
+        public DataGridStyle(ColorArgs headerBackground = null, ColorArgs cellsBackground = null, double headerHeight = 40d, double rowHeight = 30d, ColorArgs cellsColor = null, ColorArgs headerColor = null, List<string> columnName = null)
         {
             this.headerBackground = headerBackground;
             this.cellsBackground = cellsBackground;
@@ -37,6 +37,7 @@ namespace UI.Model
             this.rowHeight = rowHeight;
             this.headerColor = headerColor;
             this.cellsColor = cellsColor;
+            this.columnNames = columnName;
         }
 
         public ColorArgs CellsBackground
@@ -61,6 +62,12 @@ namespace UI.Model
         {
             get { return headerHeight; }
             set { headerHeight = value; }
+        }
+
+        public List<string> ColumnNames
+        {
+            get { return columnNames; }
+            set { columnNames = value; }
         }
     }
 }

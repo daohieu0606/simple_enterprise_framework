@@ -17,31 +17,31 @@
             //Nguồn dữ liệu dạng DataTable
             //baseForm.setDataSource(GetDataTable());
             //Nguồn dữ liệu dạng Array
-            //baseForm.setDataSource(GetArray());
+            baseForm.setDataSource(GetArray());
 
             //Set style cho các form
             StyleOption option = new StyleOption();
             //1. Set color cho button
-            option.ButtonColor = new ColorArgs(255, 0, 0, 144);
+            //option.ButtonColor = new ColorArgs(255, 0, 0, 144);
             //2. Set tên các màn hình CRU (dành cho nguồn dữ liệu người dùng truyền vào)
-            option.CRUDWindowNames = new List<string> { "Danh sách sinh viên", "Tạo mới sinh viên", "Cập nhật sinh viên" };
+           // option.CRUDWindowNames = new List<string> { "Danh sách sinh viên", "Tạo mới sinh viên", "Cập nhật sinh viên" };
             //3. Set color cho background
-            option.BackgroundColor = new ColorArgs(255, 215, 123, 144);
+            //option.BackgroundColor = new ColorArgs(255, 215, 123, 144);
             //4. Set font
-            option.FontFamily = "Comic Sans MS";
+            //option.FontFamily = "Comic Sans MS";
 
-            option.LogoUrl = "logo1.png";
             //5. Set datagrid style
 
             DataGridStyle style = new DataGridStyle(
-                headerBackground: new ColorArgs(255, 123, 123, 144),
-                cellsBackground: new ColorArgs(255, 255, 249, 219),
-                rowHeight: 30,
-                headerHeight: 45
+                headerBackground: new ColorArgs(255, 255, 222, 173),
+                cellsBackground: new ColorArgs(255, 255, 106, 106),
+                rowHeight: 40,
+                headerHeight: 45,
+                columnName: new List<string>() { "MSSV", "Tên", null, "Quốc Gia"}
                 );
             option.DataGridStyle = style;
             //Set style cho các form
-            //baseForm.setStyle(option);
+            baseForm.setStyle(option);
 
             //Chạy chương trình
             baseForm.startForm();
@@ -63,22 +63,23 @@
         public Student[] GetArray()
         {
             return new[] {
-                new Student() { StudentID = 1, StudentName = "John", Age = 18, Country = "Poland"  } ,
-                new Student() { StudentID = 2, StudentName = "Steve",  Age = 22, Country = "Poland"  } ,
-                new Student() { StudentID = 3, StudentName = "Bill",  Age = 18, Country = "USA"  } ,
-                new Student() { StudentID = 4, StudentName = "Ram" , Age = 20, Country = "USA"  } ,
-                new Student() { StudentID = 5, StudentName = "Ron" , Age = 21, Country = "Germany"  }
+               new Student() { StudentID = 1, StudentName = "John", Age = 18, Country = "Poland", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 2, StudentName = "Steve",  Age = 22, Country = "Poland", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 3, StudentName = "Bill",  Age = 18, Country = "USA", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 4, StudentName = "Ram" , Age = 20, Country = "USA", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 5, StudentName = "Ron" , Age = 21, Country = "Germany", Birthday="11/01/2000", Gender=1  }
+
             };
         }
 
         public List<Student> GetList()
         {
             return new List<Student>() {
-                new Student() { StudentID = 1, StudentName = "John", Age = 18, Country = "Poland"  } ,
-                new Student() { StudentID = 2, StudentName = "Steve",  Age = 22, Country = "Poland"  } ,
-                new Student() { StudentID = 3, StudentName = "Bill",  Age = 18, Country = "USA"  } ,
-                new Student() { StudentID = 4, StudentName = "Ram" , Age = 20, Country = "USA"  } ,
-                new Student() { StudentID = 5, StudentName = "Ron" , Age = 21, Country = "Germany"  }
+                new Student() { StudentID = 1, StudentName = "John", Age = 18, Country = "Poland", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 2, StudentName = "Steve",  Age = 22, Country = "Poland", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 3, StudentName = "Bill",  Age = 18, Country = "USA", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 4, StudentName = "Ram" , Age = 20, Country = "USA", Birthday="11/01/2000", Gender=1  } ,
+                new Student() { StudentID = 5, StudentName = "Ron" , Age = 21, Country = "Germany", Birthday="11/01/2000", Gender=1  }
             };
         }
 
@@ -91,6 +92,11 @@
             public int Age { get; set; }
 
             public string Country { get; set; }
+
+            public string Birthday { get; set; }
+
+            public int Gender { get; set; }
+
 
             public override string ToString()
             {
